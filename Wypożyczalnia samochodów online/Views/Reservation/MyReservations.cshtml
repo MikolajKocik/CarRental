@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Wypożyczalnia_samochodów_online.Models.Reservation>
+
+<h2>Moje rezerwacje</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Samochód</th>
+            <th>Data rozpoczęcia</th>
+            <th>Data zakończenia</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.Car.Brand @reservation.Car.Model</td>
+                <td>@reservation.StartDate.ToShortDateString()</td>
+                <td>@reservation.EndDate.ToShortDateString()</td>
+                <td>@(reservation.IsConfirmed ? "Potwierdzona" : "Oczekuje na potwierdzenie")</td>
+            </tr>
+        }
+    </tbody>
+</table>

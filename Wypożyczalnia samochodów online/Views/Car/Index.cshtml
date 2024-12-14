@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Wypożyczalnia_samochodów_online.Models.Car>
+
+<h2 class="text-center">Dostępne samochody</h2>
+<div class="row">
+    @foreach (var car in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="@car.ImageUrl" class="card-img-top" alt="Zdjęcie samochodu @car.Brand @car.Model">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model</h5>
+                    <p class="card-text">Cena za dzień: <strong>@car.PricePerDay zł</strong></p>
+                    @if (car.IsAvailable)
+                    {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Reservation" asp-action="Create" asp-route-carId="@car.Id" class="btn btn-primary btn-block">Zarezerwuj</a>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center">Zaloguj się, aby zarezerwować</p>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-danger text-center">Niedostępny</p>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

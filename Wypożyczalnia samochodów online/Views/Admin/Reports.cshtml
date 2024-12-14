@@ -1,0 +1,44 @@
+﻿@model Wypożyczalnia_samochodów_online.Models.AdminReportsViewModel
+
+<h2>Raporty</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Łączna liczba rezerwacji</h5>
+                <p class="card-text display-4">@Model.TotalReservations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Łączny dochód</h5>
+                <p class="card-text display-4">@Model.TotalIncome zł</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Najpopularniejsze samochody</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Liczba rezerwacji</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.PopularCars)
+        {
+            <tr>
+                <td>@car.Brand</td>
+                <td>@car.Model</td>
+                <td>@car.ReservationCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Wypożyczalnia samochodów online.props" />
+</Project>

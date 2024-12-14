@@ -1,0 +1,11 @@
+﻿@model Wypożyczalnia_samochodów_online.Models.Reservation
+
+<h2>Rezerwacja samochodu</h2>
+
+<form method="post">
+    <label>Data rozpoczęcia</label>
+    <input asp-for="StartDate" type="date" />
+    <label>Data zakończenia</label>
+    <input asp-for="EndDate" type="date" />
+    <button type="submit">Zarezerwuj</button>
+</form>

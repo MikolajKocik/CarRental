@@ -1,0 +1,15 @@
+﻿@model Wypożyczalnia_samochodów_online.Models.Car
+
+<h2>Dodaj samochód</h2>
+
+<form method="post">
+    <label>Marka</label>
+    <input asp-for="Brand" />
+    <label>Model</label>
+    <input asp-for="Model" />
+    <label>Cena za dzień</label>
+    <input asp-for="PricePerDay" />
+    <label>Dostępność</label>
+    <input asp-for="IsAvailable" type="checkbox" />
+    <button type="submit">Dodaj</button>
+</form>
