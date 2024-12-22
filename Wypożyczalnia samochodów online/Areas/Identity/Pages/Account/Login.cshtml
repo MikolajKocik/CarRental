@@ -10,7 +10,21 @@
             <div class="card-body">
                 <h2 class="text-center">Zaloguj się</h2>
                 <hr />
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
                 <form method="post">
+                    @Html.AntiForgeryToken()
                     <div class="form-group">
                         <label asp-for="Input.Email"></label>
                         <input asp-for="Input.Email" class="form-control" placeholder="Wpisz swój e-mail" />

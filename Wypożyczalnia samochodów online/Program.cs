@@ -6,17 +6,39 @@ using Wypożyczalnia_samochodów_online.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodanie usług dla aplikacji (kontrolery, widoki, kontekst bazy danych, Identity)
+// Konfiguracja logowania
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
+// Dodanie usług dla aplikacji
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>() // Dodanie obsługi ról
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+// Konfiguracja plików cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddTransient<EmailService>();
-
 
 var app = builder.Build();
 
@@ -118,7 +140,7 @@ using (var scope = app.Services.CreateScope())
                 ImageUrl = "/Images/audi_a4.jpg"
             }
         );
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 
     // Dodanie konta administratora 
@@ -128,10 +150,18 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = "admin@example.com",
             Email = "admin@example.com",
-            EmailConfirmed = true
+            EmailConfirmed = true // umożliwia logowanie
         };
-        await userManager.CreateAsync(adminUser, "Admin123!");
-        await userManager.AddToRoleAsync(adminUser, "Admin");
+        var result = await userManager.CreateAsync(adminUser, "Admin123!");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+            Console.WriteLine("Admin account created successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Failed to create admin account: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
     }
 }
 

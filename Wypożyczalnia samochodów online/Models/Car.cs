@@ -8,5 +8,8 @@
         public decimal PricePerDay { get; set; } // Cena wynajmu za dzień
         public bool IsAvailable { get; set; } // Status dostępności pojazdu
         public string ImageUrl { get; set; } // URL zdjęcia
+
+        // Nawigacja z rezerwacjami 
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

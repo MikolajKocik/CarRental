@@ -1,6 +1,10 @@
 ﻿@model Wypożyczalnia_samochodów_online.Models.AdminReportsViewModel
 
-<h2>Raporty</h2>
+@{
+    ViewData["Title"] = "Raporty Administracyjne";
+}
+
+<h2>Raporty Administracyjne</h2>
 
 <div class="row">
     <div class="col-md-4">
@@ -16,7 +20,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">Łączny dochód</h5>
-                <p class="card-text display-4">@Model.TotalIncome zł</p>
+                <p class="card-text display-4">@String.Format("{0:C}", Model.TotalIncome)</p>
             </div>
         </div>
     </div>

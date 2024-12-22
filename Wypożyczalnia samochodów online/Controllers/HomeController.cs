@@ -20,10 +20,9 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         // Strona główna
         public async Task<IActionResult> Index()
         {
-            var cars = await _context.Cars.Take(3).ToListAsync(); // Pobierz tylko 3 samochody
+            var cars = await _context.Cars.OrderBy(c => c.Id).Take(3).ToListAsync();
             return View(cars);
         }
-
 
         public IActionResult Privacy()
         {

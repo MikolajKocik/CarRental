@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations; // Atrybuty walidacyjne
 using System.ComponentModel.DataAnnotations.Schema; // Relacje między tabelami
 
-
 namespace Wypożyczalnia_samochodów_online.Models
 {
     public class Reservation
@@ -15,7 +14,6 @@ namespace Wypożyczalnia_samochodów_online.Models
         [Required]
         public int CarId { get; set; } // Powiązanie z pojazdem
 
-        [ForeignKey("CarId")]
         public Car Car { get; set; } // Nawigacja do pojazdu
 
         [Required]

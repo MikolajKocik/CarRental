@@ -13,5 +13,22 @@ namespace Wypożyczalnia_samochodów_online.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Konfiguracja typu dla PricePerDay
+            modelBuilder.Entity<Car>()
+                .Property(c => c.PricePerDay)
+                .HasColumnType("decimal(18, 2)");
+
+            // Konfiguracja relacji między Reservation a Car
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Car)
+                .WithMany(c => c.Reservations)
+                .HasForeignKey(r => r.CarId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
