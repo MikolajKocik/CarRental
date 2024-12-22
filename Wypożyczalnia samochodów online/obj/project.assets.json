@@ -8196,11 +8196,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Desktop\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online.csproj",
       "projectName": "Wypożyczalnia samochodów online",
-      "projectPath": "C:\\Users\\PC\\Desktop\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online.csproj",
+      "projectPath": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Desktop\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online\\obj\\",
+      "outputPath": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypożyczalnia samochodów online\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

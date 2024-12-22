@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5mde6+HS72Q=",
+  "dgSpecHash": "JQMGaHJhZ2c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Desktop\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Source\\Repos\\Wypozyczalnia_samochodow_online-MVC\\Wypożyczalnia samochodów online\\Wypożyczalnia samochodów online.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

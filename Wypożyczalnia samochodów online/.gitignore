@@ -1,0 +1,17 @@
+# Visual Studio pliki tymczasowe
+.vs/
+*.suo
+*.user
+*.cache
+*.vscode
+
+# Pliki binarne i kompilowane
+bin/
+obj/
+
+# Inne pliki automatycznie generowane
+*.dll
+*.exe
+*.pdb
+*.log
+*.v9.bin

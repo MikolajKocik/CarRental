@@ -136,7 +136,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Middleware
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage(); // Dla środowiska deweloperskiego
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
@@ -150,10 +154,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages();
+app.MapControllerRoute(
+    name: "account",
+    pattern: "{controller=Account}/{action=ConfirmEmail}/{userId?}/{token?}");
 
 app.Run();
