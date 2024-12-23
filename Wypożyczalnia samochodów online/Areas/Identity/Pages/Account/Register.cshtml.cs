@@ -30,10 +30,12 @@ namespace Wypożyczalnia_samochodów_online.Areas.Identity.Pages.Account
 
             [Required(ErrorMessage = "Hasło jest wymagane.")]
             [StringLength(100, ErrorMessage = "Hasło musi mieć co najmniej {2} i maksymalnie {1} znaków.", MinimumLength = 6)]
+            [DataType(DataType.Password)]
             public string Password { get; set; }
 
             [Required(ErrorMessage = "Potwierdzenie hasła jest wymagane.")]
             [Compare("Password", ErrorMessage = "Hasła muszą się zgadzać.")]
+            [DataType(DataType.Password)]
             public string ConfirmPassword { get; set; }
         }
 
@@ -49,26 +51,16 @@ namespace Wypożyczalnia_samochodów_online.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    EmailConfirmed = false // Domyślnie niepotwierdzony
+                    EmailConfirmed = true // Ustawiono na true, aby użytkownik był natychmiastowo potwierdzony
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    // Generowanie tokena potwierdzenia e-mail
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    // Usunięto wysyłanie e-maila potwierdzającego rejestrację
 
-                    // Tworzenie linku do potwierdzenia
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, Request.Scheme);
-
-                    // Wysyłanie wiadomości e-mail z potwierdzeniem
-                    await _emailService.SendEmailAsync(
-                        Input.Email,
-                        "Potwierdzenie rejestracji",
-                        $"Kliknij w poniższy link, aby potwierdzić rejestrację: <a href='{confirmationLink}'>Potwierdź</a>"
-                    );
-
-                    // Logowanie użytkownika (opcjonalne) lub przekierowanie
+                    // Logowanie użytkownika po rejestracji
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -79,6 +71,7 @@ namespace Wypożyczalnia_samochodów_online.Areas.Identity.Pages.Account
                 }
             }
 
+            // Jeśli model jest nieprawidłowy, wyświetl formularz ponownie
             return Page();
         }
     }

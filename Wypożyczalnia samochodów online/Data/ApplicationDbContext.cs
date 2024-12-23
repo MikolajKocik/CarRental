@@ -12,6 +12,7 @@ namespace Wypożyczalnia_samochodów_online.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Console.WriteLine($"Aktualne połączenie z bazą danych: {Database.GetDbConnection().ConnectionString}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

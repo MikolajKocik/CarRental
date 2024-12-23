@@ -15,6 +15,7 @@ builder.Logging.AddDebug();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Konfiguracja Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
@@ -150,7 +151,7 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = "admin@example.com",
             Email = "admin@example.com",
-            EmailConfirmed = true // umożliwia logowanie
+            EmailConfirmed = true // Powinno umożliwić logowanie
         };
         var result = await userManager.CreateAsync(adminUser, "Admin123!");
         if (result.Succeeded)
@@ -189,6 +190,7 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapControllerRoute(
     name: "account",

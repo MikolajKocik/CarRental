@@ -844,13 +844,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Wypożyczalnia samochodów online.yyezt71wpw.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-dgA1A\u002BfeVj6YaB42IvqsX/JyD8kWRvNh0Hnx1JKjyQw="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1151"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022dgA1A\u002BfeVj6YaB42IvqsX/JyD8kWRvNh0Hnx1JKjyQw=\u0022"},{"Name":"Last-Modified","Value":"Sat, 21 Dec 2024 21:42:47 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1151"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022dgA1A\u002BfeVj6YaB42IvqsX/JyD8kWRvNh0Hnx1JKjyQw=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 23:03:18 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Wypożyczalnia samochodów online/Wypożyczalnia samochodów online.yyezt71wpw.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Wypożyczalnia samochodów online.yyezt71wpw.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"yyezt71wpw"},{"Name":"integrity","Value":"sha256-dgA1A\u002BfeVj6YaB42IvqsX/JyD8kWRvNh0Hnx1JKjyQw="},{"Name":"label","Value":"_content/Wypo\u017Cyczalnia samochod\u00F3w online/Wypo\u017Cyczalnia samochod\u00F3w online.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1151"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022dgA1A\u002BfeVj6YaB42IvqsX/JyD8kWRvNh0Hnx1JKjyQw=\u0022"},{"Name":"Last-Modified","Value":"Sat, 21 Dec 2024 21:42:47 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1151"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022dgA1A\u002BfeVj6YaB42IvqsX/JyD8kWRvNh0Hnx1JKjyQw=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Dec 2024 23:03:18 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

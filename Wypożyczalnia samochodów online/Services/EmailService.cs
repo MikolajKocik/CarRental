@@ -25,7 +25,7 @@ namespace Wypożyczalnia_samochodów_online.Services
                 var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
                 var senderEmail = _configuration["EmailSettings:SenderEmail"];
                 var senderName = _configuration["EmailSettings:SenderName"];
-                var senderPassword = _configuration["EmailSettings:SenderPassword"];
+                var senderPassword = _configuration["EmailSettings:SenderPassword"]; // odczytuje secret manager 
 
                 using (var smtpClient = new SmtpClient(smtpServer, smtpPort))
                 {

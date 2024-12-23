@@ -1,11 +1,23 @@
-﻿@model Wypożyczalnia_samochodów_online.Models.Reservation
+﻿@model Wypożyczalnia_samochodów_online.Models.CreateReservationViewModel
 
 <h2>Rezerwacja samochodu</h2>
 
+<div>
+    Debug View: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model))
+</div>
+
 <form method="post">
+    @Html.AntiForgeryToken()
+
+    <input asp-for="CarId" type="hidden" />
+
     <label>Data rozpoczęcia</label>
     <input asp-for="StartDate" type="date" />
+    <span asp-validation-for="StartDate"></span>
+
     <label>Data zakończenia</label>
     <input asp-for="EndDate" type="date" />
+    <span asp-validation-for="EndDate"></span>
+
     <button type="submit">Zarezerwuj</button>
 </form>
