@@ -7,6 +7,9 @@ namespace Wypożyczalnia_samochodów_online.Models
         public int TotalReservations { get; set; }
         public decimal TotalIncome { get; set; }
         public List<CarReport> PopularCars { get; set; }
+
+        // Lista rezerwacji niepotwierdzonych 
+        public List<Reservation> NotConfirmedReservations { get; set; }
     }
 
     public class CarReport

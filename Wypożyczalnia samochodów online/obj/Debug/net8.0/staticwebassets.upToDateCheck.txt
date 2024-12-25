@@ -6,6 +6,7 @@ wwwroot\Images\bmw_x5.jpg
 wwwroot\Images\fiat_punto.jpg
 wwwroot\Images\ford_focus.jpg
 wwwroot\Images\mercedes_c-class.jpg
+wwwroot\Images\porsche.jpg
 wwwroot\Images\tesla.jpg
 wwwroot\Images\toyota_corolla.jpg
 wwwroot\Images\toyota_rav4.jpg

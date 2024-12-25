@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\Images\\mercedes_c-class.jpg"
     },
     {
+      "Id": "C:\\Users\\PC\\Source\\Repos\\Wypozyczalnia_samochodow_online-MVC\\Wypożyczalnia samochodów online\\wwwroot\\Images\\porsche.jpg",
+      "PackagePath": "staticwebassets\\Images\\porsche.jpg"
+    },
+    {
       "Id": "C:\\Users\\PC\\Source\\Repos\\Wypozyczalnia_samochodow_online-MVC\\Wypożyczalnia samochodów online\\wwwroot\\Images\\tesla.jpg",
       "PackagePath": "staticwebassets\\Images\\tesla.jpg"
     },

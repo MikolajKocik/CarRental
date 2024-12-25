@@ -2,31 +2,26 @@
 
 <h2>Moje rezerwacje</h2>
 
-@if (!Model.Any())
-{
-    <p>Nie masz żadnych rezerwacji.</p>
-}
-else
-{
-    <table>
-        <thead>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Samochód</th>
+            <th>Data rozpoczęcia</th>
+            <th>Data zakończenia</th>
+            <th>Status</th>
+            <th>Koszt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
             <tr>
-                <th>Samochód</th>
-                <th>Data rozpoczęcia</th>
-                <th>Data zakończenia</th>
-                <th>Status</th>
+                <td>@(reservation.Car?.Brand) @(reservation.Car?.Model)</td>
+                <td>@reservation.StartDate.ToShortDateString()</td>
+                <td>@reservation.EndDate.ToShortDateString()</td>
+                <td>@(reservation.IsConfirmed ? "Potwierdzona" : "Oczekuje na potwierdzenie")</td>
+                <td>@reservation.TotalCost.ToString("C2")</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var reservation in Model)
-            {
-                <tr>
-                    <td>@reservation.Car.Brand @reservation.Car.Model</td>
-                    <td>@reservation.StartDate.ToShortDateString()</td>
-                    <td>@reservation.EndDate.ToShortDateString()</td>
-                    <td>@(reservation.IsConfirmed ? "Potwierdzona" : "Oczekuje na potwierdzenie")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        }
+    </tbody>
+</table>

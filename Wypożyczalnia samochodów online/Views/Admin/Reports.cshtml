@@ -46,3 +46,44 @@
         }
     </tbody>
 </table>
+
+<hr />
+
+<h3>Niepotwierdzone rezerwacje</h3>
+@if (Model.NotConfirmedReservations != null && Model.NotConfirmedReservations.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rezerwacja</th>
+                <th>Samochód</th>
+                <th>Data od</th>
+                <th>Data do</th>
+                <th>Koszt</th>
+                <th>Potwierdź</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.NotConfirmedReservations)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@(r.Car?.Brand) @(r.Car?.Model)</td>
+                    <td>@r.StartDate.ToShortDateString()</td>
+                    <td>@r.EndDate.ToShortDateString()</td>
+                    <td>@r.TotalCost.ToString("C2")</td>
+                    <td>
+                        <form asp-controller="Admin" asp-action="ConfirmReservation" method="post">
+                            <input type="hidden" name="reservationId" value="@r.Id" />
+                            <button type="submit" class="btn btn-success">Potwierdź</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Brak niepotwierdzonych rezerwacji.</p>
+}

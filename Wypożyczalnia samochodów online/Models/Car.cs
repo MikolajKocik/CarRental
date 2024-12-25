@@ -1,4 +1,6 @@
-﻿namespace Wypożyczalnia_samochodów_online.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Wypożyczalnia_samochodów_online.Models
 {
     public class Car
     {
@@ -7,7 +9,14 @@
         public string Model { get; set; } // Model samochodu, np. "Corolla"
         public decimal PricePerDay { get; set; } // Cena wynajmu za dzień
         public bool IsAvailable { get; set; } // Status dostępności pojazdu
+
+        [Required(ErrorMessage = "Ścieżka obrazu jest wymagana.")]
+        [Url(ErrorMessage = "Niepoprawny format URL.")]
         public string ImageUrl { get; set; } // URL zdjęcia
+        public string Description { get; set; } // Kilka słów o tym konkretnym modelu
+        public string Engine { get; set; }  // np. 1.8L, 2.0 TDi
+        public int Year { get; set; }   // Rok produkcji
+
 
         // Nawigacja z rezerwacjami 
         public ICollection<Reservation> Reservations { get; set; }

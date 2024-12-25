@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Wypożyczalnia_samochodów_online.Models;
 using Wypożyczalnia_samochodów_online.Data;
+using Wypożyczalnia_samochodów_online.Models;
 using Wypożyczalnia_samochodów_online.Services;
 
 namespace Wypożyczalnia_samochodów_online.Controllers
 {
-    [Authorize] // Rezerwacje dostępne tylko dla zalogowanych użytkowników
+    [Authorize]
     public class ReservationController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -16,7 +16,11 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         private readonly EmailService _emailService;
         private readonly ILogger<ReservationController> _logger;
 
-        public ReservationController(ApplicationDbContext context, UserManager<IdentityUser> userManager, EmailService emailService, ILogger<ReservationController> logger)
+        public ReservationController(
+            ApplicationDbContext context,
+            UserManager<IdentityUser> userManager,
+            EmailService emailService,
+            ILogger<ReservationController> logger)
         {
             _context = context;
             _userManager = userManager;
@@ -24,7 +28,6 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             _logger = logger;
         }
 
-        // Lista rezerwacji użytkownika
         public async Task<IActionResult> MyReservations()
         {
             var userId = _userManager.GetUserId(User);
@@ -44,30 +47,24 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         // GET: Reservation/Create
         public IActionResult Create(int carId)
         {
-            // Tworzymy nowy ViewModel
             var viewModel = new CreateReservationViewModel
             {
                 CarId = carId,
                 StartDate = DateTime.Today,
                 EndDate = DateTime.Today.AddDays(1)
             };
-
             return View(viewModel);
         }
 
-        // Rezerwacja samochodu - POST
-
+        // POST: Reservation/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateReservationViewModel model)
         {
-            // Log na początku, by sprawdzić, czy tu w ogóle wchodzimy
             _logger.LogInformation("=== We got into POST Create! ===");
 
-            // 1) Walidacja modelu
             if (!ModelState.IsValid)
             {
-                // Wyświetlamy błędy
                 foreach (var error in ModelState)
                 {
                     _logger.LogWarning($"ModelState error: Key={error.Key}, " +
@@ -76,7 +73,6 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 return View(model);
             }
 
-            // 2) Pobierz userId z kontekstu zalogowanego użytkownika
             var userId = _userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userId))
             {
@@ -85,7 +81,6 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // 3) Sprawdź, czy jest taki Car w bazie
             var car = await _context.Cars.FindAsync(model.CarId);
             if (car == null)
             {
@@ -98,18 +93,21 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 return View(model);
             }
 
-            // 4) Sprawdź logikę dat
             if (model.EndDate <= model.StartDate)
             {
                 ModelState.AddModelError("", "Data zakończenia musi być późniejsza niż data rozpoczęcia.");
                 return View(model);
             }
 
-            // 5) Teraz tworzysz docelowy obiekt Reservation
+            // Otwarcie transakcji PRZED try
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
             try
             {
-                // (opcjonalnie transakcja, ale niekoniecznie)
-                using var transaction = await _context.Database.BeginTransactionAsync();
+                int days = (model.EndDate - model.StartDate).Days;
+                if (days < 1) days = 1;
+
+                decimal cost = days * car.PricePerDay;
 
                 var reservation = new Reservation
                 {
@@ -118,15 +116,16 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                     StartDate = model.StartDate,
                     EndDate = model.EndDate,
                     IsConfirmed = false,
-                    Car = car  // można przypisać, jeśli chcesz mieć Car w rezerwacji od razu
+                    Car = car,
+                    TotalCost = cost
                 };
 
                 // Oznacz samochód jako niedostępny
                 car.IsAvailable = false;
 
-                // Zapis do bazy
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
+
                 await transaction.CommitAsync();
 
                 _logger.LogInformation($"Reservation created for CarId={car.Id}, UserId={userId}");
@@ -134,7 +133,8 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             }
             catch (Exception ex)
             {
-                // Rollback w razie problemów
+                // W catch mamy wciąż dostęp do 'transaction'
+                await transaction.RollbackAsync();
                 _logger.LogError(ex, "Error while creating reservation.");
                 return View(model);
             }
@@ -147,9 +147,11 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 .Include(r => r.Car)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (reservation == null || reservation.UserId != _userManager.GetUserId(User))
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (reservation == null || reservation.UserId != currentUserId)
             {
-                _logger.LogWarning($"Nie znaleziono rezerwacji o Id={id} dla użytkownika.");
+                _logger.LogWarning($"Nie znaleziono rezerwacji o Id={id} lub brak dostępu.");
                 return NotFound();
             }
 

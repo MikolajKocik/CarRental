@@ -1,0 +1,130 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|c:\\users\\pc\\source\\repos\\wypozyczalnia_samochodow_online-mvc\\wypo\u017Cyczalnia samochod\u00F3w online\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|solutionrelative:wypo\u017Cyczalnia samochod\u00F3w online\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|c:\\users\\pc\\source\\repos\\wypozyczalnia_samochodow_online-mvc\\wypo\u017Cyczalnia samochod\u00F3w online\\views\\car\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|solutionrelative:wypo\u017Cyczalnia samochod\u00F3w online\\views\\car\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|c:\\users\\pc\\source\\repos\\wypozyczalnia_samochodow_online-mvc\\wypo\u017Cyczalnia samochod\u00F3w online\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|solutionrelative:wypo\u017Cyczalnia samochod\u00F3w online\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|c:\\users\\pc\\source\\repos\\wypozyczalnia_samochodow_online-mvc\\wypo\u017Cyczalnia samochod\u00F3w online\\views\\reservation\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|solutionrelative:wypo\u017Cyczalnia samochod\u00F3w online\\views\\reservation\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|c:\\users\\pc\\source\\repos\\wypozyczalnia_samochodow_online-mvc\\wypo\u017Cyczalnia samochod\u00F3w online\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|solutionrelative:wypo\u017Cyczalnia samochod\u00F3w online\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|c:\\users\\pc\\source\\repos\\wypozyczalnia_samochodow_online-mvc\\wypo\u017Cyczalnia samochod\u00F3w online\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{872940FE-AC29-4884-8623-9196F4C9D429}|Wypo\u017Cyczalnia samochod\u00F3w online\\Wypo\u017Cyczalnia samochod\u00F3w online.csproj|solutionrelative:wypo\u017Cyczalnia samochod\u00F3w online\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 100,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 235,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Car.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Models\\Car.cs",
+              "RelativeDocumentMoniker": "Wypo\u017Cyczalnia samochod\u00F3w online\\Models\\Car.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Models\\Car.cs",
+              "RelativeToolTip": "Wypo\u017Cyczalnia samochod\u00F3w online\\Models\\Car.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T18:12:27.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Car\\Create.cshtml",
+              "RelativeDocumentMoniker": "Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Car\\Create.cshtml",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Car\\Create.cshtml",
+              "RelativeToolTip": "Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Car\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-25T17:25:04.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Reservation\\Create.cshtml",
+              "RelativeDocumentMoniker": "Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Reservation\\Create.cshtml",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Reservation\\Create.cshtml",
+              "RelativeToolTip": "Wypo\u017Cyczalnia samochod\u00F3w online\\Views\\Reservation\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-25T16:36:43.101Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Wypo\u017Cyczalnia samochod\u00F3w online\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Wypo\u017Cyczalnia samochod\u00F3w online\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T16:35:26.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\appsettings.json",
+              "RelativeDocumentMoniker": "Wypo\u017Cyczalnia samochod\u00F3w online\\appsettings.json",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\appsettings.json",
+              "RelativeToolTip": "Wypo\u017Cyczalnia samochod\u00F3w online\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-25T16:15:11.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Program.cs",
+              "RelativeDocumentMoniker": "Wypo\u017Cyczalnia samochod\u00F3w online\\Program.cs",
+              "ToolTip": "C:\\Users\\PC\\source\\repos\\Wypozyczalnia_samochodow_online-MVC\\Wypo\u017Cyczalnia samochod\u00F3w online\\Program.cs",
+              "RelativeToolTip": "Wypo\u017Cyczalnia samochod\u00F3w online\\Program.cs",
+              "ViewState": "AgIAALcAAAAAAAAAAAAwwNIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T13:18:40.577Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

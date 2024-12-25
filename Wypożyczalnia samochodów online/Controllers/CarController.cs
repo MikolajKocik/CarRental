@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Wypożyczalnia_samochodów_online.Models;
 using Wypożyczalnia_samochodów_online.Data;
 using Wypożyczalnia_samochodów_online.Models;
 
 namespace Wypożyczalnia_samochodów_online.Controllers
 {
-    [Authorize(Roles = "Admin")] // Tylko admin może zarządzać samochodami
+    [Authorize(Roles = "Admin")]
     public class CarController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -17,21 +16,30 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             _context = context;
         }
 
-        // Lista samochodów
-        [AllowAnonymous] // Publicznie dostępne
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var cars = await _context.Cars.ToListAsync();
             return View(cars);
         }
 
-        // Widok dodawania samochodu
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+        {
+            var car = await _context.Cars.FindAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
+        }
+
+        // Admin only: Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // Dodawanie samochodu
         [HttpPost]
         public async Task<IActionResult> Create(Car car)
         {
@@ -44,7 +52,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             return View(car);
         }
 
-        // Edycja samochodu
+        // Admin only: Edit
         public async Task<IActionResult> Edit(int id)
         {
             var car = await _context.Cars.FindAsync(id);
@@ -64,7 +72,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             return View(car);
         }
 
-        // Usuwanie samochodu
+        // Admin only: Delete
         public async Task<IActionResult> Delete(int id)
         {
             var car = await _context.Cars.FindAsync(id);

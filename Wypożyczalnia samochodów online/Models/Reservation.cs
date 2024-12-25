@@ -1,36 +1,36 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations; // Atrybuty walidacyjne
-using System.ComponentModel.DataAnnotations.Schema; // Relacje między tabelami
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace Wypożyczalnia_samochodów_online.Models
 {
     public class Reservation
     {
-        public int Id { get; set; } // Główny klucz rezerwacji
+        public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; } // Powiązanie z użytkownikiem (Identity User)
+        public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public IdentityUser User { get; set; }
 
         [Required]
-        public int CarId { get; set; } // Powiązanie z pojazdem
+        public int CarId { get; set; }
 
         [ForeignKey("CarId")]
-        public Car Car { get; set; } // Nawigacja do pojazdu
+        public Car Car { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Data rozpoczęcia")]
-        public DateTime StartDate { get; set; } // Data rozpoczęcia wynajmu
+        public DateTime StartDate { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Data zakończenia")]
-        public DateTime EndDate { get; set; } // Data zakończenia wynajmu
+        public DateTime EndDate { get; set; }
 
-        public bool IsConfirmed { get; set; } // Status potwierdzenia rezerwacji
+        public bool IsConfirmed { get; set; }
+
+        public decimal TotalCost { get; set; }
     }
 }
