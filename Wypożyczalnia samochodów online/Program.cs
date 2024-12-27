@@ -25,21 +25,21 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
 })
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
+.AddEntityFrameworkStores<ApplicationDbContext>() // Rejestracja używanego kontekstu bazy danych
+.AddDefaultTokenProviders(); // Dodanie domyślnych dostawców tokenów
 
 // Konfiguracja plików cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
-    options.LoginPath = "/Identity/Account/Login";
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-    options.SlidingExpiration = true;
+    options.LoginPath = "/Identity/Account/Login";  // Ścieżka do strony logowania
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Ścieżka w przypadku braku uprawnień
+    options.SlidingExpiration = true; 
 });
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-builder.Services.AddTransient<EmailService>();
+builder.Services.AddControllersWithViews(); // Dodanie obsługi kontrolerów i widoków
+builder.Services.AddRazorPages();  // Dodanie obsługi Razor Pages
+builder.Services.AddTransient<EmailService>(); // Dodanie usługi wysyłania e-maili
 
 var app = builder.Build();
 
@@ -168,22 +168,22 @@ using (var scope = app.Services.CreateScope())
                 Description = "Nowoczesny sedan z mocnym silnikiem i komfortowym wnętrzem, idealny na długie podróże."
             }
         );
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(); // Zapisujemy do bazy
     }
 
-    // Dodanie konta administratora 
+    // Dodanie konta administratora, jeśli jeszcze nie istnieje
     if (!context.Users.Any(u => u.Email == "admin@example.com"))
     {
         var adminUser = new IdentityUser
         {
             UserName = "admin@example.com",
             Email = "admin@example.com",
-            EmailConfirmed = true // Powinno umożliwić logowanie
+            EmailConfirmed = true 
         };
         var result = await userManager.CreateAsync(adminUser, "Admin123!");
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
+            await userManager.AddToRoleAsync(adminUser, "Admin"); // Dodanie użytkownika do roli Admin
             Console.WriteLine("Admin account created successfully.");
         }
         else
@@ -193,33 +193,35 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Middleware
+// Konfiguracja middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage(); // Dla środowiska deweloperskiego
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.UseExceptionHandler("/Home/Error"); // W przypadku błędów używamy niestandardowej strony
+    app.UseHsts(); // Wymusza użycie HTTPS
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseHttpsRedirection(); // Przekierowuje na HTTPS
+app.UseStaticFiles(); // Umożliwia dostęp do plików statycznych (np. obrazków, CSS)
 
-app.UseRouting();
+app.UseRouting(); // Konfiguruje routing
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthentication(); // Umożliwia uwierzytelnianie
+app.UseAuthorization(); // Umożliwia autoryzację
 
-app.MapRazorPages();
+app.MapRazorPages(); // Obsługuje strony Razor
 
+// Definicja domyślnej trasy kontrolera
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Ścieżka do potwierdzenia e-maila
 app.MapControllerRoute(
     name: "account",
     pattern: "{controller=Account}/{action=ConfirmEmail}/{userId?}/{token?}");
 
-app.Run();
+app.Run(); // Uruchomienie aplikacji

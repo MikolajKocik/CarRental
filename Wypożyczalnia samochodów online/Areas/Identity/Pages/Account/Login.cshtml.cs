@@ -16,9 +16,11 @@ namespace Wypo¿yczalnia_samochodów_online.Areas.Identity.Pages.Account
             _userManager = userManager;
         }
 
+        // BindProperty sprawia, ¿e w³aœciwoœæ Input jest wi¹zana z danymi formularza
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // Model wejœciowy, który przechowuje dane wprowadzone przez u¿ytkownika (email, has³o)
         public class InputModel
         {
             [Required(ErrorMessage = "Email jest wymagany.")]
@@ -31,6 +33,7 @@ namespace Wypo¿yczalnia_samochodów_online.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+        // Akcja, która obs³uguje logowanie (POST)
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -72,6 +75,7 @@ namespace Wypo¿yczalnia_samochodów_online.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, "Nieprawid³owe dane logowania.");
             }
 
+            // W przypadku b³êdu, wyœwietl stronê ponownie z b³êdami
             return Page();
         }
     }

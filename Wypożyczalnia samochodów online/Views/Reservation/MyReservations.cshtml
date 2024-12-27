@@ -2,9 +2,11 @@
 
 <h2>Moje rezerwacje</h2>
 
+<!-- Tabela, która wyświetli listę rezerwacji -->
 <table class="table table-striped">
     <thead>
         <tr>
+            <!-- Nagłówki tabeli -->
             <th>Samochód</th>
             <th>Data rozpoczęcia</th>
             <th>Data zakończenia</th>
@@ -13,6 +15,7 @@
         </tr>
     </thead>
     <tbody>
+        <!-- Pętla, która iteruje przez każdą rezerwację w Modelu -->
         @foreach (var reservation in Model)
         {
             <tr>

@@ -10,23 +10,32 @@
                 <div class="card-body">
                     <h5 class="card-title">@car.Brand @car.Model</h5>
                     <p class="card-text">Cena za dzień: <strong>@car.PricePerDay zł</strong></p>
+
+                    <!-- Sprawdzenie, czy samochód jest dostępny -->
                     @if (car.IsAvailable)
                     {
+                        <!-- Sprawdzenie, czy użytkownik jest zalogowany -->
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <!-- Jeśli użytkownik jest zalogowany, wyświetlamy przycisk do rezerwacji -->
                             <a asp-controller="Reservation" asp-action="Create" asp-route-carId="@car.Id" class="btn btn-primary btn-block">Zarezerwuj</a>
                         }
                         else
                         {
+                            <!-- Jeśli użytkownik nie jest zalogowany, wyświetlamy informację, żeby się zalogował -->
                             <p class="text-muted text-center">Zaloguj się, aby zarezerwować</p>
                         }
                     }
                     else
                     {
+                        <!-- Jeśli samochód jest niedostępny, wyświetlamy informację "Niedostępny" -->
                         <p class="text-danger text-center">Niedostępny</p>
                     }
-                    @if (User.IsInRole("Admin"))
+
+                    <!-- Sprawdzenie, czy użytkownik jest administratorem -->
+                    @if (User.IsInRole("Admin")) 
                     {
+                        <!-- Jeśli użytkownik jest administratorem, wyświetlamy przyciski do edytowania lub usuwania samochodu -->
                         <a asp-controller="Car" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning">Edytuj</a>
                         <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Usuń</a>
                     }

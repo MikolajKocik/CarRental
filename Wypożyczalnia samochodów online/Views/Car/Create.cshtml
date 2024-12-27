@@ -3,7 +3,7 @@
 <h2>Dodaj samochód</h2>
 
 <form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken() <!-- Dodanie tokenu ochrony przed atakami CSRF -->
 
     <div class="form-group">
         <label asp-for="Brand">Marka</label>
@@ -52,5 +52,5 @@
         <span asp-validation-for="Year" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Dodaj</button>
+    <button type="submit" class="btn btn-primary">Dodaj</button> <!-- Przycisk do wysłania formularza -->
 </form>

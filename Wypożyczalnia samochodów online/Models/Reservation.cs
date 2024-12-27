@@ -9,24 +9,24 @@ namespace Wypożyczalnia_samochodów_online.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required] // pole wymagane do utworzenia rezerwacji
         public string UserId { get; set; }
 
-        [ForeignKey("UserId")]
-        public IdentityUser User { get; set; }
+        [ForeignKey("UserId")] // klucz obcy dla tabeli car
+        public IdentityUser User { get; set; } 
 
-        [Required]
+        [Required] // pole wymagane -,,-
         public int CarId { get; set; }
 
-        [ForeignKey("CarId")]
+        [ForeignKey("CarId")] // klucz obcy dla tabeli car
         public Car Car { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
+        [Required]  // pole wymagane -,,- 
+        [DataType(DataType.Date)] 
         public DateTime StartDate { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
+        [Required]  // pole wymagane -,,-
+        [DataType(DataType.Date)] 
         public DateTime EndDate { get; set; }
 
         public bool IsConfirmed { get; set; }

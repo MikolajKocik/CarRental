@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Wypożyczalnia_samochodów_online.Controllers
 {
+    // Ograniczenie dostępu do tego kontrolera tylko dla zalogowanych użytkowników
     [Authorize]
     public class AccountController : Controller
     {
@@ -16,36 +17,13 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             _signInManager = signInManager;
         }
 
+        // Akcja logowania - metoda POST do wylogowania użytkownika
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // Zapobieganie atakom CSRF
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-        // Akcja potwierdzania e-mail
-        [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
-        {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound("Użytkownik nie istnieje.");
-            }
-
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-            if (result.Succeeded)
-            {
-                return View("ConfirmEmailSuccess");
-            }
-
-            return View("ConfirmEmailError");
+            await _signInManager.SignOutAsync();  // Wylogowanie użytkownika
+            return RedirectToAction("Index", "Home");  // Przekierowanie użytkownika na stronę główną po wylogowaniu
         }
     }
 }

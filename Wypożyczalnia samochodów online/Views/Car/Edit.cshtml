@@ -3,7 +3,7 @@
 <h2>Edytuj samochód</h2>
 
 <form asp-action="Edit" method="post">
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken() <!-- zastosowanie tokenu-->
 
     <input asp-for="Id" type="hidden" />
 

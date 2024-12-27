@@ -51,14 +51,12 @@ namespace Wypożyczalnia_samochodów_online.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    EmailConfirmed = true // Ustawiono na true, aby użytkownik był natychmiastowo potwierdzony
+                    EmailConfirmed = true 
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    // Usunięto wysyłanie e-maila potwierdzającego rejestrację
-
                     // Logowanie użytkownika po rejestracji
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");

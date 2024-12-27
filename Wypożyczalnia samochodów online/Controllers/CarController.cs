@@ -6,6 +6,8 @@ using Wypożyczalnia_samochodów_online.Models;
 
 namespace Wypożyczalnia_samochodów_online.Controllers
 {
+
+    // dostęp do tych metod ma tylko Admin
     [Authorize(Roles = "Admin")]
     public class CarController : Controller
     {
@@ -18,32 +20,40 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             _logger= logger;
         }
 
+        // akcja jest dostępna publicznie, bez potrzeby logowania
         [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            // Pobieranie listy samochodów z bazy danych
             var cars = await _context.Cars.ToListAsync();
-            return View(cars);
+            return View(cars);  // Zwraca widok z listą samochodów
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous] // zarówno dla index i details użytkownicy mają dostęp
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            // Szukamy samochodu po jego ID
             var car = await _context.Cars.FindAsync(id);
             if (car == null)
             {
+                // Jeśli samochód nie został znaleziony, zwróć błąd 404
                 return NotFound();
             }
             return View(car);
         }
 
-        // Admin only: Create
+        // Tylko admin ma dostęp przez atrybut nad klasą
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        // obsługuje żądanie POST do utworzenia nowego samochodu
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // token dla CSRF
         public async Task<IActionResult> Create(CreateCarViewModel carViewModel)
         {
             if (ModelState.IsValid)
@@ -60,6 +70,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                     Year = carViewModel.Year
                 };
 
+                // Dodanie nowego samochodu do bazy danych
                 _context.Add(car);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index)); // Po zapisaniu przekierowujemy do listy samochodów
@@ -68,6 +79,8 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             return View(carViewModel); // W przypadku błędu walidacji zwróć formularz
         }
 
+        // Akcja do edytowania samochodu - get
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var car = await _context.Cars.FindAsync(id);
@@ -76,6 +89,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 return NotFound();
             }
 
+            // Tworzymy ViewModel z danymi samochodu do edytowania
             var carViewModel = new CreateCarViewModel
             {
                 Id = car.Id,
@@ -92,6 +106,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             return View(carViewModel);
         }
 
+        // Akcja do edytowania samochodu - post
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateCarViewModel carViewModel)
@@ -121,10 +136,12 @@ namespace Wypożyczalnia_samochodów_online.Controllers
 
                 try
                 {
+                    // Zapisujemy zmiany w bazie danych
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    // Jeśli wystąpił problem z równoczesnym zapisem do bazy danych
                     if (!CarExists(id))
                     {
                         return NotFound();
@@ -135,17 +152,20 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Po zapisaniu przekierowanie do listy samochodów
             }
 
             return View(carViewModel);
         }
 
+        // Metoda sprawdzająca, czy samochód o danym ID istnieje w bazie
         private bool CarExists(int id)
         {
             return _context.Cars.Any(e => e.Id == id);
         }
 
+        // Akcja do usuwania samochodu - GET
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var car = await _context.Cars.FindAsync(id);
@@ -157,6 +177,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             return View(car);
         }
 
+        // Akcja do usuwania samochodu - POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -164,11 +185,12 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             var car = await _context.Cars.FindAsync(id);
             if (car != null)
             {
+                // Usuwamy samochód z bazy danych
                 _context.Cars.Remove(car);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index)); // Po usunięciu przekierowanie do listy samochodów
         }
 
     }

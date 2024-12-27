@@ -9,13 +9,13 @@
     <div class="text-center mb-5">
         <h1>Witamy w Wypożyczalni Samochodów Online!</h1>
         <p class="lead">Wypożycz najlepsze samochody w najlepszej cenie.</p>
-        <a asp-controller="Car" asp-action="Index" class="btn btn-primary btn-lg">Zobacz dostępne samochody</a>
+        <a asp-controller="Car" asp-action="Index" class="btn btn-primary btn-lg">Zobacz dostępne samochody</a> <!-- Przycisk do przejścia do listy dostępnych samochodów -->
     </div>
 
     <div class="row mb-5">
         <div class="col-md-5 offset-md-1">
             <h2>O nas</h2>
-            <p>
+            <p>   <!-- Opis firmy -->
                 Jesteśmy wiodącą wypożyczalnią samochodów w Twoim regionie, oferującą szeroką gamę pojazdów na każdą okazję.
                 Niezależnie od tego, czy potrzebujesz samochodu na krótki wyjazd weekendowy, podróż służbową, czy dłuższe wakacje,
                 w naszej ofercie znajdziesz pojazdy idealnie dopasowane do Twoich potrzeb. Od małych, ekonomicznych samochodów,
@@ -35,13 +35,13 @@
 
 
 
-    <div class="text-center mb-5">
-        <h2 class="mb-5 mt-5 text-center">Dlaczego my?</h2>
+    <div class="text-center mb-5"> <!-- Sekcja "Dlaczego my?" z cechami usługi -->
+        <h2 class="mb-5 mt-5 text-center">Dlaczego my?</h2> 
         <div class="row">
             <div class="col-md-4">
                 <i class="bi bi-currency-exchange" style="font-size: 2rem;"></i>
                 <h4>Konkurencyjne ceny</h4>
-                <p>Zapewniamy najlepsze ceny na rynku.</p>
+                <p>Zapewniamy najlepsze ceny na rynku.</p> 
             </div>
             <div class="col-md-4">
                 <i class="bi bi-car-front-fill" style="font-size: 2rem;"></i>
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="mb-5">
+    <div class="mb-5"> <!-- Sekcja popularnych samochodów -->
         <h2 class="mb-5 mt-5">Popularne samochody</h2>
         <div class="row">
             @foreach (var car in Model) 
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="text-center">
+    <div class="text-center"> <!-- Sekcja kontaktowa -->
         <h2>Kontakt</h2>
         <p>Masz pytania? Skontaktuj się z nami!</p>
         <p><strong>E-mail:</strong> kontakt@wypozyczalnia.com</p>

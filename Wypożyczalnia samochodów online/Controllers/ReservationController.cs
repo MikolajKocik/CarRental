@@ -8,11 +8,12 @@ using Wypożyczalnia_samochodów_online.Services;
 
 namespace Wypożyczalnia_samochodów_online.Controllers
 {
-    [Authorize]
+    [Authorize] // Umożliwia dostęp do metod tylko dla zalogowanych użytkowników
     public class ReservationController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager; // Zarządzanie użytkownikami
+
         private readonly EmailService _emailService;
         private readonly ILogger<ReservationController> _logger;
 
@@ -24,40 +25,43 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             _logger = logger;
         }
 
+        // Wyświetla rezerwacje aktualnego użytkownika
+        [HttpGet]
         public async Task<IActionResult> MyReservations()
         {
             var userId = _userManager.GetUserId(User);
             var reservations = await _context.Reservations
-                .Where(r => r.UserId == userId)
-                .Include(r => r.Car)
-                .ToListAsync();
+                .Where(r => r.UserId == userId) // Pobiera tylko rezerwacje tego użytkownika
+                .Include(r => r.Car)    // Dołączamy samochód do rezerwacji
+                .ToListAsync();    // Wykonanie zapytania do bazy
 
             if (!reservations.Any())
             {
                 _logger.LogInformation($"Brak rezerwacji dla użytkownika: {userId}");
             }
 
-            return View(reservations);
+            return View(reservations); // Zwracamy widok z rezerwacjami
         }
 
-        // GET: Reservation/Create
+        // Wyświetla formularz tworzenia rezerwacji
+        [HttpGet]
         public IActionResult Create(int carId)
         {
             var viewModel = new CreateReservationViewModel
             {
-                CarId = carId,
-                StartDate = DateTime.Today,
-                EndDate = DateTime.Today.AddDays(1)
-            };
+                CarId = carId, // Ustawiamy ID samochodu
+
+                StartDate = DateTime.Today, // Domyślna data rozpoczęcia to dzisiejsza data
+                EndDate = DateTime.Today.AddDays(1) // Domyślna data zakończenia to dzień po rozpoczęciu
+            }; 
             return View(viewModel);
         }
 
-        // POST: Reservation/Create
+        // Tworzy rezerwację
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateReservationViewModel model)
         {
-            _logger.LogInformation("=== We got into POST Create! ===");
 
             if (!ModelState.IsValid)
             {
@@ -70,14 +74,14 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             }
 
             var userId = _userManager.GetUserId(User);
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(userId)) // Sprawdzamy, czy użytkownik jest zalogowany
             {
                 _logger.LogError("No userId. User might not be logged in.");
                 ModelState.AddModelError("", "Musisz być zalogowany, aby dokonać rezerwacji.");
                 return RedirectToAction("Login", "Account");
             }
 
-            var car = await _context.Cars.FindAsync(model.CarId);
+            var car = await _context.Cars.FindAsync(model.CarId); // Pobieramy samochód, na który robimy rezerwację
             if (car == null)
             {
                 ModelState.AddModelError("", "Wybrany samochód nie istnieje.");
@@ -89,7 +93,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 return View(model);
             }
 
-            if (model.EndDate <= model.StartDate)
+            if (model.EndDate <= model.StartDate)  // Sprawdzamy, czy data zakończenia jest późniejsza niż rozpoczęcia
             {
                 ModelState.AddModelError("", "Data zakończenia musi być późniejsza niż data rozpoczęcia.");
                 return View(model);
@@ -100,18 +104,20 @@ namespace Wypożyczalnia_samochodów_online.Controllers
 
             try
             {
+                // Obliczamy liczbę dni rezerwacji
                 int days = (model.EndDate - model.StartDate).Days;
-                if (days < 1) days = 1;
+                if (days < 1) days = 1; // Minimalnie 1 dzień
 
-                decimal cost = days * car.PricePerDay;
+                decimal cost = days * car.PricePerDay;  // Obliczamy koszt rezerwacji
 
+                // Tworzymy nową rezerwację
                 var reservation = new Reservation
                 {
                     UserId = userId,
                     CarId = model.CarId,
                     StartDate = model.StartDate,
                     EndDate = model.EndDate,
-                    IsConfirmed = false,
+                    IsConfirmed = false, // Początkowo rezerwacja nie jest potwierdzona, potwierdza ją ADMIN
                     Car = car,
                     TotalCost = cost
                 };
@@ -119,13 +125,13 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 // Oznacz samochód jako niedostępny
                 car.IsAvailable = false;
 
-                _context.Reservations.Add(reservation);
-                await _context.SaveChangesAsync();
+                _context.Reservations.Add(reservation);  // Dodajemy rezerwację do bazy
+                await _context.SaveChangesAsync();  // Zapisujemy zmiany
 
-                await transaction.CommitAsync();
+                await transaction.CommitAsync();  // Zatwierdzamy transakcję
 
                 _logger.LogInformation($"Reservation created for CarId={car.Id}, UserId={userId}");
-                return RedirectToAction(nameof(MyReservations));
+                return RedirectToAction(nameof(MyReservations));  // Przekierowujemy do listy rezerwacji
             }
             catch (Exception ex)
             {
@@ -136,22 +142,23 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             }
         }
 
-        // Szczegóły rezerwacji
+        // Wyświetla szczegóły rezerwacji
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var reservation = await _context.Reservations
-                .Include(r => r.Car)
-                .FirstOrDefaultAsync(r => r.Id == id);
+                .Include(r => r.Car)    // Ładujemy dane o samochodzie
+                .FirstOrDefaultAsync(r => r.Id == id);  // Pobieramy rezerwację o danym ID
 
             var currentUserId = _userManager.GetUserId(User);
 
-            if (reservation == null || reservation.UserId != currentUserId)
+            if (reservation == null || reservation.UserId != currentUserId) // Sprawdzamy, czy rezerwacja należy do obecnego użytkownika
             {
                 _logger.LogWarning($"Nie znaleziono rezerwacji o Id={id} lub brak dostępu.");
                 return NotFound();
             }
 
-            return View(reservation);
+            return View(reservation); // Zwracamy widok z detalami rezerwacji
         }
     }
 }

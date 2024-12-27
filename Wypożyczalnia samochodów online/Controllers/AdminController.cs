@@ -11,12 +11,13 @@ using Wypożyczalnia_samochodów_online.Services;
 
 namespace Wypożyczalnia_samochodów_online.Controllers
 {
+    // Ograniczenie dostępu do tego kontrolera tylko dla administratorów
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly EmailService _emailService; // Dodaj pole do wysyłania maila
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly EmailService _emailService; // Serwis do wysyłania e-maili
+        private readonly IWebHostEnvironment _webHostEnvironment; // Dostęp do ścieżek (do zasobów) na serwerze
 
         public AdminController(ApplicationDbContext context, EmailService emailService, IWebHostEnvironment webHostEnvironment)
         {
@@ -25,6 +26,8 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        // Metoda do generowania raportu dla administratora
+        [HttpGet]
         public async Task<IActionResult> Reports()
         {
             try
@@ -51,7 +54,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                     .Take(5)
                     .ToListAsync();
 
-                // Lista niepotwierdzonych rezerwacji (opcjonalnie, jeśli chcesz je wyświetlać w raporcie)
+                // Lista niepotwierdzonych rezerwacji 
                 var notConfirmed = await _context.Reservations
                     .Include(r => r.Car)
                     .Where(r => !r.IsConfirmed)
@@ -68,7 +71,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                         ReservationCount = pc.ReservationCount
                     }).ToList(),
 
-                    // Dodaj, jeśli w ViewModelu masz NotConfirmedReservations:
+                    // Lista rezerwacji, które nie zostały jeszcze potwierdzone
                     NotConfirmedReservations = notConfirmed
                 };
 
@@ -83,8 +86,9 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             }
         }
 
+        // Metoda do potwierdzenia rezerwacji
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // token
         public async Task<IActionResult> ConfirmReservation(int reservationId)
         {
             var reservation = await _context.Reservations
@@ -104,6 +108,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             // Jeśli IdentityUser ma Email = user@example.com, to:
             // reservation.User.Email -> docelowy adres
             // o ile user.Email nie jest null
+            // UWAGA: email musi być prawdziwy, żeby wysłać potwierdzenie
             if (!string.IsNullOrEmpty(reservation.User?.Email))
             {
                 var toEmail = reservation.User.Email;
@@ -132,8 +137,9 @@ namespace Wypożyczalnia_samochodów_online.Controllers
             return RedirectToAction(nameof(Reports));
         }
 
+        // Metoda do tworzenia samochodu
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // token
         public async Task<IActionResult> Create(Car car, IFormFile image)
         {
             if (ModelState.IsValid)
@@ -159,7 +165,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
                 // Dodawanie samochodu do bazy danych
                 _context.Add(car);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Po zapisaniu samochodu przekierowanie do listy samochodów
             }
             return View(car);
         }
