@@ -1,9 +1,11 @@
 ﻿@model Wypożyczalnia_samochodów_online.Models.CreateCarViewModel
 
-<h2>Dodaj samochód</h2>
+<h2>Edytuj samochód</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
     @Html.AntiForgeryToken()
+
+    <input asp-for="Id" type="hidden" />
 
     <div class="form-group">
         <label asp-for="Brand">Marka</label>
@@ -36,7 +38,7 @@
 
     <div class="form-group">
         <label asp-for="Description">Opis</label>
-        <input asp-for="Description" class="form-control" />
+        <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
@@ -48,9 +50,9 @@
 
     <div class="form-group">
         <label asp-for="Year">Rok produkcji</label>
-        <input asp-for="Year" class="form-control" type="text" />
+        <input asp-for="Year" class="form-control" />
         <span asp-validation-for="Year" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Dodaj</button>
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
 </form>

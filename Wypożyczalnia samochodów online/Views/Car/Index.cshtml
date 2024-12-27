@@ -25,6 +25,11 @@
                     {
                         <p class="text-danger text-center">Niedostępny</p>
                     }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Car" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning">Edytuj</a>
+                        <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Usuń</a>
+                    }
                 </div>
             </div>
         </div>

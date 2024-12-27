@@ -15,6 +15,9 @@ namespace Wypożyczalnia_samochodów_online.Models
         public string ImageUrl { get; set; } // URL zdjęcia
         public string Description { get; set; } // Kilka słów o tym konkretnym modelu
         public string Engine { get; set; }  // np. 1.8L, 2.0 TDi
+
+
+        [Range(2010, 2025, ErrorMessage = "Rok produkcji musi być pomiędzy 2010 a 2025.")]
         public int Year { get; set; }   // Rok produkcji
 
 

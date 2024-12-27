@@ -16,11 +16,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         private readonly EmailService _emailService;
         private readonly ILogger<ReservationController> _logger;
 
-        public ReservationController(
-            ApplicationDbContext context,
-            UserManager<IdentityUser> userManager,
-            EmailService emailService,
-            ILogger<ReservationController> logger)
+        public ReservationController(ApplicationDbContext context, UserManager<IdentityUser> userManager, EmailService emailService, ILogger<ReservationController> logger)
         {
             _context = context;
             _userManager = userManager;

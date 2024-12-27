@@ -1,0 +1,18 @@
+﻿@model Wypożyczalnia_samochodów_online.Models.Car
+
+<h2>Usuń samochód</h2>
+
+<h4>Jesteś pewny, że chcesz usunąć samochód?</h4>
+
+<div>
+    <h5>Samochód: @Model.Brand @Model.Model</h5>
+    <p>Cena za dzień: @Model.PricePerDay zł</p>
+    <p>Opis: @Model.Description</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>

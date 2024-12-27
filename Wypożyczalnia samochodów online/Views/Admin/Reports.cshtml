@@ -74,6 +74,8 @@
                     <td>@r.TotalCost.ToString("C2")</td>
                     <td>
                         <form asp-controller="Admin" asp-action="ConfirmReservation" method="post">
+                            @Html.AntiForgeryToken()
+
                             <input type="hidden" name="reservationId" value="@r.Id" />
                             <button type="submit" class="btn btn-success">Potwierdź</button>
                         </form>

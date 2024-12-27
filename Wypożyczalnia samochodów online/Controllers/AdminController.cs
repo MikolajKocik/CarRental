@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Wypożyczalnia_samochodów_online.Data;
@@ -13,11 +16,13 @@ namespace Wypożyczalnia_samochodów_online.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService; // Dodaj pole do wysyłania maila
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AdminController(ApplicationDbContext context, EmailService emailService)
+        public AdminController(ApplicationDbContext context, EmailService emailService, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _emailService = emailService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> Reports()
@@ -79,6 +84,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmReservation(int reservationId)
         {
             var reservation = await _context.Reservations
@@ -125,5 +131,39 @@ namespace Wypożyczalnia_samochodów_online.Controllers
 
             return RedirectToAction(nameof(Reports));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Car car, IFormFile image)
+        {
+            if (ModelState.IsValid)
+            {
+                // Obsługuje przesyłanie pliku obrazu
+                if (image != null && image.Length > 0)
+                {
+                    // Generowanie ścieżki do zapisu pliku
+                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+                    var fileName = Path.GetFileName(image.FileName);
+                    var filePath = Path.Combine(uploadDir, fileName);
+
+                    // Zapisywanie pliku na serwerze
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+
+                    // Przypisanie ścieżki do modelu
+                    car.ImageUrl = "/Images/" + fileName;
+                }
+
+                // Dodawanie samochodu do bazy danych
+                _context.Add(car);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(car);
+        }
     }
+
 }
+
