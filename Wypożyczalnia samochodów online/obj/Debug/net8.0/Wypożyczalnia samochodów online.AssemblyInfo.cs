@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Wypożyczalnia samochodów online")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7f97d41ba4487acf1a9fb20fcd114ef44a15aca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10f6e0b8554f8d6b0cbbf968acd26874c03199b9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Wypożyczalnia samochodów online")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Wypożyczalnia samochodów online")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

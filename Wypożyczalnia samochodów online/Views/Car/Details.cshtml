@@ -14,10 +14,12 @@
 {
     <p><strong>Opis:</strong> @Model.Description</p>
 }
+
 @if (!string.IsNullOrEmpty(Model.Engine))
 {
     <p><strong>Silnik:</strong> @Model.Engine</p>
 }
+
 @if (Model.Year > 0)
 {
     <p><strong>Rok produkcji:</strong> @Model.Year</p>
