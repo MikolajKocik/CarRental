@@ -18,12 +18,14 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService; // Serwis do wysyłania e-maili
         private readonly IWebHostEnvironment _webHostEnvironment; // Dostęp do ścieżek (do zasobów) na serwerze
+        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ApplicationDbContext context, EmailService emailService, IWebHostEnvironment webHostEnvironment)
+        public AdminController(ApplicationDbContext context, EmailService emailService, IWebHostEnvironment webHostEnvironment, ILogger<AdminController> logger)
         {
             _context = context;
             _emailService = emailService;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         // Metoda do generowania raportu dla administratora
@@ -125,12 +127,14 @@ namespace Wypożyczalnia_samochodów_online.Controllers
 
                 try
                 {
+                    _logger.LogInformation($"Próba wysłania e-maila do {toEmail}");
                     await _emailService.SendEmailAsync(toEmail, subject, body);
+                    _logger.LogInformation($"E-mail do {toEmail} został wysłany.");
                 }
                 catch (Exception ex)
                 {
                     // obsługa błędu
-                    Console.WriteLine($"Błąd wysyłki e-maila: {ex.Message}");
+                    _logger.LogError($"Błąd wysyłki e-maila: {ex.Message}");
                 }
             }
 
