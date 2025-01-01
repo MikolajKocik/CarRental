@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Wypożyczalnia_samochodów_online.Data;
 using Wypożyczalnia_samochodów_online.Models;
 
@@ -17,7 +18,7 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         public CarController(ApplicationDbContext context, ILogger<CarController> logger)
         {
             _context = context;
-            _logger= logger;
+            _logger = logger;
         }
 
         // akcja jest dostępna publicznie, bez potrzeby logowania
@@ -183,15 +184,24 @@ namespace Wypożyczalnia_samochodów_online.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var car = await _context.Cars.FindAsync(id);
-            if (car != null)
+
+            try
             {
-                // Usuwamy samochód z bazy danych
-                _context.Cars.Remove(car);
-                await _context.SaveChangesAsync();
+                if (car != null)
+                {
+                    // Usuwamy samochód z bazy danych
+                    _context.Cars.Remove(car);
+                    await _context.SaveChangesAsync();
+                }
             }
-
-            return RedirectToAction(nameof(Index)); // Po usunięciu przekierowanie do listy samochodów
+            catch (Exception ex)
+            {
+                {
+                    _logger.LogError($"Błąd przy usuwaniu pojazdu {ex.Message}");
+                }
+            }
+                return RedirectToAction(nameof(Index)); // Po usunięciu przekierowanie do listy samochodów
         }
-
     }
+
 }

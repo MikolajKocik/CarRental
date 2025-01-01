@@ -10,7 +10,8 @@
     <p>Opis: @Model.Description</p>
 </div>
 
-<form asp-action="DeleteConfirmed" method="post"> <!-- Formularz wysyłający żądanie POST do akcji DeleteConfirmed -->
+<form asp-action="Delete" method="post">
+    <!-- Formularz wysyłający żądanie POST do akcji DeleteConfirmed -->
     @Html.AntiForgeryToken() <!-- Token ochrony przed atakami CSRF -->
     <input type="hidden" asp-for="Id" /> <!-- Ukryte pole zawierające identyfikator samochodu, aby można było go usunąć -->
     <button type="submit" class="btn btn-danger">Usuń</button> <!-- Przycisk wysyłający formularz do usunięcia samochodu -->
