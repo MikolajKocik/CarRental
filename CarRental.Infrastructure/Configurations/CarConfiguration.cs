@@ -1,10 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 
 namespace CarRental.Infrastructure.Configurations
 {
-    public class CarConfiguration : IEntityTypeConfiguration<Car>
+    public class CarConfiguration : IEntityTypeConfiguration<CarRental.Domain.Entities.Car>
     {
+        public void Configure(EntityTypeBuilder<CarRental.Domain.Entities.Car> builder) 
+        { 
+            builder.
+        }
     }
 }

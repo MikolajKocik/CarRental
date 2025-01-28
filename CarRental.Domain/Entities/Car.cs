@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Wypożyczalnia_samochodów_online.Models
+namespace CarRental.Domain.Entities
 {
     public class Car
     {
