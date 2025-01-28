@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Identity;
 
-namespace Wypożyczalnia_samochodów_online.Models
+namespace CarRental.Domain.Entities
 {
     public class Reservation
     {
