@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarRental.Infrastructure.Data;
+using CarRental.Application.Dto;
+using Microsoft.EntityFrameworkCore;
+using CarRental.Domain.Entities;
+using CarRental.Domain.Interfaces;
 
 namespace CarRental.Infrastructure.Repository
 {
-    public class ReservationRepository 
+    public class ReservationRepository : IReservationRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _context;
 
-        public ReservationRepository(ApplicationDbContext dbContext)
-        { 
-            _dbContext = dbContext;
+        public ReservationRepository(ApplicationDbContext context)
+        {
+            _context = context;
         }
 
+        public Task Create(Reservation reservation)
+        {
+            throw new NotImplementedException(); // TODO 
+        }
 
+        public async Task<Reservation?> GetByIdAsync(int reservationId)
+            => await _context.Reservations
+            .Include(r => r.Car)
+            .FirstOrDefaultAsync(r => r.Id == reservationId);
     }
 }

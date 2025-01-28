@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
 using CarRental.Application.Dto;
 using CarRental.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CarRental.Application.Mappings
 {
-    public class MappingProfile : Profile
+    public class ReservationMappingProfile : Profile
     {
-        public MappingProfile()
+        public ReservationMappingProfile()
         {
-            CreateMap<Car, CarDto>();
-
-            CreateMap<CarDto, CarDto>();
-
             CreateMap<Reservation, ReservationDto>()
                 .ForMember(dest => dest.UserName, opt => opt.Ignore()) // UserName must be assign to database
                 .ForMember(dest => dest.Car, opt => opt.MapFrom(src => new CarDto
@@ -41,9 +42,6 @@ namespace CarRental.Application.Mappings
                   Engine = src.Car.Engine,
                   Year = src.Car.Year,
               }));
-
-
         }
-
     }
 }

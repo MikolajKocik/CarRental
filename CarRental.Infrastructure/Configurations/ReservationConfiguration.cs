@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CarRental.Domain.Entities;
 
 namespace CarRental.Infrastructure.Configurations
 {
-    public class ReservationConfiguration : IEntityTypeConfiguration<CarRental.Domain.Entities.Reservation>
+    public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
     {
-        public void Configure(EntityTypeBuilder<CarRental.Domain.Entities.Reservation> builder)
+        public void Configure(EntityTypeBuilder<Reservation> builder)
         {
             // Relation 1-* between Car and Reservations
 
