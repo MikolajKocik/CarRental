@@ -18,8 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\CreateCar\" />
-    <Folder Include="Dto\CreateReservation\" />
     <Folder Include="Dto\Queries\" />
   </ItemGroup>
 

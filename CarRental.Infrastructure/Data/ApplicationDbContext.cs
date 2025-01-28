@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace CarRental.Infrastructure.Data;
 
-// ApplicationDbContext dziedziczy po IdentityDbContext, co oznacza, że obsługujemy także zarządzanie użytkownikami
+// ApplicationDbContext inherit from IdentityDbContext, what defines that we also manage identity users in db
 public class ApplicationDbContext : IdentityDbContext
 {
     public DbSet<Car> Cars { get; set; }
@@ -15,8 +15,8 @@ public class ApplicationDbContext : IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        // Logowanie połączenia z bazą danych (do konsoli), przydatne w celach diagnostycznych
-        Console.WriteLine($"Aktualne połączenie z bazą danych: {Database.GetDbConnection().ConnectionString}");
+        // Information about connection to database with console, diagnostics purposes
+        Console.WriteLine($"Actually connection with database: {Database.GetDbConnection().ConnectionString}");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
