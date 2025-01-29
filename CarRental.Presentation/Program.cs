@@ -1,8 +1,9 @@
+using CarRental.Application.Services;
+using CarRental.Domain.Entities;
+using CarRental.Infrastructure.Data;
+using CarRental.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Wypożyczalnia_samochodów_online.Data;
-using Wypożyczalnia_samochodów_online.Models;
-using Wypożyczalnia_samochodów_online.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-
+builder.Services.AddInfrastructure(builder.Configuration);
 
 // Konfiguracja Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
