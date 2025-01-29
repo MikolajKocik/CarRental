@@ -13,6 +13,7 @@ namespace CarRental.Application.Dto.CreateCar
     {
         private readonly IMapper _mapper;
         private readonly ICarRepository _carRepository;
+
         public CreateCarCommandHandler(IMapper mapper, ICarRepository carRepository)
         {
             _mapper = mapper;

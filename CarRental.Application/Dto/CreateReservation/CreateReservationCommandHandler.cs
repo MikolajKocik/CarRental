@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarRental.Application.Dto.CreateCar;
 using CarRental.Domain.Interfaces;
 using MediatR;
 using System;
@@ -19,8 +20,10 @@ namespace CarRental.Application.Dto.CreateReservation
             _mapper = mapper;
             _reservationRepository = reservationRepository;
         }
+        public async Task<Unit> Handle(CreateReservationCommand command, CancellationToken cancellationToken)
+        {
 
-        // TODO
+        }
 
     }
 }
