@@ -9,5 +9,6 @@ namespace CarRental.Application.Dto.CreateCar
 {
     public class CreateCarCommand : CarDto, IRequest
     {
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CarRental.Infrastructure.Data;
-using CarRental.Application.Dto;
 using Microsoft.EntityFrameworkCore;
 using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;

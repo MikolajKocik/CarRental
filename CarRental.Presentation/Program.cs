@@ -11,9 +11,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-// Dodanie usług dla aplikacji
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Konfiguracja Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
