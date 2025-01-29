@@ -7,9 +7,9 @@ using System.ComponentModel;
 
 namespace CarRental.Application.Dto.CreateReservation;
 
-public class CreateReservationCommandValidator : AbstractValidator<CreateReservationCommand>
+public class CreateReservationViewModelCommandValidator : AbstractValidator<CreateReservationViewModelCommand>
 {
-    public CreateReservationCommandValidator(IReservationRepository repository) 
+    public CreateReservationViewModelCommandValidator(IReservationRepository repository) 
     {
         RuleFor(r => r.StartDate)
             .NotEmpty().WithMessage("Start date is required")

@@ -4,6 +4,9 @@ namespace CarRental.Domain.Interfaces
 {
     public interface ICarRepository
     {
-        Task Create (Car car);  
+        // Index ?
+        Task Create (Car car);
+
+        Task Details(int id);
     }
 }

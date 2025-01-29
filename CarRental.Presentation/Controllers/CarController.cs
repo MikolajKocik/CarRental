@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarRental.Domain.Entities;
+using CarRental.Presentation.Models;
+using CarRental.Application.Dto;
+using CarRental.Application.Dto.CreateCar;
+using MediatR;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -12,10 +16,12 @@ public class CarController : Controller
 {
 
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
-    public CarController(IMapper mapper)
+    public CarController(IMapper mapper, IMediator mediator)
     {
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     [AllowAnonymous]
@@ -39,39 +45,29 @@ public class CarController : Controller
         return View(car);
     }
 
-    // Tylko admin ma dostęp przez atrybut nad klasą
-    [HttpGet]
+    [HttpGet] // Admin
     public IActionResult Create()
     {
         return View();
     }
 
-    // obsługuje żądanie POST do utworzenia nowego samochodu
     [HttpPost]
-    [ValidateAntiForgeryToken] // token dla CSRF
+    [ValidateAntiForgeryToken] 
     public async Task<IActionResult> Create(CreateCarViewModel carViewModel)
     {
         if (ModelState.IsValid)
         {
-            var car = new Car
-            {
-                Brand = carViewModel.Brand,
-                Model = carViewModel.Model,
-                PricePerDay = carViewModel.PricePerDay,
-                IsAvailable = carViewModel.IsAvailable,
-                ImageUrl = carViewModel.ImageUrl,
-                Description = carViewModel.Description,
-                Engine = carViewModel.Engine,
-                Year = carViewModel.Year
-            };
+            // mapping view model -> DTO
+            var carDto = _mapper.Map<CarDto>(carViewModel);
 
-            // Dodanie nowego samochodu do bazy danych
-            _context.Add(car);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index)); // Po zapisaniu przekierowujemy do listy samochodów
+            // now ViewModel = validation of command
+            var command = new CreateCarCommand { Car =  carDto };
+
+            await _mediator.Send(command);
+            return RedirectToAction("Index");
         }
 
-        return View(carViewModel); // W przypadku błędu walidacji zwróć formularz
+        return View(carViewModel); 
     }
 
     // Akcja do edytowania samochodu - get

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CarRental.Application.Dto.CreateCar
 {
-    public class CreateCarCommand : CarDto, IRequest
+    public class CreateCarCommand : IRequest
     {
-
+        public CarDto Car { get; set; } = default!;
     }
 }

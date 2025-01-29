@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CarRental.Application.Dto.CreateReservation
 {
-    public class CreateReservationCommand : ReservationDto, IRequest
+    public class CreateReservationViewModelCommand : ReservationDto, IRequest
     {
     }
 }
