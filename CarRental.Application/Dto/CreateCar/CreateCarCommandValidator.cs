@@ -8,22 +8,22 @@ public class CreateCarCommandValidator : AbstractValidator<CreateCarCommand>
 {
    public CreateCarCommandValidator(ICarRepository repository) 
     {
-        RuleFor(c => c.ImageUrl)
+        RuleFor(c => c.Car.ImageUrl)
             .NotEmpty().WithMessage("Address url is required.")
             .Must(CarValidationHelpers.IsValidUrl).WithMessage("Incorrect format url");
 
-        RuleFor(c => c.Year)
+        RuleFor(c => c.Car.Year)
             .NotEmpty().WithMessage("Year is required.")
             .Must(CarValidationHelpers.IsValidYear).WithMessage("Year must be between 2010 - 2025");
 
-        RuleFor(c => c.PricePerDay)
+        RuleFor(c => c.Car.PricePerDay)
             .NotEmpty().WithMessage("Price is required")
             .GreaterThan(0).WithMessage("Price mustn't be a value of 0");
 
-        RuleFor(c => c.Model)
+        RuleFor(c => c.Car.Model)
             .NotEmpty().WithMessage("Model is required");
 
-        RuleFor(c => c.Brand)
+        RuleFor(c => c.Car.Brand)
             .NotEmpty().WithMessage("Brand is required");
     }
 }
