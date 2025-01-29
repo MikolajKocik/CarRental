@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dto\CarDetails\" />
     <Folder Include="Dto\Queries\" />
   </ItemGroup>
 

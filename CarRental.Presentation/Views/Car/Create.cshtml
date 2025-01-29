@@ -1,56 +1,70 @@
-﻿@model Wypożyczalnia_samochodów_online.Models.CreateCarViewModel
+﻿@model CarRental.Presentation.Models.CreateCarViewModel
 
-<h2>Dodaj samochód</h2>
+<h2>Create car</h2>
 
-<form asp-action="Create" method="post">
-    @Html.AntiForgeryToken() <!-- Dodanie tokenu ochrony przed atakami CSRF -->
+<hr />
 
-    <div class="form-group">
-        <label asp-for="Brand">Marka</label>
-        <input asp-for="Brand" class="form-control" />
-        <span asp-validation-for="Brand" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken() <!-- CSRF -->
+
+            <div class="form-group mb-3">
+                <label asp-for="Brand">Brand</label>
+                <input class="form-control" type="text" asp-for="Brand" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Model">Model</label>
+                <input class="form-control" type="text" asp-for="Model" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PricePerDay">Price per day</label>
+                <input class="form-control" type="text" asp-for="PricePerDay" />
+                <span asp-validation-for="PricePerDay" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="IsAvailable">Is Available</label>
+                <input asp-for="IsAvailable" type="checkbox" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ImageUrl">Url image</label>
+                <input class="form-control" type="text" asp-for="ImageUrl"/>
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description">Description</label>
+                <input class="form-control" type="text" asp-for="Description"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Engine">Engine</label>
+                <input class="form-control" asp-for="Engine" type="text"/>
+                <span asp-validation-for="Engine" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Year">Production year</label>
+                <input class="form-control" type="text" asp-for="Year"/>
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="Model">Model</label>
-        <input asp-for="Model" class="form-control" />
-        <span asp-validation-for="Model" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PricePerDay">Cena za dzień</label>
-        <input asp-for="PricePerDay" class="form-control" />
-        <span asp-validation-for="PricePerDay" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="IsAvailable">Dostępność</label>
-        <input asp-for="IsAvailable" type="checkbox" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ImageUrl">Ścieżka do obrazu</label>
-        <input asp-for="ImageUrl" class="form-control" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Description">Opis</label>
-        <input asp-for="Description" class="form-control" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Engine">Silnik</label>
-        <input asp-for="Engine" class="form-control" />
-        <span asp-validation-for="Engine" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Year">Rok produkcji</label>
-        <input asp-for="Year" class="form-control" type="text" />
-        <span asp-validation-for="Year" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Dodaj</button> <!-- Przycisk do wysłania formularza -->
-</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

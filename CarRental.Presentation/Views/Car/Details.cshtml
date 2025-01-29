@@ -1,4 +1,4 @@
-﻿@model Wypożyczalnia_samochodów_online.Models.Car
+﻿@model CarRental.Presentation.Models.CreateCarViewModel
 
 <h2>Szczegóły pojazdu</h2>
 
@@ -10,7 +10,6 @@
 <p><strong>Model:</strong> @Model.Model</p>
 <p><strong>Cena za dzień:</strong> @Model.PricePerDay zł</p>
 
-<!-- Walidacje pól niepustych -->
 @if (!string.IsNullOrEmpty(Model.Description))
 {
     <p><strong>Opis:</strong> @Model.Description</p>
@@ -21,7 +20,6 @@
     <p><strong>Silnik:</strong> @Model.Engine</p>
 }
 
-<!-- Sprawdzenie, czy rok produkcji jest większy od 0 -->
 @if (Model.Year > 0)
 {
     <p><strong>Rok produkcji:</strong> @Model.Year</p>
