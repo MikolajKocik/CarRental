@@ -1,6 +1,7 @@
 ﻿using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
 using CarRental.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Infrastructure.Repository;
 
@@ -22,4 +23,7 @@ public class CarRepository : ICarRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<ICollection<Car>> GetAll()
+        => await _context.Cars.ToListAsync();
 }

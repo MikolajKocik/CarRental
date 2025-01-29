@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CarRental.Domain.Entities;
 using CarRental.Presentation.Models;
 using CarRental.Application.Dto;
 using CarRental.Application.Dto.CreateCar;
 using MediatR;
+using CarRental.Application.Dto.Queries;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -28,15 +28,15 @@ public class CarController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var cars = await _context.Cars.ToListAsync();
+        var cars = await _mediator.Send(new GetAllCarsQuery());
         return View(cars);  
     }
 
-    [AllowAnonymous] // zarówno dla index i details użytkownicy mają dostęp
+    [AllowAnonymous] 
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
-        // Szukamy samochodu po jego ID
+        
         var car = await _context.Cars.FindAsync(id);
         if (car == null)
         {
@@ -52,7 +52,7 @@ public class CarController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken] 
+    [ValidateAntiForgeryToken] // Admin
     public async Task<IActionResult> Create(CreateCarViewModel carViewModel)
     {
         if (ModelState.IsValid)
@@ -70,7 +70,7 @@ public class CarController : Controller
         return View(carViewModel); 
     }
 
-    // Akcja do edytowania samochodu - get
+
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -80,7 +80,7 @@ public class CarController : Controller
             return NotFound();
         }
 
-        // Tworzymy ViewModel z danymi samochodu do edytowania
+       
         var carViewModel = new CreateCarViewModel
         {
             Id = car.Id,
@@ -97,7 +97,7 @@ public class CarController : Controller
         return View(carViewModel);
     }
 
-    // Akcja do edytowania samochodu - post
+   
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, CreateCarViewModel carViewModel)
@@ -115,7 +115,6 @@ public class CarController : Controller
                 return NotFound();
             }
 
-            // Mapowanie danych z ViewModelu do modelu Car
             car.Brand = carViewModel.Brand;
             car.Model = carViewModel.Model;
             car.PricePerDay = carViewModel.PricePerDay;
