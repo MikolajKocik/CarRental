@@ -8,11 +8,7 @@ namespace CarRental.Domain.Entities
     public class Reservation
     {
         public int Id { get; set; }
-        [Required]  
-        [DataType(DataType.Date)] 
         public DateTime StartDate { get; set; }
-        [Required]  
-        [DataType(DataType.Date)] 
         public DateTime EndDate { get; set; }
         public bool IsConfirmed { get; set; }
         public decimal TotalCost { get; set; }

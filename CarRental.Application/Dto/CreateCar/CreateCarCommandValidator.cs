@@ -15,6 +15,8 @@ namespace CarRental.Application.Dto.CreateCar
             RuleFor(c => c.Year)
                 .NotEmpty().WithMessage("Year is required.")
                 .Must(CarValidationHelpers.IsValidYear).WithMessage("Year must be between 2010 - 2025");
+
+            // by title during creating (parameters)
         }
     }
 }
