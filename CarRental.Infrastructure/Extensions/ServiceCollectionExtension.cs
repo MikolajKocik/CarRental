@@ -19,7 +19,7 @@ namespace CarRental.Infrastructure.Extensions
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
 
-            // seeder TODO
+            services.AddTransient<ICarRentalSeeder, CarRentalSeeder>();
         }
     }
 }

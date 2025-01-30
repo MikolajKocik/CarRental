@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace CarRental.Application.Dto.CreateReservation
 {
-    public class CreateReservationViewModelCommandHandler : IRequestHandler<CreateReservationViewModelCommand>
+    public class CreateReservationCommandHandler : IRequestHandler<CreateReservationCommand>
     {
         private readonly IMapper _mapper;
         private readonly IReservationRepository _reservationRepository;
 
-        public CreateReservationViewModelCommandHandler(IMapper mapper, IReservationRepository reservationRepository)
+        public CreateReservationCommandHandler(IMapper mapper, IReservationRepository reservationRepository)
         {
             _mapper = mapper;
             _reservationRepository = reservationRepository;
         }
-        public async Task<Unit> Handle(CreateReservationViewModelCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateReservationCommand command, CancellationToken cancellationToken)
         {
 
         }
