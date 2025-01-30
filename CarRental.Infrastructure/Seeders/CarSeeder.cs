@@ -1,23 +1,30 @@
 ﻿using CarRental.Domain.Entities;
+using CarRental.Domain.Interfaces;
 using CarRental.Infrastructure.Data;
 using Microsoft.Extensions.Logging;
 
 namespace CarRental.Infrastructure.Seeder;
 
-public static class CarSeeder
+public class CarSeeder : ICarSeeder
 {
-    public static async Task SeedCarAsync(this ApplicationDbContext context, ILogger logger)
+    private readonly ApplicationDbContext _context;
+
+    public CarSeeder(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+    public async Task SeedCarAsync(ILogger logger)
     {
 
-        if (await context.Database.CanConnectAsync())
+        if (await _context.Database.CanConnectAsync())
         {
-            using (var transaction = context.Database.BeginTransaction())
+            using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    if (!context.Cars.Any())
+                    if (!_context.Cars.Any())
                     {
-                        context.Cars.AddRange(
+                        _context.Cars.AddRange(
                             new Car
                             {
                                 Brand = "Toyota",
@@ -118,7 +125,7 @@ public static class CarSeeder
                                 Description = "Nowoczesny sedan z mocnym silnikiem i komfortowym wnętrzem, idealny na długie podróże."
                             }
                         );
-                        await context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
                         await transaction.CommitAsync();
                     }
                 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.MigrateDatabase(builder.Configuration); // database migration
 builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddLogging(); // add ILogger 
