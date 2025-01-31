@@ -2,13 +2,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CarRental.Presentation.Models;
 using CarRental.Application.Dto;
 using CarRental.Application.Dto.CreateCar;
 using CarRental.Application.Dto.Queries.GetAllCars;
 using CarRental.Application.Dto.Queries.CarDetails;
 using CarRental.Application.Dto.EditCar;
+using CarRental.Application.Dto.DeleteCar;
+using CarRental.Domain.Entities;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -31,6 +32,7 @@ public class CarController : Controller
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var cars = await _mediator.Send(new GetAllCarsQuery(), cancellationToken);
+
         return View(cars);
     }
 
@@ -68,6 +70,7 @@ public class CarController : Controller
             var command = new CreateCarCommand { Car = carDto };
 
             await _mediator.Send(command, cancellationToken);
+
             return RedirectToAction("Index");
         }
 
@@ -106,43 +109,33 @@ public class CarController : Controller
         }
         return View(editCarViewModel);
     }
+  
 
-
-    // Akcja do usuwania samochodu - GET
     [HttpGet]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellation)
     {
-        var car = await _context.Cars.FindAsync(id);
-        if (car == null)
-        {
-            return NotFound();
-        }
+        var car = await _mediator.Send(new CarDetailsQuery(id), cancellation);
 
         return View(car);
     }
 
-    // Akcja do usuwania samochodu - POST
+  
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id, CancellationToken cancellation)
     {
-        var car = await _context.Cars.FindAsync(id);
 
-        try
+        if (!ModelState.IsValid)
         {
-            if (car != null)
-            {
-                // Usuwamy samochód z bazy danych
-                _context.Cars.Remove(car);
-                await _context.SaveChangesAsync();
-            }
+            var car = await _mediator.Send(new CarDetailsQuery(id), cancellation);
+
+            return View("Delete", car);
         }
-        catch (Exception ex)
-        {
-            {
-                _logger.LogError($"Błąd przy usuwaniu pojazdu {ex.Message}");
-            }
-        }
-        return RedirectToAction(nameof(Index)); // Po usunięciu przekierowanie do listy samochodów
+
+        var command = new DeleteCarCommand() { Id = id };
+
+        await _mediator.Send(command, cancellation);
+
+        return RedirectToAction(nameof(Index));
     }
 }

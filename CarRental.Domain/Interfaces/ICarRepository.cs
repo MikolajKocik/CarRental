@@ -11,5 +11,7 @@ namespace CarRental.Domain.Interfaces
         Task<Car> GetById(int id, CancellationToken cancellation);
 
         Task Commit();
+
+        Task Remove(int id, CancellationToken cancellation);
     }
 }

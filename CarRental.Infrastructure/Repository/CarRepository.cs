@@ -25,5 +25,14 @@ public class CarRepository : ICarRepository
     public async Task<ICollection<Car>> GetAll(CancellationToken cancellation)
         => await _context.Cars.ToListAsync(cancellation);
 
-    public Task Commit() => _context.SaveChangesAsync();
+    public async Task Commit() => await _context.SaveChangesAsync();
+
+    public async Task Remove(int id, CancellationToken cancellation)
+    {
+        var carToRemove = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id, cancellation);
+
+        _context.Cars.Remove(carToRemove!); // Handler has exception for null id
+
+        await _context.SaveChangesAsync(cancellation);
+    }
 }

@@ -33,8 +33,8 @@ public class CarSeeder : ICarSeeder
                                 IsAvailable = true,
                                 ImageUrl = "/Images/toyota_corolla.jpg",
                                 Year = 2022,
-                                Engine = "1.6 Benzyna",
-                                Description = "Niezawodny, miejski sedan o niskim spalaniu i wygodnym wnętrzu."
+                                Engine = "1.6 Petrol",
+                                Description = "Reliable city sedan with low fuel consumption and a comfortable interior."
                             },
                             new Car
                             {
@@ -45,7 +45,7 @@ public class CarSeeder : ICarSeeder
                                 ImageUrl = "/Images/volkswagen_golf.jpg",
                                 Year = 2021,
                                 Engine = "1.5 TSI",
-                                Description = "Popularny kompakt do miasta i na trasę, ceniony za uniwersalność i oszczędność."
+                                Description = "Popular compact car for city driving and long trips, renowned for its versatility and fuel efficiency."
                             },
                             new Car
                             {
@@ -55,8 +55,8 @@ public class CarSeeder : ICarSeeder
                                 IsAvailable = true,
                                 ImageUrl = "/Images/tesla.jpg",
                                 Year = 2023,
-                                Engine = "Elektryczny",
-                                Description = "Elektryczna innowacja z imponującym przyspieszeniem i nowoczesnymi rozwiązaniami."
+                                Engine = "Electric",
+                                Description = "An electric innovation with impressive acceleration and modern features."
                             },
                             new Car
                             {
@@ -66,8 +66,8 @@ public class CarSeeder : ICarSeeder
                                 IsAvailable = true,
                                 ImageUrl = "/Images/toyota_rav4.jpg",
                                 Year = 2023,
-                                Engine = "2.0 Hybryda",
-                                Description = "Wszechstronny SUV z napędem hybrydowym i przestronnym wnętrzem."
+                                Engine = "2.0 Hybrid",
+                                Description = "A versatile SUV featuring a hybrid powertrain and a spacious interior."
                             },
                             new Car
                             {
@@ -78,7 +78,7 @@ public class CarSeeder : ICarSeeder
                                 ImageUrl = "/Images/bmw_x5.jpg",
                                 Year = 2021,
                                 Engine = "3.0 Diesel",
-                                Description = "Luksusowy SUV o sportowym charakterze, gwarantuje komfort i wysokie osiągi."
+                                Description = "A luxurious SUV with a sporty character, ensuring both comfort and high performance."
                             },
                             new Car
                             {
@@ -88,8 +88,8 @@ public class CarSeeder : ICarSeeder
                                 IsAvailable = true,
                                 ImageUrl = "/Images/fiat_punto.jpg",
                                 Year = 2019,
-                                Engine = "1.2 Benzyna",
-                                Description = "Niewielkie, ekonomiczne auto idealne do jazdy miejskiej i łatwego parkowania."
+                                Engine = "1.2 Petrol",
+                                Description = "A compact, economical car ideal for urban driving and easy parking."
                             },
                             new Car
                             {
@@ -100,7 +100,7 @@ public class CarSeeder : ICarSeeder
                                 ImageUrl = "/Images/mercedes_c-class.jpg",
                                 Year = 2021,
                                 Engine = "2.0 Diesel",
-                                Description = "Elegancka limuzyna łącząca luksus i nowoczesne technologie w codziennej jeździe."
+                                Description = "An elegant sedan combining luxury and modern technology for everyday driving."
                             },
                             new Car
                             {
@@ -111,7 +111,7 @@ public class CarSeeder : ICarSeeder
                                 ImageUrl = "/Images/ford_focus.jpg",
                                 Year = 2020,
                                 Engine = "1.0 EcoBoost",
-                                Description = "Przestronny kompakt z dynamicznym silnikiem, świetnie sprawdza się w mieście i na trasach."
+                                Description = "A spacious compact car with a dynamic engine, perfect for both urban and highway driving."
                             },
                             new Car
                             {
@@ -122,7 +122,7 @@ public class CarSeeder : ICarSeeder
                                 ImageUrl = "/Images/audi_a4.jpg",
                                 Year = 2022,
                                 Engine = "2.0 TFSI",
-                                Description = "Nowoczesny sedan z mocnym silnikiem i komfortowym wnętrzem, idealny na długie podróże."
+                                Description = "A modern sedan featuring a powerful engine and a comfortable interior, perfect for long trips."
                             }
                         );
                         await _context.SaveChangesAsync();
