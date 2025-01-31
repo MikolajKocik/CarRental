@@ -19,9 +19,11 @@ public class CarRepository : ICarRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Car?> GetDetails(int id, CancellationToken cancellation)
-        => await _context.Cars.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, cancellation);
+    public async Task<Car?> GetById(int id, CancellationToken cancellation)
+        => await _context.Cars.FirstOrDefaultAsync(c => c.Id == id, cancellation);
 
     public async Task<ICollection<Car>> GetAll(CancellationToken cancellation)
         => await _context.Cars.ToListAsync(cancellation);
+
+    public Task Commit() => _context.SaveChangesAsync();
 }

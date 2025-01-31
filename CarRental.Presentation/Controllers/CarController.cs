@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarRental.Presentation.Models;
 using CarRental.Application.Dto;
 using CarRental.Application.Dto.CreateCar;
-using MediatR;
 using CarRental.Application.Dto.Queries.GetAllCars;
 using CarRental.Application.Dto.Queries.CarDetails;
+using CarRental.Application.Dto.EditCar;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -75,85 +76,37 @@ public class CarController : Controller
 
 
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, CancellationToken cancellation)
     {
-        var car = await _context.Cars.FindAsync(id);
-        if (car == null)
-        {
-            return NotFound();
-        }
+;
+        var car =  await _mediator.Send(new CarDetailsQuery(id), cancellation);
 
+        var editViewModel = _mapper.Map<EditCarViewModel>(car);
 
-        var carViewModel = new CreateCarViewModel
-        {
-            Id = car.Id,
-            Brand = car.Brand,
-            Model = car.Model,
-            PricePerDay = car.PricePerDay,
-            IsAvailable = car.IsAvailable,
-            ImageUrl = car.ImageUrl,
-            Description = car.Description,
-            Engine = car.Engine,
-            Year = car.Year
-        };
-
-        return View(carViewModel);
+        return View(editViewModel);
     }
 
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, CreateCarViewModel carViewModel)
+    public async Task<IActionResult> Edit(int id, EditCarViewModel editCarViewModel,
+        CancellationToken cancellation)
     {
-        if (id != carViewModel.Id)
-        {
-            return NotFound();
-        }
-
         if (ModelState.IsValid)
         {
-            var car = await _context.Cars.FindAsync(id);
-            if (car == null)
+            var command = new EditCarCommand
             {
-                return NotFound();
-            }
+                Id = id,
+                Car = _mapper.Map<CarDto>(editCarViewModel)
+            };
 
-            car.Brand = carViewModel.Brand;
-            car.Model = carViewModel.Model;
-            car.PricePerDay = carViewModel.PricePerDay;
-            car.IsAvailable = carViewModel.IsAvailable;
-            car.ImageUrl = carViewModel.ImageUrl;
-            car.Description = carViewModel.Description;
-            car.Engine = carViewModel.Engine;
-            car.Year = carViewModel.Year;
+            await _mediator.Send(command, cancellation);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToAction(nameof(Index)); // Redirect to car list
+            return RedirectToAction(nameof(Index));
         }
-
-        return View(carViewModel);
+        return View(editCarViewModel);
     }
 
-    // Metoda sprawdzająca, czy samochód o danym ID istnieje w bazie
-    private bool CarExists(int id)
-    {
-        return _context.Cars.Any(e => e.Id == id);
-    }
 
     // Akcja do usuwania samochodu - GET
     [HttpGet]

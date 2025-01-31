@@ -1,23 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using CarRental.Domain.Entities;
 
-namespace Wypożyczalnia_samochodów_online.Models
+namespace CarRental.Presentation.Models;
+
+public class AdminReportsViewModel
 {
-    // ViewModel dla raportu administratora
-    public class AdminReportsViewModel
-    {
-        public int TotalReservations { get; set; }
-        public decimal TotalIncome { get; set; }
-        public List<CarReport> PopularCars { get; set; }
+    public int TotalReservations { get; set; }
+    public decimal TotalIncome { get; set; }
+    public List<CarReport> PopularCars { get; set; } = new List<CarReport>();
 
-        // Lista rezerwacji niepotwierdzonych 
-        public List<Reservation> NotConfirmedReservations { get; set; }
-    }
+    // Not confirmed list of reservations 
+    public List<Reservation> NotConfirmedReservations { get; set; } = new List<Reservation>();
+}
 
-    // Model pojedynczego raportu samochodu
-    public class CarReport
-    {
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public int ReservationCount { get; set; }  // Liczba rezerwacji, które dotyczyły tego samochodu
-    }
+// Car report of single model
+public class CarReport
+{
+    public string Brand { get; set; } = default!;
+    public string Model { get; set; } = default!;
+    public int ReservationCount { get; set; }  
 }

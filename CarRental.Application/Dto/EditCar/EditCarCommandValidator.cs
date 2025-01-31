@@ -1,12 +1,11 @@
 ﻿using CarRental.Application.Services;
-using CarRental.Domain.Interfaces;
 using FluentValidation;
 
-namespace CarRental.Application.Dto.CreateCar;
+namespace CarRental.Application.Dto.EditCar;
 
-public class CreateCarCommandValidator : AbstractValidator<CreateCarCommand>
+public class EditCarCommandValidator : AbstractValidator<EditCarCommand>
 {
-    public CreateCarCommandValidator()
+    public EditCarCommandValidator()
     {
         RuleFor(c => c.Car.Brand)
             .NotEmpty().WithMessage("Brand is required");
@@ -32,4 +31,3 @@ public class CreateCarCommandValidator : AbstractValidator<CreateCarCommand>
             .Must(CarValidationHelpers.IsValidYear).WithMessage("Year must be between 2010 - 2025");
     }
 }
-

@@ -1,43 +1,41 @@
 using System.Diagnostics;
+using CarRental.Infrastructure.Data;
+using CarRental.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Wypożyczalnia_samochodów_online.Data;
-using Wypożyczalnia_samochodów_online.Models;
 
-namespace Wypożyczalnia_samochodów_online.Controllers
+namespace CarRental.Presentation.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger; 
+    private readonly ApplicationDbContext _context; 
+
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
     {
-        private readonly ILogger<HomeController> _logger; // Logger do logowania informacji o aplikacji
-        private readonly ApplicationDbContext _context; // Dodanie kontekstu bazy danych
+        _logger = logger; 
+        _context = context; 
+    }
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
-        {
-            _logger = logger; // Inicjalizacja loggera
-            _context = context; // Inicjalizacja kontekstu bazy
-        }
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        // Return 3 popular cars
+        var cars = await _context.Cars.OrderBy(c => c.Id).Take(3).ToListAsync();
+        return View(cars); 
+    }
 
-        // Strona główna
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            // Pobieramy trzy najnowsze samochody z bazy danych
-            var cars = await _context.Cars.OrderBy(c => c.Id).Take(3).ToListAsync();
-            return View(cars); // Zwracamy widok z tymi samochodami
-        }
+    [HttpGet]
+    public IActionResult Privacy()
+    {
+        return View();  
+    }
 
-        // Strona prywatności
-        [HttpGet]
-        public IActionResult Privacy()
-        {
-            return View();  // Zwracamy widok strony prywatności
-        }
+    // TODO
 
-        // Obsługuje błędy aplikacji (np. gdy nie znajdzie jakiegoś zasobu)
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

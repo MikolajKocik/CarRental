@@ -7,12 +7,12 @@ namespace CarRental.Application.Dto.Queries.CarDetails
 {
     public class CarDetailsQueryHandler : IRequestHandler<CarDetailsQuery, CarDto>
     {
-        private readonly ICarRepository _carRepository;
+        private readonly ICarRepository _repository;
         private readonly IMapper _mapper;
 
-        public CarDetailsQueryHandler(ICarRepository carRepository, IMapper mapper)
+        public CarDetailsQueryHandler(ICarRepository repository, IMapper mapper)
         {
-            _carRepository = carRepository;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -21,7 +21,7 @@ namespace CarRental.Application.Dto.Queries.CarDetails
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var car = await _carRepository.GetDetails(request.Id, cancellationToken);
+            var car = await _repository.GetById(request.Id, cancellationToken);
 
             if (car == null)
             {

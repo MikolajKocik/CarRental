@@ -1,4 +1,4 @@
-namespace Wypożyczalnia_samochodów_online.Models
+namespace CarRental.Presentation.Models
 {
     public class ErrorViewModel
     {

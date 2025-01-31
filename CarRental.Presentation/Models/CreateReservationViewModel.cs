@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Wypożyczalnia_samochodów_online.Models
+namespace CarRental.Presentation.Models
 {
     // view model dla reservation
     public class CreateReservationViewModel

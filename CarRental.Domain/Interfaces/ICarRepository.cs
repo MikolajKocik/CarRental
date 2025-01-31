@@ -8,6 +8,8 @@ namespace CarRental.Domain.Interfaces
 
         Task<ICollection<Car>> GetAll(CancellationToken cancellation);
 
-        Task<Car> GetDetails(int id, CancellationToken cancellation);
+        Task<Car> GetById(int id, CancellationToken cancellation);
+
+        Task Commit();
     }
 }

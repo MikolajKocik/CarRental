@@ -6,12 +6,12 @@ namespace CarRental.Application.Dto.Queries.GetAllCars;
 
 public class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, ICollection<CarDto>>
 {
-    private readonly ICarRepository _carRepository;
+    private readonly ICarRepository _repository;
     private readonly IMapper _mapper;
 
-    public GetAllCarsQueryHandler(ICarRepository carRepository, IMapper mapper)
+    public GetAllCarsQueryHandler(ICarRepository repository, IMapper mapper)
     {
-        _carRepository = carRepository;
+        _repository = repository;
         _mapper = mapper;
     }
 
@@ -19,7 +19,7 @@ public class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, ICollecti
     {
         cancellation.ThrowIfCancellationRequested();
 
-        var cars = await _carRepository.GetAll(cancellation);
+        var cars = await _repository.GetAll(cancellation);
         var dtos = _mapper.Map<ICollection<CarDto>>(cars);
 
         return dtos;
