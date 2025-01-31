@@ -19,11 +19,9 @@ public class CarRepository : ICarRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task Details(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<Car?> GetDetails(int id, CancellationToken cancellation)
+        => await _context.Cars.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, cancellation);
 
-    public async Task<ICollection<Car>> GetAll()
-        => await _context.Cars.ToListAsync();
+    public async Task<ICollection<Car>> GetAll(CancellationToken cancellation)
+        => await _context.Cars.ToListAsync(cancellation);
 }

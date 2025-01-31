@@ -6,8 +6,8 @@ namespace CarRental.Domain.Interfaces
     {
         Task Create (Car car);
 
-        Task<ICollection<Car>> GetAll();
+        Task<ICollection<Car>> GetAll(CancellationToken cancellation);
 
-        Task Details(int id);
+        Task<Car> GetDetails(int id, CancellationToken cancellation);
     }
 }

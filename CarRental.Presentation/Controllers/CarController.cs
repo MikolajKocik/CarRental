@@ -6,7 +6,8 @@ using CarRental.Presentation.Models;
 using CarRental.Application.Dto;
 using CarRental.Application.Dto.CreateCar;
 using MediatR;
-using CarRental.Application.Dto.Queries;
+using CarRental.Application.Dto.Queries.GetAllCars;
+using CarRental.Application.Dto.Queries.CarDetails;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -26,23 +27,24 @@ public class CarController : Controller
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var cars = await _mediator.Send(new GetAllCarsQuery());
-        return View(cars);  
+        var cars = await _mediator.Send(new GetAllCarsQuery(), cancellationToken);
+        return View(cars);
     }
 
-    [AllowAnonymous] 
+    [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
     {
-        
-        var car = await _context.Cars.FindAsync(id);
-        if (car == null)
+
+        var details = await _mediator.Send(new CarDetailsQuery(id), cancellationToken);
+        if (details == null)
         {
             return NotFound();
         }
-        return View(car);
+
+        return View(details);
     }
 
     [HttpGet] // Admin
@@ -53,7 +55,8 @@ public class CarController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken] // Admin
-    public async Task<IActionResult> Create(CreateCarViewModel carViewModel)
+    public async Task<IActionResult> Create(CreateCarViewModel carViewModel,
+        CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
         {
@@ -61,13 +64,13 @@ public class CarController : Controller
             var carDto = _mapper.Map<CarDto>(carViewModel);
 
             // now ViewModel = validation of command
-            var command = new CreateCarCommand { Car =  carDto };
+            var command = new CreateCarCommand { Car = carDto };
 
-            await _mediator.Send(command);
+            await _mediator.Send(command, cancellationToken);
             return RedirectToAction("Index");
         }
 
-        return View(carViewModel); 
+        return View(carViewModel);
     }
 
 
@@ -80,7 +83,7 @@ public class CarController : Controller
             return NotFound();
         }
 
-       
+
         var carViewModel = new CreateCarViewModel
         {
             Id = car.Id,
@@ -97,7 +100,7 @@ public class CarController : Controller
         return View(carViewModel);
     }
 
-   
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, CreateCarViewModel carViewModel)
@@ -126,12 +129,10 @@ public class CarController : Controller
 
             try
             {
-                // Zapisujemy zmiany w bazie danych
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                // Jeśli wystąpił problem z równoczesnym zapisem do bazy danych
                 if (!CarExists(id))
                 {
                     return NotFound();
@@ -142,7 +143,7 @@ public class CarController : Controller
                 }
             }
 
-            return RedirectToAction(nameof(Index)); // Po zapisaniu przekierowanie do listy samochodów
+            return RedirectToAction(nameof(Index)); // Redirect to car list
         }
 
         return View(carViewModel);
@@ -189,6 +190,6 @@ public class CarController : Controller
                 _logger.LogError($"Błąd przy usuwaniu pojazdu {ex.Message}");
             }
         }
-            return RedirectToAction(nameof(Index)); // Po usunięciu przekierowanie do listy samochodów
+        return RedirectToAction(nameof(Index)); // Po usunięciu przekierowanie do listy samochodów
     }
 }

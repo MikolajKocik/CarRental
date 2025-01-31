@@ -2,7 +2,7 @@
 using CarRental.Domain.Interfaces;
 using MediatR;
 
-namespace CarRental.Application.Dto.Queries;
+namespace CarRental.Application.Dto.Queries.GetAllCars;
 
 public class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, ICollection<CarDto>>
 {
@@ -17,7 +17,9 @@ public class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, ICollecti
 
     public async Task<ICollection<CarDto>> Handle(GetAllCarsQuery request, CancellationToken cancellation)
     {
-        var cars = await _carRepository.GetAll();
+        cancellation.ThrowIfCancellationRequested();
+
+        var cars = await _carRepository.GetAll(cancellation);
         var dtos = _mapper.Map<ICollection<CarDto>>(cars);
 
         return dtos;
