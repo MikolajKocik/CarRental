@@ -3,26 +3,26 @@
 <h2>Car details</h2>
 
 <div class="mb-3">
-    <img src="@Model.ImageUrl" alt="Zdjęcie pojazdu" style="max-width:300px;" /> <!-- Wyświetlenie zdjęcia pojazdu na podstawie ImageUrl -->
+    <img src="@Model.ImageUrl" alt="Car image" style="max-width:300px;" /> <!-- Display car image due to ImageUrl -->
 </div>
 
-<p><strong>Marka:</strong> @Model.Brand</p>
+<p><strong>Brand:</strong> @Model.Brand</p>
 <p><strong>Model:</strong> @Model.Model</p>
-<p><strong>Cena za dzień:</strong> @Model.PricePerDay zł</p>
+<p><strong>Price per day:</strong> @Model.PricePerDay zł</p>
 
 @if (!string.IsNullOrEmpty(Model.Description))
 {
-    <p><strong>Opis:</strong> @Model.Description</p>
+    <p><strong>Description:</strong> @Model.Description</p>
 }
 
 @if (!string.IsNullOrEmpty(Model.Engine))
 {
-    <p><strong>Silnik:</strong> @Model.Engine</p>
+    <p><strong>Engine:</strong> @Model.Engine</p>
 }
 
 @if (Model.Year > 0)
 {
-    <p><strong>Rok produkcji:</strong> @Model.Year</p>
+    <p><strong>Production year:</strong> @Model.Year</p>
 }
 
-<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Powrót do listy</a> <!-- Link, który przekierowuje użytkownika z powrotem do listy samochodów -->
+<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Back to list</a> <!-- Link that redirect user to list of cars -->
