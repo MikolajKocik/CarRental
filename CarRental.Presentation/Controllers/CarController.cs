@@ -63,11 +63,10 @@ public class CarController : Controller
     {
         if (ModelState.IsValid)
         {
-            // mapping view model -> DTO
-            var carDto = _mapper.Map<CarDto>(carViewModel);
-
-            // now ViewModel = validation of command
-            var command = new CreateCarCommand { Car = carDto };
+            var command = new CreateCarCommand
+            {
+                Car = _mapper.Map<CarDto>(carViewModel)
+            };
 
             await _mediator.Send(command, cancellationToken);
 
