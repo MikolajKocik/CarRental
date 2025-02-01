@@ -1,27 +1,37 @@
 ﻿using CarRental.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Infrastructure.Repository
+namespace CarRental.Infrastructure.Repository;
+
+public class ReservationRepository : IReservationRepository
 {
-    public class ReservationRepository : IReservationRepository
+    private readonly ApplicationDbContext _context;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly ClaimsPrincipal _user;
+
+    public ReservationRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager,
+        ClaimsPrincipal user)
     {
-        private readonly ApplicationDbContext _context;
-
-        public ReservationRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public Task Create(Reservation reservation)
-        {
-            throw new NotImplementedException(); // TODO 
-        }
-
-        public async Task<Reservation?> GetByIdAsync(int reservationId)
-            => await _context.Reservations
-            .Include(r => r.Car)
-            .FirstOrDefaultAsync(r => r.Id == reservationId);
+        _user = user;
+        _userManager = userManager;
+        _context = context;
     }
+
+    public Task Create(Reservation reservation)
+    {
+        throw new NotImplementedException(); // TODO 
+    }
+
+    public async Task<ICollection<Reservation>> GetUserReservations(string userId, CancellationToken cancellation)
+        => await _context.Reservations
+               .Where(r => r.UserId == userId)
+               .Include(r => r.Car)
+               .ToListAsync();
+    
+  
 }

@@ -1,29 +1,25 @@
 ﻿using AutoMapper;
-using CarRental.Application.Dto.CreateCar;
 using CarRental.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace CarRental.Application.Dto.CreateReservation
 {
     public class CreateReservationCommandHandler : IRequestHandler<CreateReservationCommand>
     {
         private readonly IMapper _mapper;
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IReservationRepository _repository;
 
-        public CreateReservationCommandHandler(IMapper mapper, IReservationRepository reservationRepository)
+        public CreateReservationCommandHandler(IMapper mapper, IReservationRepository repository)
         {
             _mapper = mapper;
-            _reservationRepository = reservationRepository;
+            _repository = repository;
         }
-        public async Task<Unit> Handle(CreateReservationCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateReservationCommand request, CancellationToken cancellationToken)
         {
 
-        }
+            
 
+        }
     }
 }

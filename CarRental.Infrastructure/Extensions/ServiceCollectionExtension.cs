@@ -1,4 +1,5 @@
-﻿using CarRental.Domain.Interfaces;
+﻿using CarRental.Application.Services;
+using CarRental.Domain.Interfaces;
 using CarRental.Infrastructure.Data;
 using CarRental.Infrastructure.Repository;
 using CarRental.Infrastructure.Seeder;
@@ -26,5 +27,9 @@ public static class ServiceCollectionExtension
         services.AddTransient<IIdentitySeeder, IdentitySeeder>();
 
         services.AddTransient<ICarSeeder, CarSeeder>();
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
     }
 }
