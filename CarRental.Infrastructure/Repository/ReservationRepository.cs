@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CarRental.Infrastructure.Repository;
 
@@ -22,9 +24,10 @@ public class ReservationRepository : IReservationRepository
         _context = context;
     }
 
-    public Task Create(Reservation reservation)
+    public async Task Create(Reservation reservation, CancellationToken cancellation)
     {
-        throw new NotImplementedException(); // TODO 
+        _context.Reservations.Add(reservation);
+        await _context.SaveChangesAsync(cancellation);
     }
 
     public async Task<ICollection<Reservation>> GetUserReservations(string userId, CancellationToken cancellation)
@@ -32,6 +35,8 @@ public class ReservationRepository : IReservationRepository
                .Where(r => r.UserId == userId)
                .Include(r => r.Car)
                .ToListAsync();
-    
-  
+
+    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
+        => await _context.Database.BeginTransactionAsync(cancellationToken);
+
 }

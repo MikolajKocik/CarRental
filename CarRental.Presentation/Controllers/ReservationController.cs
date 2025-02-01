@@ -5,25 +5,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using CarRental.Application.Dto.Queries.GetMyReservations;
+using CarRental.Presentation.Models;
+using AutoMapper;
+using CarRental.Application.Dto.CreateReservation;
 
 namespace CarRental.Presentation.Controllers;
 
 [Authorize] 
 public class ReservationController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager; // Zarządzanie użytkownikami
+    private readonly UserManager<IdentityUser> _userManager; 
     private readonly IMediator _mediator;
     private readonly EmailService _emailService;
+    private readonly IMapper _mapper;
 
     public ReservationController(UserManager<IdentityUser> userManager, EmailService emailService,
-        ILogger<ReservationController> logger, IMediator mediator)
+        ILogger<ReservationController> logger, IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _userManager = userManager;
         _emailService = emailService;
+        _mapper = mapper;
     }
+    
 
-    // Wyświetla rezerwacje aktualnego użytkownika
     [HttpGet]
     public async Task<IActionResult> MyReservations(CancellationToken cancellation)
     {
@@ -32,106 +37,52 @@ public class ReservationController : Controller
         return View(reservations);
     }
 
-    // Wyświetla formularz tworzenia rezerwacji
+    
     [HttpGet]
-    public IActionResult Create(int carId)
+    public IActionResult Create(int carId, CreateReservationViewModel createReservationViewModel)
     {
-        var viewModel = new CreateReservationViewModel
+        createReservationViewModel = new CreateReservationViewModel
         {
-            CarId = carId, // Ustawiamy ID samochodu
-
-            StartDate = DateTime.Today, // Domyślna data rozpoczęcia to dzisiejsza data
-            EndDate = DateTime.Today.AddDays(1) // Domyślna data zakończenia to dzień po rozpoczęciu
+            CarId = carId, 
+            StartDate = DateTime.Today, 
+            EndDate = DateTime.Today.AddDays(1) 
         }; 
-        return View(viewModel);
+        return View(createReservationViewModel);
     }
 
-    // Tworzy rezerwację
+
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateReservationViewModel model)
+    public async Task<IActionResult> Create(CreateReservationViewModel createReservationViewModel,
+        CancellationToken cancellation)
     {
 
         if (!ModelState.IsValid)
-        {
-            foreach (var error in ModelState)
-            {
-                _logger.LogWarning($"ModelState error: Key={error.Key}, " +
-                    $"Errors={string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
-            }
-            return View(model);
+        {    
+            return View(createReservationViewModel);
         }
-
-        var userId = _userManager.GetUserId(User);
-        if (string.IsNullOrEmpty(userId)) // Sprawdzamy, czy użytkownik jest zalogowany
-        {
-            _logger.LogError("No userId. User might not be logged in.");
-            ModelState.AddModelError("", "Musisz być zalogowany, aby dokonać rezerwacji.");
-            return RedirectToAction("Login", "Account");
-        }
-
-        var car = await _context.Cars.FindAsync(model.CarId); // Pobieramy samochód, na który robimy rezerwację
-        if (car == null)
-        {
-            ModelState.AddModelError("", "Wybrany samochód nie istnieje.");
-            return View(model);
-        }
-        else if (!car.IsAvailable)
-        {
-            ModelState.AddModelError("", "Wybrany samochód jest niedostępny.");
-            return View(model);
-        }
-
-        if (model.EndDate <= model.StartDate)  // Sprawdzamy, czy data zakończenia jest późniejsza niż rozpoczęcia
-        {
-            ModelState.AddModelError("", "Data zakończenia musi być późniejsza niż data rozpoczęcia.");
-            return View(model);
-        }
-
-        // Otwarcie transakcji PRZED try
-        using var transaction = await _context.Database.BeginTransactionAsync();
 
         try
         {
-            // Obliczamy liczbę dni rezerwacji
-            int days = (model.EndDate - model.StartDate).Days;
-            if (days < 1) days = 1; // Minimalnie 1 dzień
-
-            decimal cost = days * car.PricePerDay;  // Obliczamy koszt rezerwacji
-
-            // Tworzymy nową rezerwację
-            var reservation = new Reservation
+            // ViewModel -> Command
+            var command = new CreateReservationCommand
             {
-                UserId = userId,
-                CarId = model.CarId,
-                StartDate = model.StartDate,
-                EndDate = model.EndDate,
-                IsConfirmed = false, // Początkowo rezerwacja nie jest potwierdzona, potwierdza ją ADMIN
-                Car = car,
-                TotalCost = cost
+                CarId = createReservationViewModel.CarId,
+                StartDate = createReservationViewModel.StartDate,
+                EndDate = createReservationViewModel.EndDate
             };
 
-            // Oznacz samochód jako niedostępny
-            car.IsAvailable = false;
-
-            _context.Reservations.Add(reservation);  // Dodajemy rezerwację do bazy
-            await _context.SaveChangesAsync();  // Zapisujemy zmiany
-
-            await transaction.CommitAsync();  // Zatwierdzamy transakcję
-
-            _logger.LogInformation($"Reservation created for CarId={car.Id}, UserId={userId}");
-            return RedirectToAction(nameof(MyReservations));  // Przekierowujemy do listy rezerwacji
+            await _mediator.Send(command, cancellation);
+            return RedirectToAction(nameof(MyReservations));
         }
         catch (Exception ex)
         {
-            // W catch mamy wciąż dostęp do 'transaction'
-            await transaction.RollbackAsync();
-            _logger.LogError(ex, "Error while creating reservation.");
-            return View(model);
+            ModelState.AddModelError("", ex.Message);
+            return View(createReservationViewModel);
         }
     }
 
-    // Wyświetla szczegóły rezerwacji
+ 
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
