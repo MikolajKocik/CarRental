@@ -1,60 +1,59 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Ustalanie kodowania znaków -->
+    <!-- configure coding signs -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Wypożyczalnia_samochodów_online</title>
+    <title>@ViewData["Title"] - Car Rental</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- Główne style aplikacji -->
+    <!-- Main application styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <!-- Sekcja nagłówka strony (navbar) -->
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <!-- Link do strony głównej -->
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Wypożyczalnia_samochodów_online</a>
-                <!-- Przycisk do rozwijania menu na urządzeniach mobilnych -->
+                <!-- Link to home page -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Car Rental</a>
+                <!-- button to expand the menu on mobile devices -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Menu nawigacyjne, widoczne po kliknięciu przycisku na urządzeniach mobilnych -->
+                <!-- Menu navigation, widoczne po kliknięciu przycisku na urządzeniach mobilnych -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <!-- Link do strony głównej -->
+                        <!-- Link to home page -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <!-- Link do strony z polityką prywatności -->
+                        <!-- Link to policy page -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <!-- Link do strony z samochodami -->
+                        <!-- Link to page with all cars -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Index">Samochody</a>
                         </li>
 
-                        <!-- Jeśli użytkownik jest zalogowany, pokazujemy link do jego rezerwacji -->
+                        <!-- If user is authenticated, display his reservations -->
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="MyReservations">Moje rezerwacje</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="MyReservations">My reservations</a>
                             </li>
                         }
 
-                        <!-- Jeśli użytkownik ma rolę "Admin", pokazujemy dodatkowe linki dla administratorów -->
+                        <!-- If user has role = "Admin", display additional links for Admin role -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Reports">Raporty</a>
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Reports">Reports</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Create">Dodaj samochód</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Create">Add car</a>
                             </li>
                         }
                     </ul>
