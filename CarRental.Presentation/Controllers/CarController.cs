@@ -9,7 +9,6 @@ using CarRental.Application.Dto.Queries.GetAllCars;
 using CarRental.Application.Dto.Queries.CarDetails;
 using CarRental.Application.Dto.EditCar;
 using CarRental.Application.Dto.DeleteCar;
-using CarRental.Domain.Entities;
 
 namespace CarRental.Presentation.Controllers;
 
