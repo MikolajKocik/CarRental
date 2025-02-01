@@ -1,39 +1,38 @@
 using System.Diagnostics;
-using CarRental.Infrastructure.Data;
+using CarRental.Application.Dto.Queries.GetPopularCars;
 using CarRental.Presentation.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Presentation.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger; 
-    private readonly ApplicationDbContext _context; 
+    private readonly IMediator _mediator;
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public HomeController(IMediator mediator)
     {
-        _logger = logger; 
-        _context = context; 
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(CancellationToken cancellation)
     {
-        // Return 3 popular cars
-        var cars = await _context.Cars.OrderBy(c => c.Id).Take(3).ToListAsync();
-        return View(cars); 
+        var popularCars = await _mediator.Send(new GetPopularCarsQuery(), cancellation); 
+
+        return View(popularCars);
     }
 
     [HttpGet]
     public IActionResult Privacy()
     {
-        return View();  
+        return View();
     }
 
-    // TODO
+    // return dynamic view error with no cache location
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [HttpGet]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
