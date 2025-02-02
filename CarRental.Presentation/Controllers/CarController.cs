@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using CarRental.Presentation.Models;
 using CarRental.Application.Dto;
 using CarRental.Application.Dto.CreateCar;
-using CarRental.Application.Dto.Queries.GetAllCars;
-using CarRental.Application.Dto.Queries.CarDetails;
 using CarRental.Application.Dto.EditCar;
 using CarRental.Application.Dto.DeleteCar;
+using CarRental.Application.Dto.Queries.CarQueries.GetAllCars;
+using CarRental.Application.Dto.Queries.CarQueries.GetCarDetails;
 
 namespace CarRental.Presentation.Controllers;
 

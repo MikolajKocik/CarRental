@@ -3,12 +3,14 @@ using CarRental.Application.Services;
 using CarRental.Infrastructure.Data;
 using CarRental.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
+using CarRental.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.MigrateDatabase(builder.Configuration); // database migration
 builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddPresentation(builder.Configuration);
 
 builder.Services.AddLogging(); // add ILogger 
 

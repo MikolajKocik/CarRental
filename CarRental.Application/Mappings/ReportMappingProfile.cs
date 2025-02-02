@@ -4,13 +4,11 @@ using CarRental.Domain.Entities;
 
 namespace CarRental.Application.Mappings
 {
-    public class CarMappingProfile : Profile
+    public class ReportMappingProfile : Profile
     {
-        public CarMappingProfile()
+        public ReportMappingProfile()
         {
-            CreateMap<Car, CarDto>();
-
-            CreateMap<CarDto, CarDto>();
+            CreateMap<Report, ReportDto>().ReverseMap();
         }
     }
 }

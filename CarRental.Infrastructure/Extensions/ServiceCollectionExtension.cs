@@ -24,6 +24,8 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<IHomeRepository, HomeRepository>();
 
+        services.AddScoped<IAdminRepository, AdminRepository>();
+
         services.AddTransient<IIdentitySeeder, IdentitySeeder>();
 
         services.AddTransient<ICarSeeder, CarSeeder>();

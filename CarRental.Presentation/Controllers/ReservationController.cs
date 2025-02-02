@@ -18,7 +18,7 @@ public class ReservationController : Controller
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
-    public ReservationController(UserManager<IdentityUser> userManager, EmailService emailService,
+    public ReservationController(UserManager<IdentityUser> userManager,
         ILogger<ReservationController> logger, IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;

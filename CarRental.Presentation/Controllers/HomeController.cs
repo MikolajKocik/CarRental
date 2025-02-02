@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using CarRental.Application.Dto.Queries.GetPopularCars;
+using CarRental.Application.Dto.Queries.CarQueries.GetPopularCars;
 using CarRental.Presentation.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
