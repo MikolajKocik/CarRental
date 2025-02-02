@@ -2,31 +2,31 @@
 
 
 @{
-    ViewData["Title"] = "Witamy w Wypożyczalni Samochodów Online";
+    ViewData["Title"] = "Welcome to Online Car Rental";
 }
 
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h1>Witamy w Wypożyczalni Samochodów Online!</h1>
-        <p class="lead">Wypożycz najlepsze samochody w najlepszej cenie.</p>
-        <a asp-controller="Car" asp-action="Index" class="btn btn-primary btn-lg">Zobacz dostępne samochody</a> <!-- Przycisk do przejścia do listy dostępnych samochodów -->
+        <h1>Welcome to Online Car Rental!</h1>
+        <p class="lead">Rent the best cars at the best price.</p>
+        <a asp-controller="Car" asp-action="Index" class="btn btn-primary btn-lg">See available cars</a> <!-- Button to go to the list of available cars -->
     </div>
 
     <div class="row mb-5">
         <div class="col-md-5 offset-md-1">
             <h2>O nas</h2>
-            <p>   <!-- Opis firmy -->
-                Jesteśmy wiodącą wypożyczalnią samochodów w Twoim regionie, oferującą szeroką gamę pojazdów na każdą okazję.
-                Niezależnie od tego, czy potrzebujesz samochodu na krótki wyjazd weekendowy, podróż służbową, czy dłuższe wakacje,
-                w naszej ofercie znajdziesz pojazdy idealnie dopasowane do Twoich potrzeb. Od małych, ekonomicznych samochodów,
-                które pozwolą zaoszczędzić na kosztach paliwa, po luksusowe limuzyny, które gwarantują wygodę i prestiż – mamy wszystko,
-                czego potrzebujesz. Nasza oferta stale się powiększa, wprowadzamy nowe modele pojazdów, aby sprostać oczekiwaniom nawet
-                najbardziej wymagających klientów. Wszystkie nasze samochody są regularnie serwisowane i przechodzą rygorystyczne
-                kontrole techniczne, aby zapewnić maksymalne bezpieczeństwo podczas jazdy. Dbamy o jakość, bezpieczeństwo i satysfakcję
-                naszych klientów, oferując przejrzyste warunki wynajmu, konkurencyjne ceny i przyjazną obsługę na każdym etapie współpracy.
-                Wybierając nas, wybierasz profesjonalizm, niezawodność i partnera, który rozumie, jak ważne jest posiadanie odpowiedniego
-                środka transportu w każdej sytuacji. Dzięki naszej intuicyjnej platformie online możesz z łatwością przeglądać dostępne
-                samochody, porównywać ceny i rezerwować pojazd z dowolnego miejsca i o dowolnej porze.
+            <p>   <!-- Company description -->
+                We are a leading car rental company in your region, offering a wide range of vehicles for every occasion.
+                Whether you need a car for a short weekend trip, a business trip or a longer vacation,
+                you will find vehicles perfectly suited to your needs in our offer. From small, economical cars,
+                which will allow you to save on fuel costs, to luxury limousines that guarantee comfort and prestige - we have everything
+                you need. Our offer is constantly growing, we introduce new vehicle models to meet the expectations of even
+                the most demanding customers. All our cars are regularly serviced and undergo rigorous
+                technical inspections to ensure maximum safety while driving. We care about the quality, safety and
+                satisfaction of our customers, offering transparent rental conditions, competitive prices and friendly service at every stage of cooperation.
+                By choosing us, you choose professionalism, reliability and a partner who understands how important it is to have the right
+                means of transport in every situation. Thanks to our intuitive online platform, you can easily browse available
+                cars, compare prices and book a vehicle from anywhere and at any time.
         </div>
         <div class="col-md-5">
             <img src="~/Images/about-us.webp" alt="O nas" class="img-fluid rounded">
@@ -35,29 +35,29 @@
 
 
 
-    <div class="text-center mb-5"> <!-- Sekcja "Dlaczego my?" z cechami usługi -->
-        <h2 class="mb-5 mt-5 text-center">Dlaczego my?</h2> 
+    <div class="text-center mb-5"> <!-- Section "Why us?" with service features -->
+        <h2 class="mb-5 mt-5 text-center">Why us?</h2>
         <div class="row">
             <div class="col-md-4">
                 <i class="bi bi-currency-exchange" style="font-size: 2rem;"></i>
-                <h4>Konkurencyjne ceny</h4>
-                <p>Zapewniamy najlepsze ceny na rynku.</p> 
+                <h4>Competitive prices</h4>
+                <p>We provide the best prices on the market.</p>
             </div>
             <div class="col-md-4">
                 <i class="bi bi-car-front-fill" style="font-size: 2rem;"></i>
-                <h4>Szeroki wybór</h4>
-                <p>Oferujemy samochody dopasowane do Twoich potrzeb.</p>
+                <h4>Wide selection</h4>
+                <p>We offer cars tailored to your needs.</p>
             </div>
             <div class="col-md-4">
                 <i class="bi bi-shield-check" style="font-size: 2rem;"></i>
-                <h4>Bezpieczeństwo</h4>
-                <p>Nasze samochody są regularnie serwisowane i sprawdzane.</p>
+                <h4>Security</h4>
+                <p>Our cars are regularly serviced and inspected.</p>
             </div>
         </div>
     </div>
 
-    <div class="mb-5"> <!-- Sekcja popularnych samochodów -->
-        <h2 class="mb-5 mt-5">Popularne samochody</h2>
+    <div class="mb-5"> <!-- Section of popular cars -->
+        <h2 class="mb-5 mt-5">Popular cars</h2>
         <div class="row">
             @foreach (var car in Model) 
             {
@@ -66,8 +66,8 @@
                         <img src="@car.ImageUrl" class="card-img-top" alt="@car.Brand @car.Model">
                         <div class="card-body">
                             <h5 class="card-title">@car.Brand @car.Model</h5>
-                            <p class="card-text">Cena za dzień: @car.PricePerDay zł</p>
-                            <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">Więcej informacji</a>
+                            <p class="card-text">Price per day: @car.PricePerDay zł</p>
+                            <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">More information</a>
                         </div>
                     </div>
                 </div>
@@ -75,10 +75,10 @@
         </div>
     </div>
 
-    <div class="text-center"> <!-- Sekcja kontaktowa -->
-        <h2>Kontakt</h2>
-        <p>Masz pytania? Skontaktuj się z nami!</p>
-        <p><strong>E-mail:</strong> kontakt@wypozyczalnia.com</p>
-        <p><strong>Telefon:</strong> +48 123 456 789</p>
+    <div class="text-center"> <!-- Contact section -->
+        <h2>Contact</h2>
+        <p>Any questions? Contact with us!</p>
+        <p><strong>E-mail:</strong> contact@example.com</p>
+        <p><strong>Phone:</strong> +48 123 456 789</p>
     </div>
 </div>
