@@ -1,50 +1,50 @@
-﻿@model Wypożyczalnia_samochodów_online.Models.AdminReportsViewModel
+﻿@model CarRental.Presentation.Models.AdminReportsViewModel
 
 @{
-    ViewData["Title"] = "Raporty Administracyjne"; // Tytuł strony
+    ViewData["Title"] = "Administrative Reports"; // Page Title
 }
 
-<h2>Raporty Administracyjne</h2>
+<h2>Administrative Reports</h2>
 
-<!-- Sekcja pokazująca łączną liczbę rezerwacji -->
+<!-- Section showing the total number of reservations -->
 <div class="row">
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">Łączna liczba rezerwacji</h5>
-                <p class="card-text display-4">@Model.TotalReservations</p> <!-- Wyświetlenie łącznej liczby rezerwacji -->
+                <h5 class="card-title">Total Reservations</h5>
+                <p class="card-text display-4">@Model.TotalReservations</p> <!-- Display the total number of reservations -->
             </div>
         </div>
     </div>
 
-    <!-- Sekcja pokazująca łączny dochód -->
+    <!-- Section showing the total income -->
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">Łączny dochód</h5>
-                <p class="card-text display-4">@String.Format("{0:C}", Model.TotalIncome)</p> <!-- Wyświetlenie łącznego dochodu -->
+                <h5 class="card-title">Total Income</h5>
+                <p class="card-text display-4">@String.Format("{0:C}", Model.TotalIncome)</p> <!-- Display the total income -->
             </div>
         </div>
     </div>
 </div>
 
-<!-- Sekcja pokazująca najpopularniejsze samochody -->
-<h3>Najpopularniejsze samochody</h3>
+<!-- Section showing the most popular cars -->
+<h3>Most Popular Cars</h3>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Marka</th>
+            <th>Brand</th>
             <th>Model</th>
-            <th>Liczba rezerwacji</th>
+            <th>Reservation Count</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var car in Model.PopularCars)  
+        @foreach (var car in Model.PopularCars)
         {
             <tr>
                 <td>@car.Brand</td>
                 <td>@car.Model</td>
-                <td>@car.ReservationCount</td>
+                <td>@car.ReservationsCount</td>
             </tr>
         }
     </tbody>
@@ -52,19 +52,19 @@
 
 <hr />
 
-<!-- Sekcja pokazująca niepotwierdzone rezerwacje -->
-<h3>Niepotwierdzone rezerwacje</h3>
-@if (Model.NotConfirmedReservations != null && Model.NotConfirmedReservations.Any()) 
+<!-- Section showing unconfirmed reservations -->
+<h3>Unconfirmed Reservations</h3>
+@if (Model.NotConfirmedReservations != null && Model.NotConfirmedReservations.Any())
 {
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Rezerwacja</th>
-                <th>Samochód</th>
-                <th>Data od</th>
-                <th>Data do</th>
-                <th>Koszt</th>
-                <th>Potwierdź</th>
+                <th>Reservation</th>
+                <th>Car</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Cost</th>
+                <th>Confirm</th>
             </tr>
         </thead>
         <tbody>
@@ -77,12 +77,12 @@
                     <td>@r.EndDate.ToShortDateString()</td>
                     <td>@r.TotalCost.ToString("C2")</td>
                     <td>
-                        <!-- Formularz do potwierdzenia rezerwacji -->
+                        <!-- Form for confirming the reservation -->
                         <form asp-controller="Admin" asp-action="ConfirmReservation" method="post">
                             @Html.AntiForgeryToken()
 
                             <input type="hidden" name="reservationId" value="@r.Id" />
-                            <button type="submit" class="btn btn-success">Potwierdź</button>
+                            <button type="submit" class="btn btn-success">Confirm</button>
                         </form>
                     </td>
                 </tr>
@@ -92,5 +92,5 @@
 }
 else
 {
-    <p>Brak niepotwierdzonych rezerwacji.</p> <!-- Informacja, gdy brak niepotwierdzonych rezerwacji -->
+    <p>No unconfirmed reservations.</p> <!-- Message when there are no unconfirmed reservations -->
 }

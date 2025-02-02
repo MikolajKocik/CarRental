@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace Wypo¿yczalnia_samochodów_online.Areas.Identity.Pages.Account
+namespace CarRental.Presentation.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
@@ -14,68 +14,69 @@ namespace Wypo¿yczalnia_samochodów_online.Areas.Identity.Pages.Account
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            Input = new InputModel();
         }
 
-        // BindProperty sprawia, ¿e w³aœciwoœæ Input jest wi¹zana z danymi formularza
+        // BindProperty ensures that the Input property is bound to the form data
         [BindProperty]
         public InputModel Input { get; set; }
 
-        // Model wejœciowy, który przechowuje dane wprowadzone przez u¿ytkownika (email, has³o)
+        // Input model that holds the data entered by the user (email, password)
         public class InputModel
         {
-            [Required(ErrorMessage = "Email jest wymagany.")]
-            [EmailAddress(ErrorMessage = "Nieprawid³owy format adresu email.")]
-            public string Email { get; set; }
+            [Required(ErrorMessage = "Email is required.")]
+            [EmailAddress(ErrorMessage = "Invalid email address format.")]
+            public string Email { get; set; } = default!;
 
-            [Required(ErrorMessage = "Has³o jest wymagane.")]
-            public string Password { get; set; }
+            [Required(ErrorMessage = "Password is required.")]
+            public string Password { get; set; } = default!;
 
             public bool RememberMe { get; set; }
         }
 
-        // Akcja, która obs³uguje logowanie (POST)
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        // Action that handles login 
+        public async Task<IActionResult> OnPostAsync(string returnUrl)
         {
             returnUrl ??= Url.Content("~/");
 
             if (!ModelState.IsValid)
             {
-                // Jeœli dane wejœciowe s¹ nieprawid³owe
+                // If the input data is invalid
                 return Page();
             }
 
-            // ZnajdŸ u¿ytkownika po e-mailu
+            // Find the user by email
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Nie znaleziono u¿ytkownika.");
+                ModelState.AddModelError(string.Empty, "User not found.");
                 return Page();
             }
 
-            // Spróbuj zalogowaæ u¿ytkownika
+            // Attempt to sign in the user
             var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
-                // Jeœli u¿ytkownik to admin, przekieruj na stronê admina
+                // If the user is an admin, redirect to the admin page
                 if (await _userManager.IsInRoleAsync(user, "Admin"))
                 {
                     return RedirectToAction("Reports", "Admin");
                 }
 
-                // Przekierowanie do strony docelowej
+                // Redirect to the target page
                 return LocalRedirect(returnUrl);
             }
             else if (result.IsLockedOut)
             {
-                ModelState.AddModelError(string.Empty, "Twoje konto jest zablokowane.");
+                ModelState.AddModelError(string.Empty, "Your account is locked.");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Nieprawid³owe dane logowania.");
+                ModelState.AddModelError(string.Empty, "Invalid login credentials.");
             }
 
-            // W przypadku b³êdu, wyœwietl stronê ponownie z b³êdami
+            // In case of error, re-display the page with the errors
             return Page();
         }
     }

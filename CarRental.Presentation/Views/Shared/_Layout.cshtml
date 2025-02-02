@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- configure coding signs -->
+    <!-- Configure character encoding -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Car Rental</title>
@@ -16,29 +16,29 @@
             <div class="container-fluid">
                 <!-- Link to home page -->
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Car Rental</a>
-                <!-- button to expand the menu on mobile devices -->
+                <!-- Button to expand the menu on mobile devices -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Menu navigation, widoczne po kliknięciu przycisku na urządzeniach mobilnych -->
+                <!-- Menu navigation, visible after clicking the button on mobile devices -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <!-- Link to home page -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <!-- Link to policy page -->
+                        <!-- Link to privacy policy page -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <!-- Link to page with all cars -->
+                        <!-- Link to cars page -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Index">Cars</a>
                         </li>
 
-                        <!-- If user is authenticated, display his reservations -->
+                        <!-- If the user is logged in, display their reservations -->
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -46,7 +46,7 @@
                             </li>
                         }
 
-                        <!-- If user has role = "Admin", display additional links for Admin role -->
+                        <!-- If the user is in the "Admin" role, display additional links for the Admin role -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -64,20 +64,20 @@
         </nav>
     </header>
 
-    <!-- Główna zawartość strony -->
+    <!-- Main content of the page -->
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <!-- Stopka z informacjami o prawach autorskich -->
+    <!-- Footer with copyright information -->
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - Wypożyczalnia_samochodów_online - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Online Car Rental - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <!-- Skrypty JavaScript -->
+    <!-- JavaScript scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,24 +1,24 @@
-﻿@model Wypożyczalnia_samochodów_online.Models.CreateReservationViewModel
+﻿@model CarRental.Presentation.Models.CreateReservationViewModel
 
-<h2>Rezerwacja samochodu</h2>
+<h2>Car reservation</h2>
 
-<!-- Formularz rezerwacji samochodu -->
+<!-- Car reservation form -->
 <form method="post">
     @Html.AntiForgeryToken()
 
-    <!-- Pole ukryte dla ID samochodu, które jest przesyłane w formularzu -->
+    <!-- Hidden field for car ID that is sent in the form -->
     <input asp-for="CarId" type="hidden" />
 
-    <!-- Pole do wyboru daty rozpoczęcia rezerwacji -->
-    <label>Data rozpoczęcia</label>
+    <!-- Field for selecting the start date of the reservation -->
+    <label>Start date</label>
     <input asp-for="StartDate" type="date" />
     <span asp-validation-for="StartDate"></span>
 
-    <!-- Pole do wyboru daty zakończenia rezerwacji -->
-    <label>Data zakończenia</label>
+    <!-- Field for selecting the end date of the reservation -->
+    <label>End date</label>
     <input asp-for="EndDate" type="date" />
     <span asp-validation-for="EndDate"></span>
 
-    <!-- Przycisk wysyłający formularz -->
-    <button type="submit">Zarezerwuj</button>
+    <!-- Form submission button -->
+    <button type="submit">Reserve</button>
 </form>
