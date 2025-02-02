@@ -1,6 +1,7 @@
 ﻿using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
 using CarRental.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Infrastructure.Repository
@@ -9,7 +10,7 @@ namespace CarRental.Infrastructure.Repository
     {
         private readonly ApplicationDbContext _context;
 
-        public AdminRepository(ApplicationDbContext context)
+        public AdminRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
         }
@@ -37,6 +38,12 @@ namespace CarRental.Infrastructure.Repository
             .Where(r => !r.IsConfirmed)
             .ToListAsync(cancellation);
 
+        public async Task<Reservation?> GetReservationByUserId(string? userId)
+            => await _context.Reservations
+                .FirstOrDefaultAsync(r => r.UserId == userId);
+
+        public async Task<IdentityUser?> GetUserById(string? userId)
+            => await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
     }
 }

@@ -3,60 +3,59 @@ using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace CarRental.Application.Services
+namespace CarRental.Application.Services;
+
+public class EmailService
 {
-    public class EmailService
+    private readonly IConfiguration _configuration;
+    private readonly ILogger<EmailService> _logger;
+
+    public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<EmailService> _logger;
+        _configuration = configuration;
+        _logger = logger;
+    }
 
-        public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
+    public async Task SendEmailAsync(string to, string subject, string body)
+    {
+        try
         {
-            _configuration = configuration;
-            _logger = logger;
-        }
+            var smtpServer = _configuration["EmailSettings:SmtpServer"];
+            var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]!);
+            var senderEmail = _configuration["EmailSettings:SenderEmail"];
+            var senderName = _configuration["EmailSettings:SenderName"];
+            var senderPassword = _configuration["EmailSettings:SenderPassword"];
 
-        public async Task SendEmailAsync(string to, string subject, string body)
-        {
-            try
+            using (var smtpClient = new SmtpClient(smtpServer, smtpPort))
             {
-                var smtpServer = _configuration["EmailSettings:SmtpServer"];
-                var smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
-                var senderEmail = _configuration["EmailSettings:SenderEmail"];
-                var senderName = _configuration["EmailSettings:SenderName"];
-                var senderPassword = _configuration["EmailSettings:SenderPassword"]; // odczytuje secret manager 
+                smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                smtpClient.EnableSsl = true;
 
-                using (var smtpClient = new SmtpClient(smtpServer, smtpPort))
+                var mailMessage = new MailMessage
                 {
-                    smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
-                    smtpClient.EnableSsl = true; // SSL jest włączone
+                    From = new MailAddress(senderEmail!, senderName),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                };
+                mailMessage.To.Add(to);
 
-                    var mailMessage = new MailMessage
-                    {
-                        From = new MailAddress(senderEmail, senderName),
-                        Subject = subject,
-                        Body = body,
-                        IsBodyHtml = true
-                    };
-                    mailMessage.To.Add(to);
+                _logger.LogInformation($"Sending email to {to} with subject '{subject}'.");
 
-                    _logger.LogInformation($"Wysyłanie e-maila do {to} z tematem '{subject}'.");
+                await smtpClient.SendMailAsync(mailMessage);
 
-                    await smtpClient.SendMailAsync(mailMessage);
-
-                    _logger.LogInformation($"E-mail do {to} został pomyślnie wysłany.");
-                }
+                _logger.LogInformation($"Email to {to} was successfully sent.");
             }
-            catch (SmtpException smtpEx)
-            {
-                _logger.LogError($"Błąd SMTP podczas wysyłania e-maila do {to}: {smtpEx.Message}");
-                throw; // Przekazuje wyjątek dalej, aby można było go obsłużyć wyżej
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Nieoczekiwany błąd podczas wysyłania e-maila do {to}: {ex.Message}");
-                throw; // Przekazuje wyjątek dalej
-            }
+        }
+        catch (SmtpException smtpEx)
+        {
+            _logger.LogError($"SMTP error while sending email to {to}: {smtpEx.Message}");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Unexpected error while sending email to {to}: {ex.Message}");
+            throw;
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
+using CarRental.Application.Dto.ConfirmReservation;
 using CarRental.Application.Dto.Queries.AdminQueries;
-using CarRental.Application.Services;
 using CarRental.Domain.Entities;
 using CarRental.Presentation.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CarRental.Controllers;
@@ -14,16 +13,15 @@ namespace CarRental.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-    private readonly EmailService _emailService; 
+  
     private readonly IWebHostEnvironment _webHostEnvironment; // Allows access to server paths (resources)
     private readonly ILogger<AdminController> _logger;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
-    public AdminController (EmailService emailService, IWebHostEnvironment webHostEnvironment,
+    public AdminController (IWebHostEnvironment webHostEnvironment,
         ILogger<AdminController> logger, IMediator mediator, IMapper mapper)
     {
-        _emailService = emailService;
         _webHostEnvironment = webHostEnvironment;
         _logger = logger;
         _mediator = mediator;
@@ -51,56 +49,11 @@ public class AdminController : Controller
         }
     }
 
-    // Metoda do potwierdzenia rezerwacji
     [HttpPost]
-    [ValidateAntiForgeryToken] // token
-    public async Task<IActionResult> ConfirmReservation(int reservationId)
+    [ValidateAntiForgeryToken] 
+    public async Task<IActionResult> ConfirmReservation()
     {
-        var reservation = await _context.Reservations
-            .Include(r => r.User) // Żeby załadować dane użytkownika
-            .FirstOrDefaultAsync(r => r.Id == reservationId);
-
-        if (reservation == null)
-        {
-            return NotFound();
-        }
-
-        // Oznacz rezerwację jako potwierdzoną
-        reservation.IsConfirmed = true;
-        await _context.SaveChangesAsync();
-
-        // === WYSŁANIE EMAILA ===
-        // Jeśli IdentityUser ma Email = user@example.com, to:
-        // reservation.User.Email -> docelowy adres
-        // o ile user.Email nie jest null
-        // UWAGA: email musi być prawdziwy, żeby wysłać potwierdzenie
-        if (!string.IsNullOrEmpty(reservation.User?.Email))
-        {
-            var toEmail = reservation.User.Email;
-            var subject = "Potwierdzenie rezerwacji";
-            var body = $@"
-                    <h2>Potwierdzenie rezerwacji</h2>
-                    <p>Twoja rezerwacja o ID: {reservation.Id} została potwierdzona.</p>
-                    <p>Samochód: {reservation.Car?.Brand} {reservation.Car?.Model}</p>
-                    <p>Termin: {reservation.StartDate:dd.MM.yyyy} - {reservation.EndDate:dd.MM.yyyy}</p>
-                    <p>Koszt: {reservation.TotalCost:C2}</p>
-                    <br />
-                    <p>Dziękujemy za skorzystanie z naszej wypożyczalni!</p>
-                ";
-
-            try
-            {
-                _logger.LogInformation($"Próba wysłania e-maila do {toEmail}");
-                await _emailService.SendEmailAsync(toEmail, subject, body);
-                _logger.LogInformation($"E-mail do {toEmail} został wysłany.");
-            }
-            catch (Exception ex)
-            {
-                // obsługa błędu
-                _logger.LogError($"Błąd wysyłki e-maila: {ex.Message}");
-            }
-        }
-
+        var confirmed = await _mediator.Send(new ConfirmReservationCommand());
         return RedirectToAction(nameof(Reports));
     }
 

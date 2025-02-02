@@ -28,7 +28,7 @@ public class ReservationRepository : IReservationRepository
         => await _context.Reservations
                .Where(r => r.UserId == userId)
                .Include(r => r.Car)
-               .ToListAsync();
+               .ToListAsync(cancellation);
 
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellation)
         => await _context.Database.BeginTransactionAsync(cancellation);
