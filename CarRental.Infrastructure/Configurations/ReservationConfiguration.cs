@@ -14,6 +14,9 @@ namespace CarRental.Infrastructure.Configurations
             .WithMany(c => c.Reservations)
             .HasForeignKey(r => r.CarId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(r => r.TotalCost)
+             .HasPrecision(18, 2);
         }
     }
 }

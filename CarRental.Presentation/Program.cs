@@ -4,11 +4,11 @@ using CarRental.Infrastructure.Data;
 using CarRental.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using CarRental.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.MigrateDatabase(builder.Configuration); // database migration
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddPresentation(builder.Configuration);
 
@@ -47,6 +47,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddTransient<EmailService>(); // refactor TODO
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Middleware configuration
 if (app.Environment.IsDevelopment())

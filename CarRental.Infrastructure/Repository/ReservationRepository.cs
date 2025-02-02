@@ -2,7 +2,6 @@
 using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -12,8 +11,7 @@ public class ReservationRepository : IReservationRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public ReservationRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager,
-        ClaimsPrincipal user)
+    public ReservationRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
     }
