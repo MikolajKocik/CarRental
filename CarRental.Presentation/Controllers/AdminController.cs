@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using CarRental.Application.Dto;
 using CarRental.Application.Dto.ConfirmReservation;
+using CarRental.Application.Dto.CreateCar;
 using CarRental.Application.Dto.Queries.AdminQueries;
-using CarRental.Domain.Entities;
 using CarRental.Presentation.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,16 +14,12 @@ namespace CarRental.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-  
-    private readonly IWebHostEnvironment _webHostEnvironment; // Allows access to server paths (resources)
     private readonly ILogger<AdminController> _logger;
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
-    public AdminController (IWebHostEnvironment webHostEnvironment,
-        ILogger<AdminController> logger, IMediator mediator, IMapper mapper)
+    public AdminController (ILogger<AdminController> logger, IMediator mediator, IMapper mapper)
     {
-        _webHostEnvironment = webHostEnvironment;
         _logger = logger;
         _mediator = mediator;
         _mapper = mapper;
@@ -57,37 +54,25 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Reports));
     }
 
-    // Metoda do tworzenia samochodu
     [HttpPost]
-    [ValidateAntiForgeryToken] // token
-    public async Task<IActionResult> Create(Car car, IFormFile image)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CreateCarViewModel carViewModel, IFormFile image,
+        CancellationToken cancellation)
     {
         if (ModelState.IsValid)
         {
-            // Obsługuje przesyłanie pliku obrazu
-            if (image != null && image.Length > 0)
+            var command = new CreateCarCommand
             {
-                // Generowanie ścieżki do zapisu pliku
-                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
-                var fileName = Path.GetFileName(image.FileName);
-                var filePath = Path.Combine(uploadDir, fileName);
+                Car = _mapper.Map<CarDto>(carViewModel),
+                Image = image
+            };
 
-                // Zapisywanie pliku na serwerze
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(fileStream);
-                }
-
-                // Przypisanie ścieżki do modelu
-                car.ImageUrl = "/Images/" + fileName;
-            }
-
-            // Dodawanie samochodu do bazy danych
-            _context.Add(car);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index)); // Po zapisaniu samochodu przekierowanie do listy samochodów
+            await _mediator.Send(command, cancellation);
+            return RedirectToAction("Index");
         }
-        return View(car);
+
+        return View(carViewModel);
     }
+
 }
 

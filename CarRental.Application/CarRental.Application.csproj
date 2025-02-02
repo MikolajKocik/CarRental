@@ -19,8 +19,4 @@
     <ProjectReference Include="..\CarRental.Domain\CarRental.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dto\Nowy folder\" />
-  </ItemGroup>
-
 </Project>
