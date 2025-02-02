@@ -1,4 +1,5 @@
 ﻿using CarRental.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +20,12 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly); 
 
         // assembly reference to all configurations classes in solution
+
+        modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+
+        modelBuilder.Entity<IdentityUserLogin<string>>()
+       .HasKey(login => new { login.LoginProvider, login.ProviderKey });
     }
 }
