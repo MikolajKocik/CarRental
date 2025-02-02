@@ -6,11 +6,11 @@ public class CreateReservationCommandValidator : AbstractValidator<CreateReserva
 {
     public CreateReservationCommandValidator() 
     {
-        RuleFor(r => r.Reservation.StartDate)
-            .LessThan(r => r.Reservation.EndDate)
+        RuleFor(r => r.StartDate)
+            .LessThan(r => r.EndDate)
             .WithMessage("Start date must be earlier than End date.");
 
-        RuleFor(r => r.Reservation.EndDate)
+        RuleFor(r => r.EndDate)
             .GreaterThanOrEqualTo(DateTime.Today)
             .WithMessage("Start date cannot be in the past.");
         

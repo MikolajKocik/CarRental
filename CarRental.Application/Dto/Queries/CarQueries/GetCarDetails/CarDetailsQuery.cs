@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace CarRental.Application.Dto.Queries.CarDetails
+namespace CarRental.Application.Dto.Queries.CarQueries.GetCarDetails
 {
     public class CarDetailsQuery : IRequest<CarDto>
     {

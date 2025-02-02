@@ -3,9 +3,7 @@ using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CarRental.Infrastructure.Repository;
@@ -13,14 +11,10 @@ namespace CarRental.Infrastructure.Repository;
 public class ReservationRepository : IReservationRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly ClaimsPrincipal _user;
 
     public ReservationRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager,
         ClaimsPrincipal user)
     {
-        _user = user;
-        _userManager = userManager;
         _context = context;
     }
 
@@ -36,7 +30,12 @@ public class ReservationRepository : IReservationRepository
                .Include(r => r.Car)
                .ToListAsync();
 
-    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)
-        => await _context.Database.BeginTransactionAsync(cancellationToken);
+    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellation)
+        => await _context.Database.BeginTransactionAsync(cancellation);
+
+    public async Task<Reservation?> GetReservationByIdAsync(int id, CancellationToken cancellation)
+        => await _context.Reservations
+            .Include(r => r.Car)
+            .FirstOrDefaultAsync(r => r.Id == id, cancellation);
 
 }

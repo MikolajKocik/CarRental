@@ -3,7 +3,7 @@ using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
 using MediatR;
 
-namespace CarRental.Application.Dto.Queries.GetMyReservations;
+namespace CarRental.Application.Dto.Queries.ReservationQueries.GetMyReservations;
 
 public class GetMyReservationQueryHandler : IRequestHandler<GetMyReservationQuery, ICollection<ReservationDto>>
 {

@@ -3,7 +3,7 @@ using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
 using MediatR;
 
-namespace CarRental.Application.Dto.Queries.GetPopularCars;
+namespace CarRental.Application.Dto.Queries.CarQueries.GetPopularCars;
 
 public class GetPopularCarsQueryHandler : IRequestHandler<GetPopularCarsQuery, ICollection<CarDto>>
 {

@@ -5,9 +5,8 @@ namespace CarRental.Domain.Interfaces;
 
 public interface IReservationRepository
 {
-    Task Create(Reservation reservation, CancellationToken cancellation); 
-
+    Task Create(Reservation reservation, CancellationToken cancellation);
     Task<ICollection<Reservation>> GetUserReservations(string userId, CancellationToken cancellation);
-
-    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellation);
+    Task<Reservation?> GetReservationByIdAsync(int id, CancellationToken cancellation); 
 }

@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
-using CarRental.Application.Dto.Queries.GetMyReservations;
 using CarRental.Presentation.Models;
 using AutoMapper;
 using CarRental.Application.Dto.CreateReservation;
+using CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDetails;
+using CarRental.Application.Dto.Queries.ReservationQueries.GetMyReservations;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -16,7 +16,6 @@ public class ReservationController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager; 
     private readonly IMediator _mediator;
-    private readonly EmailService _emailService;
     private readonly IMapper _mapper;
 
     public ReservationController(UserManager<IdentityUser> userManager, EmailService emailService,
@@ -24,7 +23,6 @@ public class ReservationController : Controller
     {
         _mediator = mediator;
         _userManager = userManager;
-        _emailService = emailService;
         _mapper = mapper;
     }
     
@@ -86,18 +84,8 @@ public class ReservationController : Controller
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
-        var reservation = await _context.Reservations
-            .Include(r => r.Car)    // Ładujemy dane o samochodzie
-            .FirstOrDefaultAsync(r => r.Id == id);  // Pobieramy rezerwację o danym ID
+        var reservation = await _mediator.Send(new GetReservationDetailsQuery { Id = id });
 
-        var currentUserId = _userManager.GetUserId(User);
-
-        if (reservation == null || reservation.UserId != currentUserId) // Sprawdzamy, czy rezerwacja należy do obecnego użytkownika
-        {
-            _logger.LogWarning($"Nie znaleziono rezerwacji o Id={id} lub brak dostępu.");
-            return NotFound();
-        }
-
-        return View(reservation); // Zwracamy widok z detalami rezerwacji
+        return View(reservation);
     }
 }

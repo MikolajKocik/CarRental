@@ -3,7 +3,7 @@ using CarRental.Domain.Interfaces;
 using MediatR;
 using SendGrid.Helpers.Errors.Model;
 
-namespace CarRental.Application.Dto.Queries.CarDetails
+namespace CarRental.Application.Dto.Queries.CarQueries.GetCarDetails
 {
     public class CarDetailsQueryHandler : IRequestHandler<CarDetailsQuery, CarDto>
     {
@@ -28,9 +28,7 @@ namespace CarRental.Application.Dto.Queries.CarDetails
                 throw new NotFoundException($"Car with id {request.Id} not found");
             }
 
-            var dtos = _mapper.Map<CarDto>(car);
-
-            return dtos;
+            return _mapper.Map<CarDto>(car);
         }
     }
 }
