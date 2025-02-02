@@ -37,8 +37,6 @@ namespace CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDet
             }
 
             return _mapper.Map<ReservationDto>(reservation);
-
-
         }
     }
 }

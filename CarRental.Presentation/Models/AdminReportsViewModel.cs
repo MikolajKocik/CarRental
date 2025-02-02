@@ -9,5 +9,5 @@ public class AdminReportsViewModel
     public ICollection<Report> PopularCars { get; set; } = new List<Report>();
 
     // Not confirmed list of reservations 
-    public List<Reservation> NotConfirmedReservations { get; set; } = new List<Reservation>();
+    public ICollection<Reservation> NotConfirmedReservations { get; set; } = new List<Reservation>();
 }
