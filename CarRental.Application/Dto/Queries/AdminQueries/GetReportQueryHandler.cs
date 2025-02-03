@@ -20,18 +20,22 @@ public class GetReportQueryHandler : IRequestHandler<GetReportQuery, AdminReport
         try
         {
             // total reservations count
-            var totalReservations = await _repository.GetReportsCount(cancellation);
+            var totalReservations = await _repository.GetReportsCountAsync(cancellation);
 
             // popular cars
 
             var popularCars = await _repository.GetPopularCars(cancellation);
 
             // not confirmed reservations
-            var notConfirmedReservations = await _repository.GetNotConfirmedReservations(cancellation);
+            var notConfirmedReservations = await _repository.GetNotConfirmedReservationsAsync(cancellation);
+
+            // total income
+            var totalIncome = await _repository.GetTotalIncomeAsync();
 
             return new AdminReportsDto
             {
                 TotalReservations = totalReservations,
+                TotalIncome = totalIncome,
                 PopularCars = _mapper.Map<IEnumerable<ReportDto>>(popularCars),
                 NotConfirmedReservations = _mapper.Map<IEnumerable<ReservationDto>>(notConfirmedReservations)
             };

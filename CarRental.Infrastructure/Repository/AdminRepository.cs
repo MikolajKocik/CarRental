@@ -33,10 +33,10 @@ namespace CarRental.Infrastructure.Repository
                 .Take(3)
                 .ToListAsync(cancellation);
 
-        public async Task<int> GetReportsCount(CancellationToken cancellation)
+        public async Task<int> GetReportsCountAsync(CancellationToken cancellation)
             => await _context.Reservations.CountAsync(cancellation);
 
-        public async Task<IEnumerable<Reservation>> GetNotConfirmedReservations(CancellationToken cancellation)
+        public async Task<IEnumerable<Reservation>> GetNotConfirmedReservationsAsync(CancellationToken cancellation)
             => await _context.Reservations
             .Include(r => r.Car)
             .Where(r => !r.IsConfirmed)
@@ -47,8 +47,9 @@ namespace CarRental.Infrastructure.Repository
                 .Include(r => r.Car)
                 .FirstOrDefaultAsync(r => r.Id == reservationId);
 
-        public async Task<IdentityUser?> GetUserById(string? userId)
-            => await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
+        public async Task<decimal> GetTotalIncomeAsync()
+            => await _context.Reservations
+            .Where(r => r.IsConfirmed)
+                .SumAsync(r => r.TotalCost);
     }
 }

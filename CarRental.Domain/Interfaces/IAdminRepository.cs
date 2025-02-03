@@ -5,11 +5,11 @@ namespace CarRental.Domain.Interfaces;
 
 public interface IAdminRepository
 {
-    Task<int> GetReportsCount(CancellationToken cancellation);
+    Task<int> GetReportsCountAsync(CancellationToken cancellation);
 
     Task<List<Report>> GetPopularCars(CancellationToken cancellation);
 
-    Task<IEnumerable<Reservation>> GetNotConfirmedReservations (CancellationToken cancellation);
+    Task<IEnumerable<Reservation>> GetNotConfirmedReservationsAsync (CancellationToken cancellation);
     Task<Reservation?> GetReservationByIdAsync(int reservationId);
-    Task<IdentityUser?> GetUserById(string? userId);
+    Task<decimal> GetTotalIncomeAsync();
 }
