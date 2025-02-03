@@ -10,6 +10,6 @@ public interface IAdminRepository
     Task<List<Report>> GetPopularCars(CancellationToken cancellation);
 
     Task<IEnumerable<Reservation>> GetNotConfirmedReservations (CancellationToken cancellation);
-    Task<Reservation?> GetReservationByUserId(string? userId);
+    Task<Reservation?> GetReservationByIdAsync(int reservationId);
     Task<IdentityUser?> GetUserById(string? userId);
 }

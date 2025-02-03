@@ -3,6 +3,7 @@ using CarRental.Application.Dto;
 using CarRental.Application.Dto.ConfirmReservation;
 using CarRental.Application.Dto.CreateCar;
 using CarRental.Application.Dto.Queries.AdminQueries;
+using CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDetails;
 using CarRental.Presentation.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -47,12 +48,18 @@ public class AdminController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken] 
-    public async Task<IActionResult> ConfirmReservation()
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ConfirmReservation(int reservationId)
     {
-        var confirmed = await _mediator.Send(new ConfirmReservationCommand());
+       
+        var confirmed = await _mediator.Send(new ConfirmReservationCommand
+        {
+            ReservationId = reservationId 
+        });
+
         return RedirectToAction(nameof(Reports));
     }
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]

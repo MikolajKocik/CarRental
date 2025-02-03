@@ -42,14 +42,10 @@ namespace CarRental.Infrastructure.Repository
             .Where(r => !r.IsConfirmed)
             .ToListAsync(cancellation);
 
-        public async Task<Reservation?> GetReservationByUserId(string? userId)
-        {
-            _logger.LogInformation($"Fetching reservation for UserId: {userId}");
-
-            return await _context.Reservations
+        public async Task<Reservation?> GetReservationByIdAsync(int reservationId)
+            => await _context.Reservations
                 .Include(r => r.Car)
-                .FirstOrDefaultAsync(r => r.UserId == userId);
-        }
+                .FirstOrDefaultAsync(r => r.Id == reservationId);
 
         public async Task<IdentityUser?> GetUserById(string? userId)
             => await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);

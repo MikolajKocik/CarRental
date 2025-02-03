@@ -1,5 +1,6 @@
 ﻿using CarRental.Domain.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using SendGrid.Helpers.Errors.Model;
 
@@ -8,55 +9,45 @@ namespace CarRental.Application.Dto.ConfirmReservation;
 public class ConfirmReservationCommandHandler : IRequestHandler<ConfirmReservationCommand>
 {
     private readonly ICarRepository _carRepository;
-    private readonly ICurrentUserService _currentUserService;
     private readonly IAdminRepository _adminRepository;
+    private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<ConfirmReservationCommandHandler> _logger;
     private readonly Services.EmailService _emailService;
 
     public ConfirmReservationCommandHandler(ICarRepository carRepository,
-    ICurrentUserService currentUserService,
     IAdminRepository adminRepository,
+    UserManager<IdentityUser> userManager,
     ILogger<ConfirmReservationCommandHandler> logger,
     Services.EmailService emailService)
     {
         _carRepository = carRepository;
-        _currentUserService = currentUserService;
         _adminRepository = adminRepository;
         _logger = logger;
         _emailService = emailService;
+        _userManager = userManager;
     }
 
     public async Task<Unit> Handle(ConfirmReservationCommand request, CancellationToken cancellation)
     {
         cancellation.ThrowIfCancellationRequested();
 
-        var userId = _currentUserService.UserId;
+        var reservation = await _adminRepository.GetReservationByIdAsync(request.ReservationId);
 
-        if (string.IsNullOrEmpty(userId))
+        if (reservation == null)
         {
-            _logger.LogError("User is null or emtpy");
-            throw new Exception("Invalid UserId");
-        }
-
-        var reservationByUserId = await _adminRepository.GetReservationByUserId(userId);
-
-        if (reservationByUserId == null)
-        {
-            _logger.LogWarning($"Reservation not found for user {userId}");
+            _logger.LogWarning($"Reservation with ID {request.ReservationId} not found.");
             throw new NotFoundException("Reservation not found");
         }
 
-        var user = await _adminRepository.GetUserById(userId);
+        var user = await _userManager.FindByIdAsync(reservation.UserId);
 
-        if (user is null)
+        if (user == null)
         {
-            _logger.LogWarning($"User not found for ID {userId}");
+            _logger.LogWarning($"User with ID {reservation.UserId} not found.");
             throw new NotFoundException("User not found");
         }
 
-        // reservation confirmed
-        _logger.LogInformation($"Confirming reservation for UserId: {userId}");
-        reservationByUserId.IsConfirmed = true;
+        reservation.IsConfirmed = true;
 
         await _carRepository.Commit();
 
@@ -72,10 +63,10 @@ public class ConfirmReservationCommandHandler : IRequestHandler<ConfirmReservati
             var subject = "Confirmation of reservation";
             var body = $@"
                     <h2>Confirmation of reservation</h2>
-                    <p>Your reservation ID: {reservationByUserId.Id} has been confirmed.</p>
-                    <p>Car: {reservationByUserId.Car?.Brand} {reservationByUserId.Car?.Model}</p>
-                    <p>Deadline: {reservationByUserId.StartDate:dd.MM.yyyy} - {reservationByUserId.EndDate:dd.MM.yyyy}</p>
-                    <p>Cost: {reservationByUserId.TotalCost:C2}</p>
+                    <p>Your reservation ID: {reservation.Id} has been confirmed.</p>
+                    <p>Car: {reservation.Car?.Brand} {reservation.Car?.Model}</p>
+                    <p>Deadline: {reservation.StartDate:dd.MM.yyyy} - {reservation.EndDate:dd.MM.yyyy}</p>
+                    <p>Cost: {reservation.TotalCost:C2}</p>
                     <br />
                     <p>Thank you for using our rental service!</p>
                 ";
