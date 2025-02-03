@@ -1,0 +1,24 @@
+﻿@model CarRental.Presentation.Models.CreateReservationViewModel
+
+<h2>Car reservation</h2>
+
+<!-- Car reservation form -->
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <!-- Hidden field for car ID that is sent in the form -->
+    <input asp-for="CarId" type="hidden" />
+
+    <!-- Field for selecting the start date of the reservation -->
+    <label>Start date</label>
+    <input asp-for="StartDate" type="date" />
+    <span asp-validation-for="StartDate"></span>
+
+    <!-- Field for selecting the end date of the reservation -->
+    <label>End date</label>
+    <input asp-for="EndDate" type="date" />
+    <span asp-validation-for="EndDate"></span>
+
+    <!-- Form submission button -->
+    <button type="submit">Reserve</button>
+</form>

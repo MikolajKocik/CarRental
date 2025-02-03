@@ -1,0 +1,28 @@
+﻿@model CarRental.Presentation.Models.CreateCarViewModel
+
+<h2>Car details</h2>
+
+<div class="mb-3">
+    <img src="@Model.ImageUrl" alt="Car image" style="max-width:300px;" /> <!-- Display car image due to ImageUrl -->
+</div>
+
+<p><strong>Brand:</strong> @Model.Brand</p>
+<p><strong>Model:</strong> @Model.Model</p>
+<p><strong>Price per day:</strong> @Model.PricePerDay zł</p>
+
+@if (!string.IsNullOrEmpty(Model.Description))
+{
+    <p><strong>Description:</strong> @Model.Description</p>
+}
+
+@if (!string.IsNullOrEmpty(Model.Engine))
+{
+    <p><strong>Engine:</strong> @Model.Engine</p>
+}
+
+@if (Model.Year > 0)
+{
+    <p><strong>Production year:</strong> @Model.Year</p>
+}
+
+<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Back to list</a> <!-- Link that redirect user to list of cars -->

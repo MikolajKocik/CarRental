@@ -1,0 +1,43 @@
+﻿@model ICollection<CarRental.Presentation.Models.CreateCarViewModel>
+
+<h2 class="text-center">Available cars</h2>
+<div class="row">
+    @foreach (var car in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="@car.ImageUrl" class="card-img-top" alt="Car picture @car.Brand @car.Model">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model</h5>
+                    <p class="card-text">Price per day: <strong>@car.PricePerDay zł</strong></p>
+
+                    @if (car.IsAvailable)
+                    {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <!-- If user authenticated, display reservation button -->
+                            <a asp-controller="Reservation" asp-action="Create" asp-route-carId="@car.Id" class="btn btn-primary btn-block">Reservation</a>
+                        }
+                        else
+                        {
+                            <!-- If user not authenticated, display information to log in-->
+                            <p class="text-muted text-center">Log in to reserve</p>
+                        }
+                    }
+                    else
+                    {
+                        <!-- If car not available, display "Not available" -->
+                        <p class="text-danger text-center">Not available</p>
+                    }
+
+                    @if (User.IsInRole("Admin")) 
+                    {
+                        <!-- If user is Admin, display delete and edit buttons -->
+                        <a asp-controller="Car" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning">Edit</a>
+                        <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,70 @@
+﻿@model CarRental.Presentation.Models.CreateCarViewModel
+
+<h2>Create car</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken() <!-- CSRF -->
+
+            <div class="form-group mb-3">
+                <label asp-for="Brand">Brand</label>
+                <input class="form-control" type="text" asp-for="Brand" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Model">Model</label>
+                <input class="form-control" type="text" asp-for="Model" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PricePerDay">Price per day</label>
+                <input class="form-control" type="text" asp-for="PricePerDay" />
+                <span asp-validation-for="PricePerDay" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="IsAvailable">Is Available</label>
+                <input asp-for="IsAvailable" type="checkbox" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ImageUrl">Url image</label>
+                <input class="form-control" type="text" asp-for="ImageUrl"/>
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description">Description</label>
+                <input class="form-control" type="text" asp-for="Description"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Engine">Engine</label>
+                <input class="form-control" asp-for="Engine" type="text"/>
+                <span asp-validation-for="Engine" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Year">Production year</label>
+                <input class="form-control" type="text" asp-for="Year"/>
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

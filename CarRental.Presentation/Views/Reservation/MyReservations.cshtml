@@ -1,0 +1,30 @@
+﻿@model ICollection<CarRental.Presentation.Models.MyReservationsViewModel>
+
+<h2>My Reservations</h2>
+
+<!-- Table that displays the list of reservations -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <!-- Table headers -->
+            <th>Car</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop that iterates through each reservation in the model -->
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@(reservation.Car?.Brand) @(reservation.Car?.Model)</td>
+                <td>@reservation.StartDate.ToShortDateString()</td>
+                <td>@reservation.EndDate.ToShortDateString()</td>
+                <td>@(reservation.IsConfirmed ? "Confirmed" : "Pending confirmation")</td>
+                <td>@reservation.TotalCost.ToString("C2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

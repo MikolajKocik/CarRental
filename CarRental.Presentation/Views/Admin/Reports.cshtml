@@ -1,0 +1,96 @@
+﻿@model CarRental.Presentation.Models.AdminReportsViewModel
+
+@{
+    ViewData["Title"] = "Administrative Reports"; // Page Title
+}
+
+<h2>Administrative Reports</h2>
+
+<!-- Section showing the total number of reservations -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Reservations</h5>
+                <p class="card-text display-4">@Model.TotalReservations</p> <!-- Display the total number of reservations -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Section showing the total income -->
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Income</h5>
+                <p class="card-text display-4">@String.Format("{0:C}", Model.TotalIncome)</p> <!-- Display the total income -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section showing the most popular cars -->
+<h3>Most Popular Cars</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Reservation Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.PopularCars)
+        {
+            <tr>
+                <td>@car.Brand</td>
+                <td>@car.Model</td>
+                <td>@car.ReservationsCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<!-- Section showing unconfirmed reservations -->
+<h3>Unconfirmed Reservations</h3>
+@if (Model.NotConfirmedReservations != null && Model.NotConfirmedReservations.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Reservation</th>
+                <th>Car</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Cost</th>
+                <th>Confirm</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.NotConfirmedReservations)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@(r.Car?.Brand) @(r.Car?.Model)</td>
+                    <td>@r.StartDate.ToShortDateString()</td>
+                    <td>@r.EndDate.ToShortDateString()</td>
+                    <td>@r.TotalCost.ToString("C2")</td>
+                    <td>
+                        <!-- Form for confirming the reservation -->
+                        <form asp-controller="Admin" asp-action="ConfirmReservation" method="post">
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="reservationId" value="@r.Id" />
+                            <button type="submit" class="btn btn-success">Confirm</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No unconfirmed reservations.</p> <!-- Message when there are no unconfirmed reservations -->
+}

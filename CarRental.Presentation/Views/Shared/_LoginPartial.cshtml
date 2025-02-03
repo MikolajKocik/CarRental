@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    <!-- If the user is logged in, display the following items -->
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="bi bi-person-circle"></i> Hello, @User.Identity?.Name!
+            </a>
+        </li>
+
+        <!-- If the user is in the "Admin" role, display the option to add a car -->
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Car" asp-action="Create">
+                    <i class="bi bi-plus-square"></i> Add Car
+                </a>
+            </li>
+        }
+
+        <!-- Logout button -->
+        <li class="nav-item">
+            <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
+                @Html.AntiForgeryToken()  <!-- CSRF protection token -->
+                <button type="submit" class="nav-link btn btn-link text-dark">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <!-- If the user is not logged in, display registration and login options -->
+        <!-- Link to the registration page -->
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">
+                <i class="bi bi-person-plus"></i> Register
+            </a>
+        </li>
+
+        <!-- Link to the login page -->
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
+        </li>
+    }
+</ul>

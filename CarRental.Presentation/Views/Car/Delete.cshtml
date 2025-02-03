@@ -1,0 +1,26 @@
+﻿@model CarRental.Application.Dto.CarDto
+
+<hr />
+
+<h2>Delete car</h2>
+
+<h4>Are you sure you want to delete the car?</h4>
+
+<div>
+    <h5>Car: @Model.Brand @Model.Model</h5>
+    <p>Price per day: @Model.PricePerDay zł</p>
+    <p>Description: @Model.Description</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken() 
+    <input type="hidden" asp-for="Id" /> <!-- Hidden field that allows to delete car by Id-->
+    <button type="submit" class="btn btn-danger">Delete</button> 
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a> 
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

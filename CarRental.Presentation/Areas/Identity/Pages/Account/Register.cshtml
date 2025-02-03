@@ -1,0 +1,61 @@
+﻿@page
+@model CarRental.Presentation.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Registration";
+}
+
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h2 class="text-center">Register</h2>
+                <hr />
+
+                <!-- Registration Form -->
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" placeholder="Enter your email" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Enter your password" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+
+                <!-- Link to login if the user already has an account -->
+                <div class="mt-3 text-center">
+                    <a asp-page="./Login">Already have an account? Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Check if there are errors in the ModelState and display them -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<!-- Client-side form validation scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
