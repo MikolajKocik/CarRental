@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CarRental.Domain.Interfaces;
 using MediatR;
-using SendGrid.Helpers.Errors.Model;
 
 namespace CarRental.Application.Dto.DeleteCar;
 
@@ -17,16 +16,7 @@ public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand>
     public async Task<Unit> Handle(DeleteCarCommand request, CancellationToken cancellation)
     {
         var car = await _repository.GetById(request.Id, cancellation);
-
-        var validator = new DeleteCarCommandValidator();
-
-        var validatorResult = validator.Validate(request);
-
-        if (validatorResult.IsValid)
-        {
-            throw new Exception($"Car id {request.Id} was no found");
-        }
-
+       
         if(car != null && car.ReservationCount > 0)
         {
             car.ReservationCount--;

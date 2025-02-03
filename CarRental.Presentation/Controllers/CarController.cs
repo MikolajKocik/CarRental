@@ -124,10 +124,9 @@ public class CarController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id, CancellationToken cancellation)
     {
+        var car = await _mediator.Send(new CarDetailsQuery(id), cancellation);
 
         var command = new DeleteCarCommand() { Id = id };
-        
-        var car = await _mediator.Send(new CarDetailsQuery(id), cancellation);
 
         await _mediator.Send(command, cancellation);
 
