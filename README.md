@@ -48,7 +48,7 @@ CarRental-MVC leverages modern software architectural principles including **CQR
 - **UML Diagrams** – For clear project documentation (e.g., class diagrams).
 - **SMTP Protocol** – Used to send booking confirmation emails.
 - **dotnet user-secrets** – Securely stores sensitive configuration data (e.g., SMTP credentials).
--- **MS SQL** - SQL database type.
+- **MS SQL** - SQL database type.
 ---
 
 ## 📦 Libraries and Packages
