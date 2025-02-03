@@ -29,11 +29,19 @@ public class EditCarCommandHandler : IRequestHandler<EditCarCommand>
         var validator = new EditCarCommandValidator();
         var validationResult = validator.Validate(request);
 
-        _mapper.Map(request.Car, car);
+        // edit data
+        car.Brand = request.Car.Brand;
+        car.Model = request.Car.Model;
+        car.PricePerDay = request.Car.PricePerDay;
+        car.IsAvailable = request.Car.IsAvailable;
+        car.ImageUrl = request.Car.ImageUrl;
+        car.Description = request.Car.Description;
+        car.Engine = request.Car.Engine;
+        car.Year = request.Car.Year;
 
         await _repository.Commit();
 
-        return Unit.Value;  
+        return Unit.Value;
 
     }
 }
