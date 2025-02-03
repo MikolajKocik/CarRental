@@ -75,13 +75,14 @@ public class CreateReservationCommandHandler : IRequestHandler<CreateReservation
                     Car = car
                 };
 
-                // Mark the car as not available
+                // Mark the car as not available -> admin checks a number of cars in this type and edit availability
                 car.IsAvailable = false;
 
               
                 await _reservationRepository.Create(reservation, cancellation);
 
-                
+                car.ReservationCount++;
+
                 await transaction.CommitAsync(cancellation);
             }
             catch (Exception ex)

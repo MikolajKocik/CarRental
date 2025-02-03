@@ -6,7 +6,7 @@ namespace CarRental.Application.Dto.Queries.CarQueries.GetCarDetails
     {
         public int Id { get; set; }
 
-        public CarDetailsQuery(int id)
+        public CarDetailsQuery(int id )
         {
             Id = id;
         }

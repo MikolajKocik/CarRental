@@ -1,4 +1,4 @@
-﻿using CarRental.Mappings;
+﻿using CarRental.Presentation.Mappings;
 
 namespace CarRental.Extensions
 {
@@ -6,7 +6,12 @@ namespace CarRental.Extensions
     {
         public static void AddPresentation(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(typeof(PresentationProfile));
+            services.AddAutoMapper(typeof(CarViewMappingProfile));
+
+            services.AddAutoMapper(typeof(ReservationViewMappingProfile));
+
+            services.AddAutoMapper(typeof(AdminViewMappingProfile)); 
+
         }
     }
 }

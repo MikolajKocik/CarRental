@@ -1,5 +1,6 @@
 ﻿using CarRental.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace CarRental.Application.Services;
@@ -14,10 +15,17 @@ about the user without directly accessing the HttpContext.
 
 public class CurrentUserService : ICurrentUserService
 {
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    private readonly ILogger<CurrentUserService> _logger;
+
+
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor, ILogger<CurrentUserService> logger)
     {
+        _logger = logger;
+
         UserId = httpContextAccessor.HttpContext?.User?
             .FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        _logger.LogInformation($"Extracted UserId: {UserId}");
     }
 
     public string? UserId { get; }

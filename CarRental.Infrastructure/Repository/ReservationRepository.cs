@@ -4,16 +4,20 @@ using CarRental.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 
 namespace CarRental.Infrastructure.Repository;
 
 public class ReservationRepository : IReservationRepository
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<ReservationRepository> _logger;
 
-    public ReservationRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+    public ReservationRepository(ApplicationDbContext context, UserManager<IdentityUser> userManager,
+        ILogger<ReservationRepository> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     public async Task Create(Reservation reservation, CancellationToken cancellation)
@@ -32,8 +36,11 @@ public class ReservationRepository : IReservationRepository
         => await _context.Database.BeginTransactionAsync(cancellation);
 
     public async Task<Reservation?> GetReservationByIdAsync(int id, CancellationToken cancellation)
-        => await _context.Reservations
+    {
+        _logger.LogInformation($"Executing SQL query for UserId: {id}");
+
+        return await _context.Reservations
             .Include(r => r.Car)
             .FirstOrDefaultAsync(r => r.Id == id, cancellation);
-
+    }
 }

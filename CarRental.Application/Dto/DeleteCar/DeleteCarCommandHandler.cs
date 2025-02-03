@@ -27,7 +27,13 @@ public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand>
             throw new Exception($"Car id {request.Id} was no found");
         }
 
-        await _repository.Remove(request.Id, cancellation);
+        if(car != null && car.ReservationCount > 0)
+        {
+            car.ReservationCount--;
+            await _repository.Commit();
+        }
+
+            await _repository.Remove(request.Id, cancellation);
 
         return Unit.Value;
     }

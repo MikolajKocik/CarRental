@@ -32,6 +32,12 @@ public class ConfirmReservationCommandHandler : IRequestHandler<ConfirmReservati
 
         var userId = _currentUserService.UserId;
 
+        if (string.IsNullOrEmpty(userId))
+        {
+            _logger.LogError("User is null or emtpy");
+            throw new Exception("Invalid UserId");
+        }
+
         var reservationByUserId = await _adminRepository.GetReservationByUserId(userId);
 
         if (reservationByUserId == null)
@@ -49,7 +55,7 @@ public class ConfirmReservationCommandHandler : IRequestHandler<ConfirmReservati
         }
 
         // reservation confirmed
-
+        _logger.LogInformation($"Confirming reservation for UserId: {userId}");
         reservationByUserId.IsConfirmed = true;
 
         await _carRepository.Commit();

@@ -30,7 +30,5 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         // assembly reference to all configurations classes in solution
 
         modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-
-      
     }
 }

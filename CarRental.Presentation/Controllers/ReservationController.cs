@@ -29,9 +29,11 @@ public class ReservationController : Controller
     [HttpGet]
     public async Task<IActionResult> MyReservations(CancellationToken cancellation)
     {
-        var reservations = await _mediator.Send(new GetMyReservationQuery(), cancellation);
+        var reservationsDto = await _mediator.Send(new GetMyReservationQuery(), cancellation);
 
-        return View(reservations);
+        var viewModel = _mapper.Map<ICollection<MyReservationsViewModel>>(reservationsDto);
+
+        return View(viewModel);
     }
 
     

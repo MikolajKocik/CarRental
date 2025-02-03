@@ -29,6 +29,9 @@
                 <form method="post">
                     <!-- Anti-CSRF token to protect the form from Cross-Site Request Forgery attacks -->
                     @Html.AntiForgeryToken()
+
+                    <input type="hidden" asp-for="ReturnUrl" />
+
                     <div class="form-group">
                         <label asp-for="Input.Email"></label>
                         <input asp-for="Input.Email" class="form-control" placeholder="Enter your email" />

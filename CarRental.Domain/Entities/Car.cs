@@ -10,8 +10,8 @@ public class Car
     public string ImageUrl { get; set; } = default!;
     public string Description { get; set; } = default!;
     public string? Engine { get; set; } = default!;
-    public int Year { get; set; } 
-    public int ReservationCount { get; set; }
+    public int Year { get; set; }
+    public int ReservationCount { get; set; } = 0;
 
 
     // Navigation to reservation

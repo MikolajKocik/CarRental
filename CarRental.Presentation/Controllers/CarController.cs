@@ -30,23 +30,25 @@ public class CarController : Controller
     [HttpGet]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var cars = await _mediator.Send(new GetAllCarsQuery(), cancellationToken);
+        var carDtos = await _mediator.Send(new GetAllCarsQuery(), cancellationToken);
 
-        return View(cars);
+        var viewModel = _mapper.Map<ICollection<CreateCarViewModel>>(carDtos);
+
+        return View(viewModel);
     }
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Details(int id, CancellationToken cancellation)
     {
-
-        var details = await _mediator.Send(new CarDetailsQuery(id), cancellationToken);
-        if (details == null)
+        var detailsDto = await _mediator.Send(new CarDetailsQuery(id), cancellation);
+        if (detailsDto == null)
         {
             return NotFound();
         }
+        var viewModel = _mapper.Map<CreateCarViewModel>(detailsDto);
 
-        return View(details);
+        return View(viewModel);
     }
 
     [HttpGet] // Admin
@@ -123,14 +125,9 @@ public class CarController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id, CancellationToken cancellation)
     {
 
-        if (!ModelState.IsValid)
-        {
-            var car = await _mediator.Send(new CarDetailsQuery(id), cancellation);
-
-            return View("Delete", car);
-        }
-
         var command = new DeleteCarCommand() { Id = id };
+        
+        var car = await _mediator.Send(new CarDetailsQuery(id), cancellation);
 
         await _mediator.Send(command, cancellation);
 

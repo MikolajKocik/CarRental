@@ -21,6 +21,9 @@ namespace CarRental.Presentation.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        [BindProperty]
+        public string? ReturnUrl { get; set; }
+
         // Input model that holds the data entered by the user (email, password)
         public class InputModel
         {
@@ -34,10 +37,17 @@ namespace CarRental.Presentation.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+        public void OnGet(string? returnUrl = null)
+        {
+            ReturnUrl = returnUrl ?? Url.Content("~/");
+        }
+
+
         // Action that handles login 
-        public async Task<IActionResult> OnPostAsync(string returnUrl)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+            ReturnUrl = returnUrl;
 
             if (!ModelState.IsValid)
             {

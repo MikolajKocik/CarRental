@@ -10,7 +10,7 @@ namespace CarRental.Application.Mappings
         {
             CreateMap<Car, CarDto>();
 
-            CreateMap<CarDto, CarDto>();
+            CreateMap<CarDto, Car>();
         }
     }
 }
