@@ -45,7 +45,6 @@ CarRental-MVC leverages modern software architectural principles including **CQR
 - **MediatR** – Implements **CQRS** by decoupling request/response handling.
 - **FluentValidation.AspNetCore** – Validates user inputs and ensures business rules are followed.
 - **AutoMapper** – Simplifies mapping between domain objects and DTOs.
-- **UML Diagrams** – For clear project documentation (e.g., class diagrams).
 - **SMTP Protocol** – Used to send booking confirmation emails.
 - **dotnet user-secrets** – Securely stores sensitive configuration data (e.g., SMTP credentials).
 - **MS SQL** - SQL database type.
