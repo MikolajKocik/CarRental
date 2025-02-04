@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Configure character encoding -->
@@ -7,6 +12,7 @@
     <title>@ViewData["Title"] - Car Rental</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <!-- Main application styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -27,22 +33,22 @@
                     <ul class="navbar-nav flex-grow-1">
                         <!-- Link to home page -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark @(controller == "Home" && action == "Index" ? "active": "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <!-- Link to privacy policy page -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark @(controller == "Home" && action == "Privacy" ? "active": "")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <!-- Link to cars page -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Index">Cars</a>
+                            <a class="nav-link text-dark @(controller == "Car" && action == "Index" ? "active": "")" asp-area="" asp-controller="Car" asp-action="Index">Cars</a>
                         </li>
 
                         <!-- If the user is logged in, display their reservations -->
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="MyReservations">My reservations</a>
+                                <a class="nav-link text-dark @(controller == "Reservation" && action == "MyReservations" ? "active": "")" asp-area="" asp-controller="Reservation" asp-action="MyReservations">My reservations</a>
                             </li>
                         }
 
@@ -50,10 +56,10 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Reports">Reports</a>
+                                <a class="nav-link text-dark @(controller == "Admin" && action == "Reports" ? "active": "")" asp-controller="Admin" asp-action="Reports">Reports</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Create">Add car</a>
+                                <a class="nav-link text-dark @(controller == "Car" && action == "Create" ? "active": "")" asp-area="" asp-controller="Car" asp-action="Create">Add car</a>
                             </li>
                         }
                     </ul>
