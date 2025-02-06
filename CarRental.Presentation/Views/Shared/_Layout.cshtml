@@ -1,6 +1,11 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@using Wypożyczalnia_samochodów_online.Models
+@{
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var action = ViewContext.RouteData.Values["action"]?.ToString();
+    var notification = TempData["Notification"] != null ?
+         (Notification)JsonConvert.DeserializeObject<Notification>(TempData["Notification"]!.ToString()!)!
+         : null;
 }
 
 <!DOCTYPE html>
@@ -15,6 +20,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <!-- Main application styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/toastr.js/toastr.min.css" />
 </head>
 <body>
     <header>
@@ -86,7 +92,14 @@
     <!-- JavaScript scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @if (notification != null)
+    {
+        <script>
+            toastr["@notification.Type"]("@notification.Message")
+        </script>
+    }
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
