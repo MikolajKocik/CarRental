@@ -2,58 +2,65 @@
 
 <h2>Edit car</h2>
 
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
+<hr />
 
-    <div class="form-group">
-        <label asp-for="Brand">Brand</label>
-        <input class="form-control" type="text" asp-for="Brand" />
-        <span asp-validation-for="Brand" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="Brand">Brand</label>
+                <input class="form-control" type="text" asp-for="Brand" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Model">Model</label>
+                <input class="form-control" type="text" asp-for="Model" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PricePerDay">Price per day</label>
+                <input class="form-control" type="text" asp-for="PricePerDay" />
+                <span asp-validation-for="PricePerDay" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsAvailable">Is Available</label>
+                <input asp-for="IsAvailable" type="checkbox" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NewImages">Change images</label>
+                <input class="form-control" asp-for="NewImages" type="file" multiple />
+                <span asp-validation-for="NewImages" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Engine">Engine</label>
+                <input class="form-control" type="text" asp-for="Engine" />
+                <span asp-validation-for="Engine" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Year">Production year</label>
+                <input class="form-control" type="text" asp-for="Year" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Model">Model</label>
-        <input class="form-control" type="text" asp-for="Model" />
-        <span asp-validation-for="Model" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="PricePerDay">Price per day</label>
-        <input class="form-control" type="text" asp-for="PricePerDay" />
-        <span asp-validation-for="PricePerDay" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="IsAvailable">Is Available</label>
-        <input asp-for="IsAvailable" type="checkbox" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="NewImages">Change images</label>
-        <input class="form-control" asp-for="NewImages" type="file" multiple />
-        <span asp-validation-for="NewImages" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Description">Description</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Engine">Engine</label>
-        <input class="form-control" type="text" asp-for="Engine" />
-        <span asp-validation-for="Engine" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Year">Production year</label>
-        <input class="form-control" type="text" asp-for="Year" />
-        <span asp-validation-for="Year" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save changes</button>
-</form>
+</div>
 
 @section Scripts {
     @{
