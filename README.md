@@ -18,7 +18,7 @@ CarRental-MVC leverages modern software architectural principles including **CQR
 ## ✨ Key Features
 
 ### 1. Vehicle Fleet Management
-- **Add New Vehicles**: Add details such as vehicle make, model, and an **image URL** (e.g., from [Pixabay](https://pixabay.com)) for a visually appealing fleet display.
+- **Add New Vehicles**: Add details such as vehicle make, model, and an **image path** -> IFormFile
 - **Edit Vehicle Details**: Update existing vehicle information.
 - **Remove Vehicles**: Delete vehicles from the fleet.
 - **Availability Management**: Automatically update the availability status of vehicles sharing the same make and model.
