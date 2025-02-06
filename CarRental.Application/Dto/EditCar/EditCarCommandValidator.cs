@@ -7,27 +7,26 @@ public class EditCarCommandValidator : AbstractValidator<EditCarCommand>
 {
     public EditCarCommandValidator()
     {
-        RuleFor(c => c.Car.Brand)
+        RuleFor(c => c.CarDto.Brand)
             .NotEmpty().WithMessage("Brand is required");
 
-        RuleFor(c => c.Car.Model)
+        RuleFor(c => c.CarDto.Model)
            .NotEmpty().WithMessage("Model is required");
 
-        RuleFor(c => c.Car.PricePerDay)
+        RuleFor(c => c.CarDto.PricePerDay)
             .GreaterThan(0).WithMessage("Price mustn't be a value of 0");
 
-        RuleFor(c => c.Car.ImageUrl)
-            .NotEmpty().WithMessage("Address url is required")
-            .Must(CarValidationHelpers.IsValidUrl).WithMessage("Incorrect format url");
+        RuleFor(c => c.CarDto.Images)
+            .Must(images => images != null && images.Any()).WithMessage("At least one image is required");
 
-        RuleFor(c => c.Car.Description)
+        RuleFor(c => c.CarDto.Description)
             .NotEmpty().WithMessage("Description is required");
 
-        RuleFor(c => c.Car.Engine)
+        RuleFor(c => c.CarDto.Engine)
             .NotEmpty().WithMessage("Engine is required");
 
-        RuleFor(c => c.Car.Year)
+        RuleFor(c => c.CarDto.Year)
             .NotEmpty().WithMessage("Year is required.")
-            .Must(CarValidationHelpers.IsValidYear).WithMessage("Year must be between 2010 - 2025");
+            .Must(CarValidationYear.IsValidYear).WithMessage("Year must be between 2010 - 2025");
     }
 }

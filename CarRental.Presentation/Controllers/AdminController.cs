@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using CarRental.Application.Dto;
 using CarRental.Application.Dto.ConfirmReservation;
-using CarRental.Application.Dto.CreateCar;
 using CarRental.Application.Dto.Queries.AdminQueries;
-using CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDetails;
 using CarRental.Presentation.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -51,35 +48,13 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ConfirmReservation(int reservationId)
     {
-       
+
         var confirmed = await _mediator.Send(new ConfirmReservationCommand
         {
-            ReservationId = reservationId 
+            ReservationId = reservationId
         });
 
         return RedirectToAction(nameof(Reports));
     }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateCarViewModel carViewModel, IFormFile image,
-        CancellationToken cancellation)
-    {
-        if (ModelState.IsValid)
-        {
-            var command = new CreateCarCommand
-            {
-                Car = _mapper.Map<CarDto>(carViewModel),
-                Image = image
-            };
-
-            await _mediator.Send(command, cancellation);
-            return RedirectToAction("Index");
-        }
-
-        return View(carViewModel);
-    }
-
 }
 

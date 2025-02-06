@@ -49,7 +49,7 @@ public class ConfirmReservationCommandHandler : IRequestHandler<ConfirmReservati
 
         reservation.IsConfirmed = true;
 
-        await _carRepository.Commit();
+        await _carRepository.CommitAsync();
 
         // === SENDING EMAIL ===
         // If IdentityUser has Email = user@example.com, then:

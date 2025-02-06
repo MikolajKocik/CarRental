@@ -5,6 +5,10 @@ using CarRental.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using CarRental.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.FileProviders;
+using CarRental.Domain.Interfaces;
+using CarRental.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +48,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews(); 
 builder.Services.AddRazorPages();  
 
-builder.Services.AddTransient<EmailService>(); // refactor TODO
+builder.Services.AddTransient<EmailService>(); 
 
 var app = builder.Build();
 
@@ -52,6 +56,13 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     dbContext.Database.Migrate();
+
+    // Pobranie loggera i seedera
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<CarSeeder>>();
+    var carSeeder = scope.ServiceProvider.GetRequiredService<ICarSeeder>();
+
+    // Wywo³anie seeda
+    await carSeeder.SeedCarAsync(logger);
 }
 
 // Middleware configuration
@@ -66,7 +77,14 @@ else
 }
 
 app.UseHttpsRedirection(); // redirect to HTTPS
-app.UseStaticFiles(); // allow acces to static files
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+    RequestPath = ""
+});
+
 
 app.UseRouting(); 
 

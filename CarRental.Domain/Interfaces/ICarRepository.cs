@@ -4,14 +4,15 @@ namespace CarRental.Domain.Interfaces
 {
     public interface ICarRepository
     {
-        Task Create (Car car);
+        Task CreateAsync (Car car);
 
-        Task<ICollection<Car>> GetAll(CancellationToken cancellation);
+        Task<ICollection<Car>> GetAllAsync(CancellationToken cancellation);
 
-        Task<Car> GetById(int id, CancellationToken cancellation);
+        Task<Car?> GetCarByIdAsync(int id, CancellationToken cancellation);
 
-        Task Commit();
+        Task CommitAsync();
+        Task UpdateCarAsync(Car car, CancellationToken cancellation);
 
-        Task Remove(int id, CancellationToken cancellation);
+        Task RemoveAsync(int id, CancellationToken cancellation);
     }
 }

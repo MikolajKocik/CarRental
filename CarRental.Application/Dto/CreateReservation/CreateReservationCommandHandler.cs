@@ -45,7 +45,7 @@ public class CreateReservationCommandHandler : IRequestHandler<CreateReservation
             throw new ValidationException("The end date must be later than the start date.");
         }
 
-        var car = await _carRepository.GetById(request.CarId, cancellation);
+        var car = await _carRepository.GetCarByIdAsync(request.CarId, cancellation);
         if (car == null)
         {
             throw new NotFoundException($"The selected car (CarId={request.CarId}) does not exist.");

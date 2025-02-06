@@ -15,15 +15,15 @@ public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand>
 
     public async Task<Unit> Handle(DeleteCarCommand request, CancellationToken cancellation)
     {
-        var car = await _repository.GetById(request.Id, cancellation);
+        var car = await _repository.GetCarByIdAsync(request.Id, cancellation);
        
         if(car != null && car.ReservationCount > 0)
         {
             car.ReservationCount--;
-            await _repository.Commit();
+            await _repository.CommitAsync();
         }
 
-            await _repository.Remove(request.Id, cancellation);
+            await _repository.RemoveAsync(request.Id, cancellation);
 
         return Unit.Value;
     }

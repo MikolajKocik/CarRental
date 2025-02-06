@@ -13,26 +13,37 @@ public class CarRepository : ICarRepository
     {
         _context = context;
     }
-    public async Task Create(Car car)
+    public async Task CreateAsync(Car car)
     {
-        _context.Cars.Add(car);
+        await _context.Cars.AddAsync(car);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Car?> GetById(int id, CancellationToken cancellation)
-        => await _context.Cars.FirstOrDefaultAsync(c => c.Id == id, cancellation);
+    public async Task<Car?> GetCarByIdAsync(int id, CancellationToken cancellation)
+        => await _context.Cars
+        .Include(c => c.Images)
+        .FirstOrDefaultAsync(c => c.Id == id, cancellation);
 
-    public async Task<ICollection<Car>> GetAll(CancellationToken cancellation)
-        => await _context.Cars.ToListAsync(cancellation);
+    public async Task<ICollection<Car>> GetAllAsync(CancellationToken cancellation)
+        => await _context.Cars
+        .Include(c => c.Images)
+        .ToListAsync(cancellation);
 
-    public async Task Commit() => await _context.SaveChangesAsync();
+    public async Task CommitAsync() => await _context.SaveChangesAsync();
 
-    public async Task Remove(int id, CancellationToken cancellation)
+
+    public async Task RemoveAsync(int id, CancellationToken cancellation)
     {
         var carToRemove = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id, cancellation);
 
-        _context.Cars.Remove(carToRemove!); // Handler has exception for null id
+        _context.Cars.Remove(carToRemove!); 
 
+        await _context.SaveChangesAsync(cancellation);
+    }
+
+    public async Task UpdateCarAsync(Car car, CancellationToken cancellation)
+    {
+        _context.Cars.Update(car);
         await _context.SaveChangesAsync(cancellation);
     }
 }

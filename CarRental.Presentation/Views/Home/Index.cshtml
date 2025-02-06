@@ -1,6 +1,5 @@
 ﻿@using System.Linq
 
-
 @{
     ViewData["Title"] = "Welcome to Online Car Rental";
 }
@@ -9,13 +8,13 @@
     <div class="text-center mb-5">
         <h1>Welcome to Online Car Rental!</h1>
         <p class="lead">Rent the best cars at the best price.</p>
-        <a asp-controller="Car" asp-action="Index" class="btn btn-primary btn-lg">See available cars</a> <!-- Button to go to the list of available cars -->
+        <a asp-controller="Car" asp-action="Index" class="btn btn-primary btn-lg">See available cars</a>
     </div>
 
     <div class="row mb-5">
         <div class="col-md-5 offset-md-1">
             <h2>O nas</h2>
-            <p>   <!-- Company description -->
+            <p>
                 We are a leading car rental company in your region, offering a wide range of vehicles for every occasion.
                 Whether you need a car for a short weekend trip, a business trip or a longer vacation,
                 you will find vehicles perfectly suited to your needs in our offer. From small, economical cars,
@@ -27,15 +26,14 @@
                 By choosing us, you choose professionalism, reliability and a partner who understands how important it is to have the right
                 means of transport in every situation. Thanks to our intuitive online platform, you can easily browse available
                 cars, compare prices and book a vehicle from anywhere and at any time.
+            </p>
         </div>
         <div class="col-md-5">
             <img src="~/Images/about-us.webp" alt="O nas" class="img-fluid rounded">
         </div>
     </div>
 
-
-
-    <div class="text-center mb-5"> <!-- Section "Why us?" with service features -->
+    <div class="text-center mb-5">
         <h2 class="mb-5 mt-5 text-center">Why us?</h2>
         <div class="row">
             <div class="col-md-4">
@@ -56,14 +54,19 @@
         </div>
     </div>
 
-    <div class="mb-5"> <!-- Section of popular cars -->
+    <div class="mb-5">
         <h2 class="mb-5 mt-5">Popular cars</h2>
         <div class="row">
-            @foreach (var car in Model) 
+            @foreach (var car in Model)
             {
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img src="@car.ImageUrl" class="card-img-top" alt="@car.Brand @car.Model">
+                        @{
+                            var carImage = (car.ImagePaths != null && car.ImagePaths.Count > 0)
+                            ? car.ImagePaths[0]
+                            : "/images/default-car.jpg";
+                        }
+                        <img src="@carImage" class="card-img-top" alt="@car.Brand @car.Model">
                         <div class="card-body">
                             <h5 class="card-title">@car.Brand @car.Model</h5>
                             <p class="card-text">Price per day: @car.PricePerDay zł</p>
@@ -75,7 +78,8 @@
         </div>
     </div>
 
-    <div class="text-center"> <!-- Contact section -->
+
+    <div class="text-center">
         <h2>Contact</h2>
         <p>Any questions? Contact with us!</p>
         <p><strong>E-mail:</strong> contact@example.com</p>
