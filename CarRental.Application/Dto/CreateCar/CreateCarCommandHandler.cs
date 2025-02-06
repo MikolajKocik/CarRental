@@ -1,47 +1,43 @@
 ﻿using AutoMapper;
-using CarRental.Application.Dto.UploadCarImage_Create;
 using CarRental.Domain.Entities;
 using CarRental.Domain.Interfaces;
+using FluentValidation;
 using MediatR;
 
 namespace CarRental.Application.Dto.CreateCar
 {
-    public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand>
+    public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, int>
     {
-        private readonly IMapper _mapper;
         private readonly ICarRepository _repository;
-        private readonly IMediator _mediator;
+        private readonly IFileService _fileService;
+        private readonly IMapper _mapper;
 
-        public CreateCarCommandHandler(IMapper mapper, ICarRepository repository,
-            IMediator mediator)
+        public CreateCarCommandHandler(ICarRepository repository,
+            IFileService fileService, IMapper mapper)
         {
-            _mapper = mapper;
             _repository = repository;
-            _mediator = mediator;
+            _mapper = mapper;
+            _fileService = fileService;
         }
-        public async Task<Unit> Handle(CreateCarCommand request, CancellationToken cancellation)
+        public async Task<int> Handle(CreateCarCommand request, CancellationToken cancellation)
         {
-            // mapping DTO -> car entity
-            var car = _mapper.Map<Car>(request.Car);
-
-            if (request.Image != null)
-            {
-                var imagePath = await _mediator.Send(new UploadCarImageCommand
-                {
-                    CarId = car.Id,
-                    Image = request.Image
-                }, cancellation);
-
-                car.ImageUrl = imagePath;
-            }
-
-            await _repository.Create(car);  // add to repository
-
             // command validation
             var validator = new CreateCarCommandValidator();
             var validationResult = validator.Validate(request);
 
-            return Unit.Value;
+            // mapping
+            var car = _mapper.Map<Car>(request.CarDto);
+
+            // save images
+            var imagePaths = request.CarDto.Images != null
+                ? await _fileService.SaveFilesAsync(request.CarDto.Images, "images")
+                : new List<string>();
+
+            car.Images = imagePaths.Select(path => new CarImage { FileName = Path.GetFileName(path), Path = path}).ToList();
+
+            await _repository.CreateAsync(car);  
+
+            return car.Id;
         }
     }
 }

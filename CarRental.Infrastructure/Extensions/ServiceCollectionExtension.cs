@@ -2,9 +2,7 @@
 using CarRental.Domain.Interfaces;
 using CarRental.Infrastructure.Data;
 using CarRental.Infrastructure.Repository;
-using CarRental.Infrastructure.Seeder;
 using CarRental.Infrastructure.Seeders;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,5 +32,7 @@ public static class ServiceCollectionExtension
         services.AddHttpContextAccessor();
 
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddTransient<IFileService, FileService>();
     }
 }

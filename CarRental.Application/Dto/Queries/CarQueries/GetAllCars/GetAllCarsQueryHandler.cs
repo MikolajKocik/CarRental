@@ -19,7 +19,7 @@ public class GetAllCarsQueryHandler : IRequestHandler<GetAllCarsQuery, ICollecti
     {
         cancellation.ThrowIfCancellationRequested();
 
-        var cars = await _repository.GetAll(cancellation);
+        var cars = await _repository.GetAllAsync(cancellation);
         var dtos = _mapper.Map<ICollection<CarDto>>(cars);
 
         return dtos;

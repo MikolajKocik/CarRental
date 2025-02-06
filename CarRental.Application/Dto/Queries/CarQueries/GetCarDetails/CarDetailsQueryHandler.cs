@@ -21,7 +21,7 @@ namespace CarRental.Application.Dto.Queries.CarQueries.GetCarDetails
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var car = await _repository.GetById(request.Id, cancellationToken);
+            var car = await _repository.GetCarByIdAsync(request.Id, cancellationToken);
 
             if (car == null)
             {

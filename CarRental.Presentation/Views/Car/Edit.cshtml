@@ -2,18 +2,18 @@
 
 <h2>Edit car</h2>
 
-<form asp-action="Edit" method="post">
-    @Html.AntiForgeryToken() <!-- CSRF -->
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
 
     <div class="form-group">
         <label asp-for="Brand">Brand</label>
-        <input class="form-control"  type ="text" asp-for="Brand" />
+        <input class="form-control" type="text" asp-for="Brand" />
         <span asp-validation-for="Brand" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Model">Model</label>
-        <input class="form-control"  type ="text" asp-for="Model" />
+        <input class="form-control" type="text" asp-for="Model" />
         <span asp-validation-for="Model" class="text-danger"></span>
     </div>
 
@@ -29,9 +29,9 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="ImageUrl">Url Image</label>
-        <input asp-for="ImageUrl" class="form-control" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        <label asp-for="NewImages">Change images</label>
+        <input class="form-control" asp-for="NewImages" type="file" multiple />
+        <span asp-validation-for="NewImages" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -42,7 +42,7 @@
 
     <div class="form-group">
         <label asp-for="Engine">Engine</label>
-        <input class="form-control"  type="text" asp-for="Engine" />
+        <input class="form-control" type="text" asp-for="Engine" />
         <span asp-validation-for="Engine" class="text-danger"></span>
     </div>
 

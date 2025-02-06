@@ -1,10 +1,19 @@
-﻿@model CarRental.Presentation.Models.CreateCarViewModel
+﻿@model CreateCarViewModel
 
 <h2>Car details</h2>
 
-<div class="mb-3">
-    <img src="@Model.ImageUrl" alt="Car image" style="max-width:300px;" /> <!-- Display car image due to ImageUrl -->
-</div>
+@if (Model.ImageUrls.Any())
+{
+    foreach (var url in Model.ImageUrls)
+    {
+        <img src="@Url.Content(url)" alt="@Model.Brand @Model.Model" style="max-width: 300px;" />
+    }
+}
+else
+{
+    <p>No images available for this car.</p>
+}
+
 
 <p><strong>Brand:</strong> @Model.Brand</p>
 <p><strong>Model:</strong> @Model.Model</p>
@@ -25,4 +34,4 @@
     <p><strong>Production year:</strong> @Model.Year</p>
 }
 
-<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Back to list</a> <!-- Link that redirect user to list of cars -->
+<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Back to list</a>

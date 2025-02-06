@@ -15,6 +15,7 @@ public class HomeRepository : IHomeRepository
 
     public async Task<ICollection<Car>> GetPopularCars(CancellationToken cancellation)
         => await _context.Cars
+        .Include(c => c.Images)
         .OrderByDescending(c => c.ReservationCount)
         .Take(3)
         .ToListAsync(cancellation);

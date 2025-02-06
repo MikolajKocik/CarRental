@@ -6,10 +6,13 @@
     {
         <div class="col-md-4">
             <div class="card mb-4">
-                <img src="@car.ImageUrl" class="card-img-top" alt="Car picture @car.Brand @car.Model">
+                @{
+                    var firstImg = car.ImageUrls?.FirstOrDefault() ?? "/images/default-car.jpg";
+                }
+                <img src="@Url.Content(firstImg)" class="card-img-top" alt="@car.Brand @car.Model" />
                 <div class="card-body">
                     <h5 class="card-title">@car.Brand @car.Model</h5>
-                    <p class="card-text">Price per day: <strong>@car.PricePerDay zł</strong></p>
+                    <p class="card-text">Price per day: <strong>@car.PricePerDay</strong></p>
 
                     @if (car.IsAvailable)
                     {

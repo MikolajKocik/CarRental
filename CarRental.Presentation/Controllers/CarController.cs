@@ -28,9 +28,9 @@ public class CarController : Controller
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(CancellationToken cancellation)
     {
-        var carDtos = await _mediator.Send(new GetAllCarsQuery(), cancellationToken);
+        var carDtos = await _mediator.Send(new GetAllCarsQuery(), cancellation);
 
         var viewModel = _mapper.Map<ICollection<CreateCarViewModel>>(carDtos);
 
@@ -60,16 +60,18 @@ public class CarController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken] // Admin
     public async Task<IActionResult> Create(CreateCarViewModel carViewModel,
-        CancellationToken cancellationToken)
+        CancellationToken cancellation)
     {
         if (ModelState.IsValid)
         {
             var command = new CreateCarCommand
             {
-                Car = _mapper.Map<CarDto>(carViewModel)
+                CarDto = _mapper.Map<CarDto>(carViewModel)
             };
 
-            await _mediator.Send(command, cancellationToken);
+            command.CarDto.Images = carViewModel.Images ?? new List<IFormFile>();
+
+            await _mediator.Send(command, cancellation);
 
             return RedirectToAction("Index");
         }
@@ -100,8 +102,10 @@ public class CarController : Controller
             var command = new EditCarCommand
             {
                 Id = id,
-                Car = _mapper.Map<CarDto>(editCarViewModel)
+                CarDto = _mapper.Map<CarDto>(editCarViewModel)
             };
+
+            command.CarDto.Images = editCarViewModel.NewImages ?? new List<IFormFile>();
 
             await _mediator.Send(command, cancellation);
 

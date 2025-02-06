@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace CarRental.Application.Dto.CreateCar
 {
-    public class CreateCarCommand : IRequest
+    public class CreateCarCommand : IRequest<int>
     {
-        public CarDto Car { get; set; } = default!;
-        public IFormFile Image { get; set; } = default!;
+        public CarDto CarDto { get; set; } = default!;
     }
 }
