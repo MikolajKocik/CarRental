@@ -51,7 +51,7 @@ public class FileService : IFileService
 
         foreach (var filePath in filePaths)
         {
-            var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, filePath);
+            var fullPath = Path.Combine(uploadFolder, filePath);
             if (File.Exists(fullPath))
             {
                 File.Delete(fullPath);
@@ -59,13 +59,5 @@ public class FileService : IFileService
         }
 
         await Task.CompletedTask;
-    }
-
-    private bool IsValidImageFile(IFormFile file)
-    {
-        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
-        var extension = Path.GetExtension(file.FileName).ToLower();
-
-        return allowedExtensions.Contains(extension);
     }
 }
