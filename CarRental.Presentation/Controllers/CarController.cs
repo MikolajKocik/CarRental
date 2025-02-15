@@ -9,6 +9,7 @@ using CarRental.Application.Dto.EditCar;
 using CarRental.Application.Dto.DeleteCar;
 using CarRental.Application.Dto.Queries.CarQueries.GetAllCars;
 using CarRental.Application.Dto.Queries.CarQueries.GetCarDetails;
+using Wypożyczalnia_samochodów_online.Extensions;
 
 namespace CarRental.Presentation.Controllers;
 
@@ -73,7 +74,10 @@ public class CarController : Controller
 
             await _mediator.Send(command, cancellation);
 
-            return RedirectToAction("Index");
+            this.SetNotification("success", $"Car {command.CarDto.Brand}" +
+                " " + $"{command.CarDto.Model} has been added successfully.");
+
+            return RedirectToAction(nameof(Index));
         }
 
         return View(carViewModel);
@@ -108,6 +112,9 @@ public class CarController : Controller
             command.CarDto.Images = editCarViewModel.NewImages ?? new List<IFormFile>();
 
             await _mediator.Send(command, cancellation);
+
+            this.SetNotification("success", $"Car {command.CarDto.Brand}" +
+                " " + $"{command.CarDto.Model} has been updated successfully.");
 
             return RedirectToAction(nameof(Index));
         }

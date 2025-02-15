@@ -49,6 +49,9 @@ public class ConfirmReservationCommandHandler : IRequestHandler<ConfirmReservati
 
         reservation.IsConfirmed = true;
 
+        var car = await _carRepository.GetCarByIdAsync(reservation.CarId, cancellation);
+        car!.ReservationCount++;
+
         await _carRepository.CommitAsync();
 
         // === SENDING EMAIL ===
