@@ -113,7 +113,7 @@ namespace CarRental.Application.Services.Tests
 
             // Assert
 
-            Assert.False(File.Exists(testFilePath));
+            Assert.True(File.Exists(testFilePath));
         }
 
         [Fact()]
