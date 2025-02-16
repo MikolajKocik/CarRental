@@ -1,11 +1,12 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using CarRental.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace CarRental.Application.Services;
 
-public class EmailService
+public class EmailService : IEmailService
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<EmailService> _logger;
