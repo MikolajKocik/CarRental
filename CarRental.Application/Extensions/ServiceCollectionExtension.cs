@@ -10,6 +10,7 @@ using CarRental.Application.Dto.Queries.ReservationQueries.GetMyReservations;
 using CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDetails;
 using CarRental.Application.Mappings;
 using CarRental.Application.Services;
+using CarRental.Domain.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -54,7 +55,8 @@ namespace CarRental.Application.Extensions
             services.AddMediatR(typeof(GetMyReservationQuery));
             services.AddMediatR(typeof(GetReservationDetailsQuery));
 
-            services.AddScoped<EmailService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IFileService, FileService>();
         }
     }
 }

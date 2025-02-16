@@ -32,7 +32,5 @@ public static class ServiceCollectionExtension
         services.AddHttpContextAccessor();
 
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-        services.AddTransient<IFileService, FileService>();
     }
 }
