@@ -100,6 +100,9 @@ CarRental-MVC uses the SMTP protocol to send booking confirmation emails. Import
 ├── Domain/               # Domain entities and business models
 └── Infrastructure/       # Data access, SMTP configuration, etc.
 ```
+## 📋 Diagram ERD
+
+![image](https://github.com/user-attachments/assets/8334842b-89b1-429f-a0a1-24c7ba597152)
 
 ## 🔮 Future Plans
 - **Unit Testing**: Development is underway to add comprehensive unit tests. (in progress)
