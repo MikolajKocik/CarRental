@@ -73,7 +73,7 @@ CarRental-MVC leverages modern software architectural principles including **CQR
   dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 ```
 
-## 🔧 SMTP Configuration
+## 🔧 SMTP Protocol Configuration
 CarRental-MVC uses the SMTP protocol to send booking confirmation emails. Important configuration details:
 
 - **SMTP Password**: Use the following password for the Google microapp that enables sending emails via SMTP:
