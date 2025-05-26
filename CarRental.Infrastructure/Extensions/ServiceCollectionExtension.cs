@@ -1,5 +1,7 @@
 ﻿using CarRental.Application.Services;
-using CarRental.Domain.Interfaces;
+using CarRental.Domain.Interfaces.Repositories;
+using CarRental.Domain.Interfaces.Seeders;
+using CarRental.Domain.Interfaces.Services;
 using CarRental.Infrastructure.Data;
 using CarRental.Infrastructure.Repository;
 using CarRental.Infrastructure.Seeders;

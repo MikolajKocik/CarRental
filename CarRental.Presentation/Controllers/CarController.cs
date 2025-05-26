@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CarRental.Presentation.Models;
 using CarRental.Application.Dto;
-using CarRental.Application.Dto.CreateCar;
-using CarRental.Application.Dto.EditCar;
-using CarRental.Application.Dto.DeleteCar;
-using CarRental.Application.Dto.Queries.CarQueries.GetAllCars;
-using CarRental.Application.Dto.Queries.CarQueries.GetCarDetails;
 using Wypożyczalnia_samochodów_online.Extensions;
+using CarRental.Application.CQRS.Queries.CarQueries.GetAllCars;
+using CarRental.Application.CQRS.Queries.CarQueries.GetCarDetails;
+using CarRental.Application.CQRS.Commands.Car.CreateCar;
+using CarRental.Application.CQRS.Commands.Car.EditCar;
+using CarRental.Application.CQRS.Commands.Car.DeleteCar;
 
 namespace CarRental.Presentation.Controllers;
 

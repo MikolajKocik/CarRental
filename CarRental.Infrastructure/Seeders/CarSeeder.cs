@@ -1,5 +1,5 @@
 ﻿using CarRental.Domain.Entities;
-using CarRental.Domain.Interfaces;
+using CarRental.Domain.Interfaces.Seeders;
 using CarRental.Infrastructure.Data;
 using Microsoft.Extensions.Logging;
 

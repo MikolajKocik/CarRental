@@ -1,5 +1,5 @@
 ﻿using CarRental.Domain.Entities;
-using CarRental.Domain.Interfaces;
+using CarRental.Domain.Interfaces.Repositories;
 using CarRental.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

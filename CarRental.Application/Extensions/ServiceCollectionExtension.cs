@@ -1,16 +1,17 @@
-﻿using CarRental.Application.Dto.CreateCar;
-using CarRental.Application.Dto.CreateReservation;
-using CarRental.Application.Dto.DeleteCar;
-using CarRental.Application.Dto.EditCar;
-using CarRental.Application.Dto.Queries.AdminQueries;
-using CarRental.Application.Dto.Queries.CarQueries.GetAllCars;
-using CarRental.Application.Dto.Queries.CarQueries.GetCarDetails;
-using CarRental.Application.Dto.Queries.CarQueries.GetPopularCars;
-using CarRental.Application.Dto.Queries.ReservationQueries.GetMyReservations;
-using CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDetails;
+﻿using CarRental.Application.CQRS.Commands.Car.CreateCar;
+using CarRental.Application.CQRS.Commands.Car.DeleteCar;
+using CarRental.Application.CQRS.Commands.Car.EditCar;
+using CarRental.Application.CQRS.Commands.Reservation.ConfirmReservation;
+using CarRental.Application.CQRS.Commands.Reservation.CreateReservation;
+using CarRental.Application.CQRS.Queries.AdminQueries;
+using CarRental.Application.CQRS.Queries.CarQueries.GetAllCars;
+using CarRental.Application.CQRS.Queries.CarQueries.GetCarDetails;
+using CarRental.Application.CQRS.Queries.CarQueries.GetPopularCars;
+using CarRental.Application.CQRS.Queries.ReservationQueries.GetMyReservations;
+using CarRental.Application.CQRS.Queries.ReservationQueries.GetReservationDetails;
 using CarRental.Application.Mappings;
 using CarRental.Application.Services;
-using CarRental.Domain.Interfaces;
+using CarRental.Domain.Interfaces.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -27,6 +28,7 @@ namespace CarRental.Application.Extensions
             services.AddMediatR(typeof(CreateReservationCommand));
             services.AddMediatR(typeof(DeleteCarCommand));
             services.AddMediatR(typeof(EditCarCommand));
+            services.AddMediatR(typeof(ConfirmReservationCommand));
 
             services.AddAutoMapper(typeof(CarMappingProfile));
             services.AddAutoMapper(typeof(ReservationMappingProfile));
@@ -48,12 +50,18 @@ namespace CarRental.Application.Extensions
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
 
+            services.AddValidatorsFromAssemblyContaining<ConfirmReservationCommand>()
+              .AddFluentValidationAutoValidation()
+              .AddFluentValidationClientsideAdapters();
+
             services.AddMediatR(typeof(GetReportQuery));
             services.AddMediatR(typeof(GetAllCarsQuery));
             services.AddMediatR(typeof(CarDetailsQuery));
             services.AddMediatR(typeof(GetPopularCarsQuery));
             services.AddMediatR(typeof(GetMyReservationQuery));
             services.AddMediatR(typeof(GetReservationDetailsQuery));
+
+            services.AddTransient<ISmtpClient, SmtpClientWrapper>(); // lub inna implementacja
 
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IFileService, FileService>();

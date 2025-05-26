@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using CarRental.Presentation.Models;
 using AutoMapper;
-using CarRental.Application.Dto.CreateReservation;
-using CarRental.Application.Dto.Queries.ReservationQueries.GetReservationDetails;
-using CarRental.Application.Dto.Queries.ReservationQueries.GetMyReservations;
+using CarRental.Application.CQRS.Queries.ReservationQueries.GetMyReservations;
+using CarRental.Application.CQRS.Commands.Reservation.CreateReservation;
+using CarRental.Application.CQRS.Queries.ReservationQueries.GetReservationDetails;
 
 namespace CarRental.Presentation.Controllers;
 
