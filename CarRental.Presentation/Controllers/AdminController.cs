@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CarRental.Application.Dto.ConfirmReservation;
-using CarRental.Application.Dto.Queries.AdminQueries;
+using CarRental.Application.CQRS.Commands.Reservation.ConfirmReservation;
+using CarRental.Application.CQRS.Queries.AdminQueries;
 using CarRental.Presentation.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

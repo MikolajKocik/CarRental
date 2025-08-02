@@ -1,10 +1,10 @@
 ﻿using CarRental.Infrastructure.Data;
 using CarRental.Domain.Entities;
-using CarRental.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using CarRental.Domain.Interfaces.Repositories;
 
 namespace CarRental.Infrastructure.Repository;
 

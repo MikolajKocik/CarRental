@@ -1,4 +1,4 @@
-﻿using CarRental.Domain.Interfaces;
+﻿using CarRental.Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;

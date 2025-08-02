@@ -1,4 +1,4 @@
-﻿using CarRental.Domain.Interfaces;
+﻿using CarRental.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 

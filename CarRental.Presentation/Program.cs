@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using CarRental.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using CarRental.Domain.Interfaces;
 using CarRental.Infrastructure.Seeders;
+using CarRental.Domain.Interfaces.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 

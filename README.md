@@ -1,10 +1,10 @@
-# CarRental-MVC 🚗
+# CarRental 
 
 CarRental-MVC is a comprehensive web application built using the **MVC (Model-View-Controller)** architecture to manage car rentals efficiently, clearly, and scalably. The application allows customers to browse available car models and book vehicles, while administrators have full control over the vehicle fleet and reservations.
 
 ---
 
-## 📋 Project Description
+## Project Description
 
 CarRental-MVC leverages modern software architectural principles including **CQRS**, **DDD (Domain-Driven Design)**, and **Clean Architecture**, while adhering to **SOLID** principles. The solution is organized into clear layers:
 
@@ -15,10 +15,10 @@ CarRental-MVC leverages modern software architectural principles including **CQR
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 ### 1. Vehicle Fleet Management
-- **Add New Vehicles**: Add details such as vehicle make, model, and an **image URL** (e.g., from [Pixabay](https://pixabay.com)) for a visually appealing fleet display.
+- **Add New Vehicles**: Add details such as vehicle make, model, and an **image path** -> IFormFile
 - **Edit Vehicle Details**: Update existing vehicle information.
 - **Remove Vehicles**: Delete vehicles from the fleet.
 - **Availability Management**: Automatically update the availability status of vehicles sharing the same make and model.
@@ -37,7 +37,7 @@ CarRental-MVC leverages modern software architectural principles including **CQR
 
 ---
 
-## 🛠 Technologies and Tools
+## Technologies and Tools
 
 - **ASP.NET Core MVC** – Framework for the application's structure and user interface.
 - **Entity Framework Core** – Manages database operations.
@@ -50,7 +50,7 @@ CarRental-MVC leverages modern software architectural principles including **CQR
 - **MS SQL** - SQL database type.
 ---
 
-## 📦 Libraries and Packages
+## Libraries and Packages
 
 ### MediatR
 - **Purpose**: Implements **CQRS** by decoupling the handling of requests and responses.
@@ -73,7 +73,7 @@ CarRental-MVC leverages modern software architectural principles including **CQR
   dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 ```
 
-## 🔧 SMTP Configuration
+## SMTP Protocol Configuration
 CarRental-MVC uses the SMTP protocol to send booking confirmation emails. Important configuration details:
 
 - **SMTP Password**: Use the following password for the Google microapp that enables sending emails via SMTP:
@@ -92,7 +92,7 @@ CarRental-MVC uses the SMTP protocol to send booking confirmation emails. Import
 ```
 - **User Email Validity**: Ensure that the email provided by the user is valid. Without a valid email, the booking confirmation will not be delivered.
 
-## 📂 Project Structure Overview
+## Project Structure Overview
 ```bash
   CarRental-MVC/
 ├── Presentation/         # ASP.NET Core MVC (Views, Controllers)
@@ -100,9 +100,8 @@ CarRental-MVC uses the SMTP protocol to send booking confirmation emails. Import
 ├── Domain/               # Domain entities and business models
 └── Infrastructure/       # Data access, SMTP configuration, etc.
 ```
+## Diagram ERD
 
-## 🔮 Future Plans
-- **Unit Testing**: Development is underway to add comprehensive unit tests.
-- **Feature Extensions**: Continued expansion and refinement of application features.
+![image](https://github.com/user-attachments/assets/8334842b-89b1-429f-a0a1-24c7ba597152)
 
-Information: admin account -> L: admin@example.com / P: Admin123!
+Information: admin account -> L: admin@example.com / P: Admin123! // for tests

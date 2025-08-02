@@ -1,4 +1,4 @@
-﻿using CarRental.Domain.Interfaces;
+﻿using CarRental.Domain.Interfaces.Seeders;
 using CarRental.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

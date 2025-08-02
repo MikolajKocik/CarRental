@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
-using CarRental.Domain.Interfaces;
+using CarRental.Domain.Interfaces.Services;
 
 namespace CarRental.Application.Services.Tests
 {
