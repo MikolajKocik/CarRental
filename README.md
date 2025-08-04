@@ -1,4 +1,4 @@
-# CarRental 
+# CarRental (project done during studies)
 
 CarRental-MVC is a comprehensive web application built using the **MVC (Model-View-Controller)** architecture to manage car rentals efficiently, clearly, and scalably. The application allows customers to browse available car models and book vehicles, while administrators have full control over the vehicle fleet and reservations.
 
